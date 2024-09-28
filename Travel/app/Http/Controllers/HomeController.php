@@ -47,4 +47,9 @@ class HomeController extends Controller
     {
         return view('home.page.testimonial'); 
     }
+    //login
+    public function login () 
+    {
+        return view('home.login.login');
+    }
 }

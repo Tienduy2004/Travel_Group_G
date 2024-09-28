@@ -15,3 +15,5 @@ Route::get('/single', [HomeController::class, 'single'])->name("single");
 Route::get('/destination', [HomeController::class, 'destination'])->name("destination");
 Route::get('/guide', [HomeController::class, 'guide'])->name("guide");
 Route::get('/testimonial', [HomeController::class, 'testimonial'])->name("testimonial");
+//login
+Route::get('/login', [HomeController::class, 'login'])->name("login");
