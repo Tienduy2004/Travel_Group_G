@@ -7,6 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>3333</h1>
+    div class="container-fluid  py-5" style="margin: 90px 0;">
+    <div class="container py-5">
+        <form id="custom-form" class="form-control" action="">
+            <p class="title">Login</p>
+            <div class="input-field">
+                <input required="" class="input" type="text" />
+                <label class="label" for="input">Enter Email</label>
+            </div>
+            <div class="input-field">
+                <input required="" class="input" type="password" />
+                <label class="label" for="input">Enter Password</label>
+            </div>
+            <a>Forgot your password?</a>
+            <button class="submit-btn">Sign In</button>
+        </form>
+    </div>
 </body>
 </html>
