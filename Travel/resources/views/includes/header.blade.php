@@ -60,6 +60,27 @@
                             </div>
                         </div>
                         <a href="{{route('contact')}}" class="nav-item nav-link {{ Request::is('contact') ? 'active' : '' }}">Contact</a>
+                        @auth
+                        <!-- Hiển thị khi người dùng đã đăng nhập -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ auth()->user()->name }}</a>
+                            <div class="dropdown-menu border-0 rounded-0 m-0">
+                                <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
+                                <a href="#" class="dropdown-item" 
+                                    onclick="event.preventDefault(); 
+                                    document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Hiển thị khi người dùng chưa đăng nhập -->
+                        <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
+                        <a href="{{ route('register') }}" class="nav-item nav-link">Register</a>
+                    @endauth
                     </div>
                 </div>
             </nav>
