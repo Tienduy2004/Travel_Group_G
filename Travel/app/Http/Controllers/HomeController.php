@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -20,7 +21,8 @@ class HomeController extends Controller
     }
     public function tour()
     {
-        return view('home.package'); 
+        $tours = Tour::all();
+        return view('home.package',compact('tours')); 
     }
     public function contact()
     {
