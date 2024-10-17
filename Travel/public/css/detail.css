@@ -71,10 +71,10 @@
 }
 
 .tour-page .card h4 {
-    font-size: 1.75rem; /* Kích thước chữ lớn hơn */
+    font-size: 1.25rem; /* Kích thước chữ lớn hơn */
     color: #28a745; /* Màu xanh lá cho tiêu đề card */
     margin-bottom: 10px; /* Thêm khoảng cách giữa tiêu đề và nội dung */
-    text-align: center; /* Căn giữa tiêu đề của thẻ card */
+    text-align: left; /* Căn giữa tiêu đề của thẻ card */
     text-transform: uppercase; /* Chữ in hoa */
 }
 
