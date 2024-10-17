@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Màu nền nhạt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Đặt chiều cao của body là 100% chiều cao của viewport */
+    margin: 0;
+}
+
+.form-container {
+    background-color: white; /* Màu nền trắng cho form */
+    border-radius: 8px; /* Bo tròn góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho form */
+    padding: 20px; /* Khoảng cách bên trong form */
+    width: 400px; /* Đặt chiều rộng cho form */
+}
+
+h2 {
+    text-align: center; /* Căn giữa tiêu đề */
+    color: #333; /* Màu tiêu đề */
+}
+
+div {
+    margin-bottom: 15px; /* Khoảng cách giữa các trường */
+}
+
+label {
+    display: block; /* Đặt label thành block để mỗi label chiếm một dòng */
+    margin-bottom: 5px; /* Khoảng cách dưới label */
+    font-weight: bold; /* Đặt chữ in đậm cho label */
+}
+
+input[type="text"],
+input[type="number"],
+select,
+input[type="file"] {
+    width: 100%; /* Chiều rộng 100% */
+    padding: 10px; /* Khoảng cách bên trong */
+    border: 1px solid #ccc; /* Đường viền cho input */
+    border-radius: 4px; /* Bo tròn góc cho input */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng */
+}
+
+button {
+    background-color: #007bff; /* Màu nền của nút */
+    color: white; /* Màu chữ của nút */
+    padding: 10px; /* Khoảng cách bên trong nút */
+    border: none; /* Xóa đường viền */
+    border-radius: 4px; /* Bo tròn góc cho nút */
+    width: 100%; /* Chiều rộng 100% */
+    cursor: pointer; /* Đổi con trỏ khi hover */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+button:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+}
+.rating {
+    display: flex; /* Hiển thị hàng ngang */
+    cursor: pointer; /* Đổi con trỏ khi hover */
+}
+
+.star {
+    font-size: 30px; /* Kích thước của sao */
+    color: lightgray; /* Màu sắc mặc định */
+    transition: color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.star.selected {
+    color: red; /* Màu sắc khi được chọn */
+}
+

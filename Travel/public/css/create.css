@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    
+}
+
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="number"], select, input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+span {
+    color: red;
+}
+.rating {
+    display: flex; /* Hiển thị hàng ngang */
+    cursor: pointer; /* Đổi con trỏ khi hover */
+}
+
+.star {
+    font-size: 30px; /* Kích thước của sao */
+    color: lightgray; /* Màu sắc mặc định */
+    transition: color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.star.selected {
+    color: red; /* Màu sắc khi được chọn */
+}
+
