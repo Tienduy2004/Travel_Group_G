@@ -12,18 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('departure_schedule', function (Blueprint $table) {
-            $table->id();
-            $table->dateTime('start_day');
-            $table->dateTime('end_day');
-            $table->string('time')->nullable();
-            $table->integer('quantity')->nullable();
-            $table->string('ma_tour');
-            $table->string('depart')->nullable();
-            $table->float('price')->nullable();
-        
-            $table->foreign('ma_tour')->references('ma_tour')->on('tour');
-        
-            $table->timestamps();
+            $table->id(); // Tạo trường id tự động tăng
+            $table->unsignedBigInteger('tour_id'); // ID tour
+            $table->date('date'); // Ngày khởi hành
+            $table->decimal('price', 10, 2); // Giá tại thời điểm khởi hành
+            $table->integer('seat_number')->default(0); // Số ghế 
+            $table->timestamps(); // Các trường created_at và updated_at
         });
     }
 

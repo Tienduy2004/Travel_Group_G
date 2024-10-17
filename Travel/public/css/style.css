@@ -9637,6 +9637,17 @@ h6,
 .package-item:hover {
   box-shadow: 0 0 30px #CCCCCC;
 }
+.package-item .image_tour {
+  height: 300px; /* Đặt chiều cao cố định cho thẻ cha của ảnh */
+  overflow: hidden; /* Ẩn phần ảnh bị thừa ra */
+}
+
+.package-item .image_tour img {
+  width: 100%; /* Đảm bảo ảnh đầy đủ chiều rộng của thẻ cha */
+  height: auto; /* Để chiều cao tự động giữ tỉ lệ */
+  max-height: 100%; /* Giới hạn chiều cao tối đa bằng chiều cao thẻ cha */
+  object-fit: cover; /* Cắt ảnh để giữ nguyên tỉ lệ mà không bị biến dạng */
+}
 
 .bg-registration {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/carousel-1.jpg), no-repeat center center;

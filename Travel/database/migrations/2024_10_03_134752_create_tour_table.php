@@ -12,26 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tour', function (Blueprint $table) {
-            $table->string('ma_tour')->primary();
-            $table->string('name');
-            $table->unsignedBigInteger('id_destination')->nullable();
-            $table->integer('days')->nullable();
-            $table->integer('person')->nullable();
-            $table->float('price')->nullable();
-            $table->unsignedBigInteger('id_image')->nullable();
-            $table->text('image_main')->nullable();
-            $table->unsignedInteger('id_itinerary')->nullable();
-            $table->unsignedInteger('id_trip_information')->nullable();
-            $table->unsignedInteger('id_important_information')->nullable();
-            $table->unsignedBigInteger('id_departure_schedule')->nullable();
-        
-            $table->foreign('id_destination')->references('id')->on('destination');
-            $table->foreign('id_image')->references('id_image')->on('image_tour');
-            $table->foreign('id_itinerary')->references('id_itinerary')->on('itineraty');
-            $table->foreign('id_trip_information')->references('id_trip_information')->on('trip_information');
-            $table->foreign('id_important_information')->references('id_important_information')->on('important_information');
-        
-            $table->timestamps();
+            $table->id(); // Tạo trường id tự động tăng
+            $table->string('name'); // Tên tour
+            $table->unsignedBigInteger('id_destination'); // ID địa điểm
+            $table->text('description'); // Mô tả tour
+            $table->decimal('price', 10, 2); // Giá tour
+            $table->integer('number_days')->unsigned()->default(1); // Thêm số ngày, mặc định là 1
+            $table->decimal('discount_price', 10, 2)->nullable(); // Giá sau giảm
+            $table->string('image_main'); // Ảnh chính
+            $table->string('program_code'); // Mã chương trình
+            $table->boolean('is_active')->default(true); // Trạng thái hoạt động
+            $table->unsignedBigInteger('id_departure_location'); // ID địa điểm khởi hành
+            $table->integer('person')->unsigned()->default(3);
+            $table->timestamps(); // Các trường created_at và updated_at
+            
         });
     }
 

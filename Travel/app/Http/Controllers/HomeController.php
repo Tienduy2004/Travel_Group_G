@@ -19,9 +19,10 @@ class HomeController extends Controller
     {
         return view('home.service'); 
     }
-    public function tour()
+    public function tour(Request $request)
     {
-        $tours = Tour::all();
+        $tours = Tour::paginate(6);
+        
         return view('home.package',compact('tours')); 
     }
     public function contact()
@@ -49,13 +50,5 @@ class HomeController extends Controller
     {
         return view('home.page.testimonial'); 
     }
-    //login
-    public function login () 
-    {
-        return view('home.login.login');
-    }
-    public function register () 
-    {
-        return view('home.login.register');
-    }
+    
 }

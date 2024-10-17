@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('important_information', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('id_important_information')->unique();
-            $table->string('tile');
-            $table->text('content')->nullable();
-            $table->timestamps();
+            $table->id(); // Tạo trường id tự động tăng
+            $table->unsignedBigInteger('tour_id'); // ID tour
+            $table->string('title'); // Tiêu đề thông tin
+            $table->text('information'); // Thông tin quan trọng
+            $table->timestamps(); // Các trường created_at và updated_at
         });
     }
 

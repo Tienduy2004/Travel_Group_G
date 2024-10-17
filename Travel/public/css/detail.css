@@ -1,0 +1,352 @@
+/* General styles */
+.tour-page body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px; /* Thêm padding cho toàn bộ trang */
+}
+
+.tour-page .container {
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa của container */
+    margin: 0 auto; /* Căn giữa container */
+}
+
+.tour-title {
+    font-size: 2rem; /* Kích thước chữ */
+    font-weight: bold; /* Chữ đậm */
+    color: #2c3e50; /* Sử dụng màu tối hơn để tăng độ tương phản */
+    margin: 20px 0; /* Khoảng cách trên và dưới */
+    text-align: center; /* Căn giữa tiêu đề */
+    width: 100%; /* Đặt chiều rộng bằng 100% */
+    max-width: 100%; /* Đảm bảo không vượt quá chiều rộng của khung chứa */
+    word-wrap: break-word; /* Cho phép xuống dòng tự động */
+    line-height: 1.4; /* Khoảng cách giữa các dòng */
+    padding: 10px; /* Thêm khoảng đệm */
+    border-bottom: 2px solid #28a745; /* Đường viền dưới màu xanh lá */
+}
+.tour-page .container .row h3,h4{
+    text-align: center;
+}
+/* CSS cho phần Introduction */
+.intro-section {
+    margin-top: 20px; /* Khoảng cách trên */
+    padding: 20px; /* Padding xung quanh */
+    background-color: #f8f9fa; /* Màu nền nhạt */
+    border: 1px solid #dee2e6; /* Đường viền nhẹ */
+    border-radius: 5px; /* Bo góc */
+}
+
+.intro-section h3 {
+    margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+}
+
+.intro-section p {
+    font-size: 16px; /* Kích thước chữ mô tả */
+    line-height: 1.5; /* Chiều cao dòng */
+    color: #343a40; /* Màu chữ tối */
+}
+
+/* Carousel images */
+.tour-page .carousel-item img {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Đảm bảo hình ảnh chiếm 100% chiều rộng của carousel */
+    height: 600px; /* Tự động điều chỉnh chiều cao */
+    object-fit: cover;
+}
+
+/* Card styles */
+.tour-page .card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s; /* Thêm hiệu ứng cho card */
+    margin-bottom: 20px; /* Khoảng cách giữa các card */
+    padding: 20px; /* Thêm padding cho card */
+    background-color: #ffffff; /* Đặt nền trắng cho card */
+    border-radius: 10px; /* Bo góc cho card */
+}
+
+.tour-page .card:hover {
+    transform: translateY(-5px); /* Hiệu ứng nâng lên khi hover */
+}
+
+.tour-page .card h4 {
+    font-size: 1.75rem; /* Kích thước chữ lớn hơn */
+    color: #28a745; /* Màu xanh lá cho tiêu đề card */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa tiêu đề và nội dung */
+    text-align: center; /* Căn giữa tiêu đề của thẻ card */
+    text-transform: uppercase; /* Chữ in hoa */
+}
+
+.tour-page .card p {
+    font-size: 1rem;
+    color: #555;
+    text-align: left; /* Căn trái nội dung */
+}
+
+.tour-page .card .price_old {
+    margin-bottom: 10px;
+}
+
+/* Button styles */
+.tour-page .btn-primary, 
+.tour-page .btn-success {
+    border: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px; /* Giảm bo góc cho nút */
+    transition: background-color 0.3s; /* Thêm hiệu ứng chuyển màu cho button */
+}
+
+.tour-page .btn-primary {
+    background-color: #28a745; /* Màu xanh lá cho nút chính */
+}
+
+.tour-page .btn-primary:hover {
+    background-color: #218838; /* Màu tối hơn khi hover */
+}
+
+.tour-page .btn-success {
+    background-color: #17a2b8; /* Màu xanh dương cho nút thành công */
+    padding: 5px 15px;
+}
+
+.tour-page .btn-success:hover {
+    background-color: #138496; /* Màu tối hơn khi hover */
+}
+
+/* Schedule Accordion */
+.tour-page .accordion {
+    margin-bottom: 30px; /* Tăng khoảng cách dưới accordion */
+}
+
+.tour-page .accordion .card-header {
+    background-color: #f8f9fa;
+    border: none;
+    text-align: center; /* Căn giữa tiêu đề accordion */
+}
+
+.tour-page .accordion .btn-link {
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: #007bff; /* Màu xanh dương cho các liên kết */
+}
+
+.tour-page .accordion .btn-link:hover {
+    text-decoration: none;
+}
+
+.tour-page .accordion .card-body {
+    background-color: #fff;
+}
+
+/* Calendar Styles */
+
+.tour-page .month-option {
+    border: 1px solid #007bff; /* Màu biên */
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tour-page .month-option:hover {
+    background-color: #e7f0ff; /* Màu nền khi hover */
+}
+
+.tour-page .month-option.selected {
+    background-color: #007bff; /* Màu nền khi chọn */
+    color: white; /* Màu chữ khi chọn */
+}
+.tour-page .table td {
+    height: 100px; /* Chiều cao cố định cho các ô */
+    vertical-align: middle; /* Căn giữa nội dung theo chiều dọc */
+    cursor: pointer; /* Con trỏ chuột hiển thị như một nút bấm */
+}
+
+
+/* Ô có giá */
+.tour-page .table td.clickable-day {
+    background-color: #d4edda; /* Màu nền cho ô có giá */
+    border: 1px solid #28a745; /* Đường viền màu xanh lá cho ô có giá */
+}
+/* Ô được chọn */
+.tour-page .table td.clickable-day.selected {
+    background-color: #41d75a; /* Màu nền ô được chọn */
+    color: rgb(202, 31, 31); /* Màu chữ */
+    border: 2px solid #388E3C; /* Khung có màu xanh đậm hơn */
+}
+/* Ô không có giá */
+.tour-page .table td.no-price {
+    background-color: #f8d7da; /* Màu nền cho ô không có giá */
+    border: 1px solid #dc3545; /* Đường viền màu đỏ cho ô không có giá */
+}
+
+/* Thay đổi màu chữ trong ô có giá */
+.tour-page .table td.clickable-day span {
+    color: #155724; /* Màu chữ xanh cho ô có giá */
+}
+
+/* Thay đổi màu chữ trong ô không có giá */
+.tour-page .table td.no-price span {
+    color: #721c24; /* Màu chữ đỏ cho ô không có giá */
+}
+
+.tour-page .calendar-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Tăng khoảng cách phía dưới */
+    text-align: center; /* Căn giữa tiêu đề tháng */
+}
+
+.tour-page .calendar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-transform: uppercase; /* Chữ in hoa */
+}
+
+.tour-page .table {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px; /* Tăng khoảng cách trên bảng */
+}
+
+.tour-page .table th, 
+.tour-page .table td {
+    font-size: 1rem;
+    padding: 15px;
+    text-align: center; /* Căn giữa nội dung trong bảng */
+}
+
+.tour-page .table th {
+    background-color: #28a745; /* Màu xanh lá cho tiêu đề bảng */
+    color: white;
+}
+
+.tour-page .table td {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.tour-page .table td span {
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: block;
+}
+
+.tour-page .table td {
+    height: 100px; /* Thiết lập chiều cao cố định cho các ô */
+    vertical-align: middle; /* Căn giữa nội dung theo chiều dọc */
+}
+
+/* Nếu bạn muốn đảm bảo rằng chiều rộng của các ô cũng bằng nhau, thêm quy tắc này */
+.tour-page .table th, 
+.tour-page .table td {
+    width: 14.2857%; /* Tính toán chiều rộng cho 7 cột (100% / 7) */
+}
+.tour-page .table td .text-danger {
+    color: #e74c3c; /* Màu đỏ cho các thông tin quan trọng */
+}
+
+/* Active and hover styles for the month selector */
+.tour-page .list-group-item.active {
+    background-color: #28a745; /* Màu xanh lá cho mục đang chọn */
+    border-color: #28a745;
+    color: white; /* Đổi màu chữ thành trắng cho nút đang chọn */
+}
+
+.tour-page .list-group-item {
+    cursor: pointer;
+}
+
+.tour-page .list-group-item:hover {
+    background-color: #f1f1f1; /* Màu nền sáng khi hover */
+}
+
+/* Carousel Controls */
+.tour-page .carousel-control-prev-icon, 
+.tour-page .carousel-control-next-icon {
+    background-color: #000;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.tour-page .carousel-control-prev:hover .carousel-control-prev-icon,
+.tour-page .carousel-control-next:hover .carousel-control-next-icon {
+    background-color: #007bff; /* Màu xanh dương khi hover */
+}
+
+/* Important Information List */
+.tour-page ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.tour-page ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    padding: 15px; /* Tăng padding cho các mục trong danh sách */
+    background-color: #f8f9fa;
+    border-left: 5px solid #28a745; /* Đường viền trái màu xanh lá */
+    border-radius: 5px;
+}
+.fixed-right {
+    position: sticky; /* Đặt phần tử có vị trí dính */
+    top: 20px; /* Khoảng cách từ phía trên */
+    height: calc(100vh - 50px); /* Chiều cao tối đa bằng chiều cao của viewport trừ khoảng cách */
+    overflow-y: auto; /* Thêm cuộn dọc nếu nội dung vượt quá chiều cao */
+    z-index: 1000; /* Đảm bảo nó nằm trên các phần tử khác */
+}
+.equal-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Chiều cao 100% để các ô bằng nhau */
+}
+
+.card-body {
+    flex: 1; /* Đảm bảo rằng phần body của card sẽ mở rộng để chiếm không gian */
+}
+
+.icon {
+    width: 50px; /* Kích thước icon */
+    height: 50px; /* Kích thước icon */
+    margin-bottom: 15px; /* Khoảng cách dưới icon */
+}
+/* CSS cho các tour gợi ý khác */
+
+
+.tour-thumbnail {
+    width: 100%;
+    height: 200px; /* Đặt chiều cao cố định cho ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .tour-page .tour-title {
+        font-size: 1.75rem; /* Giảm kích thước chữ tiêu đề trên màn hình nhỏ */
+    }
+
+    .tour-page .card h4 {
+        font-size: 1.5rem; /* Giảm kích thước chữ trong thẻ card */
+    }
+
+    .tour-page .accordion .btn-link {
+        font-size: 1.1rem; /* Giảm kích thước chữ cho các ngày */
+    }
+
+    .tour-page .calendar-header h3 {
+        font-size: 1.25rem; /* Giảm kích thước chữ tiêu đề tháng */
+    }
+}

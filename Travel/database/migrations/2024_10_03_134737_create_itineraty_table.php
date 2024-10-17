@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('itineraty', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('id_itinerary')->unique();
-            $table->integer('day');
-            $table->string('name');
-            $table->string('title');
-            $table->text('content')->nullable();
-            $table->timestamps();
+        Schema::create('itinerary', function (Blueprint $table) {
+            $table->id(); // Tạo trường id tự động tăng
+            $table->unsignedBigInteger('tour_id'); // ID tour
+            $table->string('title'); // Tiêu đề thông tin
+            $table->text('description'); // Mô tả lịch trình
+            $table->timestamps(); // Các trường created_at và updated_at
         });
     }
 

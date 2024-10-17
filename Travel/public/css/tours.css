@@ -1,0 +1,36 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    padding: 8px 12px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination li a:hover {
+    background-color: #28a745; /* Thay đổi màu theo ý muốn */
+    color: #fff;
+}
+
+.pagination li.active a {
+    background-color: #28a745; /* Màu xanh lá */
+    color: #fff;
+    border-color: #28a745;
+}
+
+.pagination li.disabled a {
+    color: #ccc;
+}

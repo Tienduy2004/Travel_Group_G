@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('image_tour', function (Blueprint $table) {
-            $table->id('id_image');
-            $table->string('image');
-            $table->timestamps();
+            $table->id(); // Tạo trường id tự động tăng
+            $table->unsignedBigInteger('tour_id'); // ID tour
+            $table->string('image'); // Đường dẫn đến hình ảnh
+            $table->timestamps(); // Thêm các trường created_at và updated_at
         });
     }
 
