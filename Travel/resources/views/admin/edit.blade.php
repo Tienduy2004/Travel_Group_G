@@ -55,6 +55,11 @@
                 <span style="color: red;">{{ $message }}</span>
                 @enderror
             </div>
+            <div>
+                <label for="price">Giá tiền:</label>
+                <input type="number" name="price" value="{{ $tour->price }}" placeholder="Giá tiền" required min="1">
+            </div>
+
 
             <div>
                 <label for="image">Hình ảnh:</label>

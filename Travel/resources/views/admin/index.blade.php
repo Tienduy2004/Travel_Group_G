@@ -28,7 +28,8 @@
                 <th>Thời gian</th>
                 <th>Số lượng</th>
                 <th>Đánh giá</th>
-                <th>Hình ảnh</th>
+                <th>Giá tiền</th>
+                <th>Hình ảnh</th>     
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -41,6 +42,7 @@
                 <td>{{ $tour->time }}</td>
                 <td>{{ $tour->quantity }}</td>
                 <td>{{ $tour->rating }}</td>
+                <td>{{ $tour->price }}</td>
                 <td><img src="{{ asset('images/' . $tour->image) }}" alt="Image" width="50" height="50"></td>
                 <td>
                     <a href="{{ route('tours.edit', $tour->id) }}">✏️</a>
@@ -65,6 +67,11 @@
         {{ session('success') }}
     </div>
     @endif
+
+    <div class="pagination">
+        {{ $tours->links() }} 
+    </div>
+
 </body>
 
 </html>

@@ -62,6 +62,14 @@
         <span style="color: red;">{{ $message }}</span>
         @enderror
     </div>
+    <div>
+        <label for="price">Giá:</label>
+        <input type="number" name="price" id="price" placeholder="Nhập giá tiền..." value="{{ old('price') }}" step="0.01" min="0">
+        @error('price')
+        <span style="color: red;">{{ $message }}</span>
+        @enderror
+    </div>
+
 
     <div>
         <label for="image">Hình ảnh:</label>

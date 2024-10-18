@@ -101,5 +101,66 @@ td a:hover {
     background-color: #d4edda;
     border-color: #c3e6cb;
 }
+/*phân trang*/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.pagination li {
+    margin: 0 3px;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #f1f1f1;
+    border-color: #007bff;
+}
+
+.pagination .active span {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination .disabled span {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #f8f9fa;
+    border-color: #ddd;
+}
+
+.pagination li a, .pagination li span {
+    line-height: 1.5;
+}
+
+.pagination li:first-child a, .pagination li:first-child span,
+.pagination li:last-child a, .pagination li:last-child span {
+    padding: 6px 9px;  /* Điều chỉnh mũi tên đầu và cuối */
+}
+
+.pagination .disabled a {
+    pointer-events: none;
+}
+.pagination-summary, .pagination-text {
+    display: none !important;
+}
+
+
+
+
 
 

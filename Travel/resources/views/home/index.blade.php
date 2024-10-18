@@ -61,14 +61,16 @@
                         <div class="col-md-3">
                             <div class="mb-3 mb-md-0">
                                 <div class="date" id="date1" data-target-input="nearest">
-                                    <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Depart Date" data-target="#date1" data-toggle="datetimepicker"/>
+                                    <input type="text" class="form-control p-4 datetimepicker-input"
+                                        placeholder="Depart Date" data-target="#date1" data-toggle="datetimepicker" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3 mb-md-0">
                                 <div class="date" id="date2" data-target-input="nearest">
-                                    <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Return Date" data-target="#date2" data-toggle="datetimepicker"/>
+                                    <input type="text" class="form-control p-4 datetimepicker-input"
+                                        placeholder="Return Date" data-target="#date2" data-toggle="datetimepicker" />
                                 </div>
                             </div>
                         </div>
@@ -85,7 +87,8 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Submit</button>
+                    <button class="btn btn-primary btn-block" type="submit"
+                        style="height: 47px; margin-top: -2px;">Submit</button>
                 </div>
             </div>
         </div>
@@ -107,7 +110,9 @@
                 <div class="about-text bg-white p-4 p-lg-5 my-lg-5">
                     <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">About Us</h6>
                     <h1 class="mb-3">We Provide Best Tour Packages In Your Budget</h1>
-                    <p>Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo</p>
+                    <p>Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit
+                        sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat
+                        sed diam duo</p>
                     <div class="row mb-4">
                         <div class="col-6">
                             <img class="img-fluid" src="img/about-1.jpg" alt="">
@@ -131,7 +136,8 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="d-flex mb-4 mb-lg-0">
-                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-primary mr-3" style="height: 100px; width: 100px;">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-primary mr-3"
+                        style="height: 100px; width: 100px;">
                         <i class="fa fa-2x fa-money-check-alt text-white"></i>
                     </div>
                     <div class="d-flex flex-column">
@@ -142,7 +148,8 @@
             </div>
             <div class="col-md-4">
                 <div class="d-flex mb-4 mb-lg-0">
-                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-primary mr-3" style="height: 100px; width: 100px;">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-primary mr-3"
+                        style="height: 100px; width: 100px;">
                         <i class="fa fa-2x fa-award text-white"></i>
                     </div>
                     <div class="d-flex flex-column">
@@ -153,7 +160,8 @@
             </div>
             <div class="col-md-4">
                 <div class="d-flex mb-4 mb-lg-0">
-                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-primary mr-3" style="height: 100px; width: 100px;">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-primary mr-3"
+                        style="height: 100px; width: 100px;">
                         <i class="fa fa-2x fa-globe text-white"></i>
                     </div>
                     <div class="d-flex flex-column">
@@ -248,21 +256,24 @@
                 <div class="service-item bg-white text-center mb-2 py-5 px-4">
                     <i class="fa fa-2x fa-route mx-auto mb-4"></i>
                     <h5 class="mb-2">Travel Guide</h5>
-                    <p class="m-0">Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem est amet labore</p>
+                    <p class="m-0">Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem est amet
+                        labore</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="service-item bg-white text-center mb-2 py-5 px-4">
                     <i class="fa fa-2x fa-ticket-alt mx-auto mb-4"></i>
                     <h5 class="mb-2">Ticket Booking</h5>
-                    <p class="m-0">Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem est amet labore</p>
+                    <p class="m-0">Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem est amet
+                        labore</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="service-item bg-white text-center mb-2 py-5 px-4">
                     <i class="fa fa-2x fa-hotel mx-auto mb-4"></i>
                     <h5 class="mb-2">Hotel Booking</h5>
-                    <p class="m-0">Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem est amet labore</p>
+                    <p class="m-0">Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem est amet
+                        labore</p>
                 </div>
             </div>
         </div>
@@ -279,120 +290,33 @@
             <h1>Pefect Tour Packages</h1>
         </div>
         <div class="row">
+            @foreach($tours as $tour)
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="img/package-1.jpg" alt="">
+                    <img class="img-fluid" src="{{ asset('images/' . $tour->image) }}" alt="">
                     <div class="p-4">
                         <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
+                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $tour->location
+                                }}</small>
+                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>{{ $tour->time
+                                }}</small>
+                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{ $tour->quantity }}
+                                Người</small>
                         </div>
-                        <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
+                        <a class="h5 text-decoration-none" href="#">{{ $tour->name }}</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                <h5 class="m-0">$350</h5>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>{{ $tour->rating }}</h6>
+                                <h5 class="m-0">{{ $tour->price }}$</h5>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="img/package-2.jpg" alt="">
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                        </div>
-                        <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                        <div class="border-top mt-4 pt-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                <h5 class="m-0">$350</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="img/package-3.jpg" alt="">
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                        </div>
-                        <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                        <div class="border-top mt-4 pt-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                <h5 class="m-0">$350</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="img/package-4.jpg" alt="">
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                        </div>
-                        <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                        <div class="border-top mt-4 pt-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                <h5 class="m-0">$350</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="img/package-5.jpg" alt="">
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                        </div>
-                        <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                        <div class="border-top mt-4 pt-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                <h5 class="m-0">$350</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="img/package-6.jpg" alt="">
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                        </div>
-                        <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                        <div class="border-top mt-4 pt-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                <h5 class="m-0">$350</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
+
+            
+            
         </div>
     </div>
 </div>
@@ -408,7 +332,8 @@
                     <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Mega Offer</h6>
                     <h1 class="text-white"><span class="text-primary">30% OFF</span> For Honeymoon</h1>
                 </div>
-                <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
+                <p class="text-white">Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum
+                    ut sed eos,
                     ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
                     dolor</p>
                 <ul class="list-inline text-white m-0">
@@ -425,10 +350,12 @@
                     <div class="card-body rounded-bottom bg-white p-5">
                         <form>
                             <div class="form-group">
-                                <input type="text" class="form-control p-4" placeholder="Your name" required="required" />
+                                <input type="text" class="form-control p-4" placeholder="Your name"
+                                    required="required" />
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control p-4" placeholder="Your email" required="required" />
+                                <input type="email" class="form-control p-4" placeholder="Your email"
+                                    required="required" />
                             </div>
                             <div class="form-group">
                                 <select class="custom-select px-4" style="height: 47px;">
@@ -542,36 +469,40 @@
         </div>
         <div class="owl-carousel testimonial-carousel">
             <div class="text-center pb-4">
-                <img class="img-fluid mx-auto" src="img/testimonial-1.jpg" style="width: 100px; height: 100px;" >
+                <img class="img-fluid mx-auto" src="img/testimonial-1.jpg" style="width: 100px; height: 100px;">
                 <div class="testimonial-text bg-white p-4 mt-n5">
-                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos
+                        labore diam
                     </p>
                     <h5 class="text-truncate">Client Name</h5>
                     <span>Profession</span>
                 </div>
             </div>
             <div class="text-center">
-                <img class="img-fluid mx-auto" src="img/testimonial-2.jpg" style="width: 100px; height: 100px;" >
+                <img class="img-fluid mx-auto" src="img/testimonial-2.jpg" style="width: 100px; height: 100px;">
                 <div class="testimonial-text bg-white p-4 mt-n5">
-                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos
+                        labore diam
                     </p>
                     <h5 class="text-truncate">Client Name</h5>
                     <span>Profession</span>
                 </div>
             </div>
             <div class="text-center">
-                <img class="img-fluid mx-auto" src="img/testimonial-3.jpg" style="width: 100px; height: 100px;" >
+                <img class="img-fluid mx-auto" src="img/testimonial-3.jpg" style="width: 100px; height: 100px;">
                 <div class="testimonial-text bg-white p-4 mt-n5">
-                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos
+                        labore diam
                     </p>
                     <h5 class="text-truncate">Client Name</h5>
                     <span>Profession</span>
                 </div>
             </div>
             <div class="text-center">
-                <img class="img-fluid mx-auto" src="img/testimonial-4.jpg" style="width: 100px; height: 100px;" >
+                <img class="img-fluid mx-auto" src="img/testimonial-4.jpg" style="width: 100px; height: 100px;">
                 <div class="testimonial-text bg-white p-4 mt-n5">
-                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                    <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos
+                        labore diam
                     </p>
                     <h5 class="text-truncate">Client Name</h5>
                     <span>Profession</span>
@@ -606,7 +537,8 @@
                             <span class="text-primary px-2">|</span>
                             <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a>
                         </div>
-                        <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam amet</a>
+                        <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam
+                            amet</a>
                     </div>
                 </div>
             </div>
@@ -625,7 +557,8 @@
                             <span class="text-primary px-2">|</span>
                             <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a>
                         </div>
-                        <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam amet</a>
+                        <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam
+                            amet</a>
                     </div>
                 </div>
             </div>
@@ -644,7 +577,8 @@
                             <span class="text-primary px-2">|</span>
                             <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a>
                         </div>
-                        <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam amet</a>
+                        <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam
+                            amet</a>
                     </div>
                 </div>
             </div>
