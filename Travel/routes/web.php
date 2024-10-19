@@ -16,6 +16,44 @@ Route::get('/single', [HomeController::class, 'single'])->name("single");
 Route::get('/destination', [HomeController::class, 'destination'])->name("destination");
 Route::get('/guide', [HomeController::class, 'guide'])->name("guide");
 Route::get('/testimonial', [HomeController::class, 'testimonial'])->name("testimonial");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Quản Lý Tour
 Route::get('/admin', [AdminController::class, 'index'])->name('admins.index');
 Route::get('/admin/create', [AdminController::class, 'create'])->name('admins.create');
@@ -24,4 +62,3 @@ Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admins.e
 Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admins.update');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admins.destroy');
 Route::get('/admin/search', [AdminController::class, 'search'])->name('admins.search');
-
