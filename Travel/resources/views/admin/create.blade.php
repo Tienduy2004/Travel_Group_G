@@ -7,7 +7,7 @@
     <title>Thêm Tour</title>
 </head>
 <body>
-<form action="{{ route('tours.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admins.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div>
         <label for="name">Tên tour:</label>

@@ -17,11 +17,11 @@ Route::get('/destination', [HomeController::class, 'destination'])->name("destin
 Route::get('/guide', [HomeController::class, 'guide'])->name("guide");
 Route::get('/testimonial', [HomeController::class, 'testimonial'])->name("testimonial");
 //Quản Lý Tour
-Route::get('/admin', [AdminController::class, 'index'])->name('tours.index');
-Route::get('/admin/create', [AdminController::class, 'create'])->name('tours.create');
-Route::post('/admin', [AdminController::class, 'store'])->name('tours.store');
-Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
-Route::put('/admin/{id}', [AdminController::class, 'update'])->name('tours.update');
-Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
-Route::get('/admin/search', [AdminController::class, 'search'])->name('tours.search');
+Route::get('/admin', [AdminController::class, 'index'])->name('admins.index');
+Route::get('/admin/create', [AdminController::class, 'create'])->name('admins.create');
+Route::post('/admin', [AdminController::class, 'store'])->name('admins.store');
+Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admins.edit');
+Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admins.update');
+Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admins.destroy');
+Route::get('/admin/search', [AdminController::class, 'search'])->name('admins.search');
 

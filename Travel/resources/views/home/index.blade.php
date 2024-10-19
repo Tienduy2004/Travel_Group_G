@@ -9,7 +9,7 @@
                 <img class="w-100" src="img/carousel-1.jpg" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
-                        <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
+                        <h4 class="text-white text-uppercase mb-md-3">$admins & Travel</h4>
                         <h1 class="display-3 text-white mb-md-4">Let's Discover The World Together</h1>
                         <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
                     </div>
@@ -19,7 +19,7 @@
                 <img class="w-100" src="img/carousel-2.jpg" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
-                        <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
+                        <h4 class="text-white text-uppercase mb-md-3">$admins & Travel</h4>
                         <h1 class="display-3 text-white mb-md-4">Discover Amazing Places With Us</h1>
                         <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
                     </div>
@@ -249,7 +249,7 @@
     <div class="container pt-5 pb-3">
         <div class="text-center mb-3 pb-3">
             <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Services</h6>
-            <h1>Tours & Travel Services</h1>
+            <h1>$admins & Travel Services</h1>
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-6 mb-4">
@@ -290,24 +290,24 @@
             <h1>Pefect Tour Packages</h1>
         </div>
         <div class="row">
-            @foreach($tours as $tour)
+            @foreach($admins as $admins)
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="{{ asset('images/' . $tour->image) }}" alt="">
+                    <img class="img-fluid" src="{{ asset('images/' . $admins->image) }}" alt="">
                     <div class="p-4">
                         <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $tour->location
+                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $admins->location
                                 }}</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>{{ $tour->time
+                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>{{ $admins->time
                                 }}</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{ $tour->quantity }}
+                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{ $admins->quantity }}
                                 Người</small>
                         </div>
-                        <a class="h5 text-decoration-none" href="#">{{ $tour->name }}</a>
+                        <a class="h5 text-decoration-none" href="#">{{ $admins->name }}</a>
                         <div class="border-top mt-4 pt-4">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>{{ $tour->rating }}</h6>
-                                <h5 class="m-0">{{ $tour->price }}$</h5>
+                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>{{ $admins->rating }}</h6>
+                                <h5 class="m-0">{{ $admins->price }}$</h5>
                             </div>
                         </div>
                     </div>
@@ -535,7 +535,7 @@
                         <div class="d-flex mb-2">
                             <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
                             <span class="text-primary px-2">|</span>
-                            <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a>
+                            <a class="text-primary text-uppercase text-decoration-none" href="">$admins & Travel</a>
                         </div>
                         <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam
                             amet</a>
@@ -555,7 +555,7 @@
                         <div class="d-flex mb-2">
                             <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
                             <span class="text-primary px-2">|</span>
-                            <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a>
+                            <a class="text-primary text-uppercase text-decoration-none" href="">$admins & Travel</a>
                         </div>
                         <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam
                             amet</a>
@@ -575,7 +575,7 @@
                         <div class="d-flex mb-2">
                             <a class="text-primary text-uppercase text-decoration-none" href="">Admin</a>
                             <span class="text-primary px-2">|</span>
-                            <a class="text-primary text-uppercase text-decoration-none" href="">Tours & Travel</a>
+                            <a class="text-primary text-uppercase text-decoration-none" href="">$admins & Travel</a>
                         </div>
                         <a class="h5 m-0 text-decoration-none" href="">Dolor justo sea kasd lorem clita justo diam
                             amet</a>

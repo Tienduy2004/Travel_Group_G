@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tours', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('location');
@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->integer('rating');
             $table->string('image')->nullable();
+            $table->decimal('price', 10, 2); // Loại bỏ ->after('rating')
             $table->timestamps();
         });
     }
@@ -28,6 +29,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tours');
+        Schema::dropIfExists('admins');
     }
 };
+

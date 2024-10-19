@@ -10,12 +10,12 @@
 
 <body>
     <div class="form-container">
-        <form action="{{ route('tours.search') }}" method="GET" class="search-form">
+        <form action="{{ route('admins.search') }}" method="GET" class="search-form">
             <input type="text" name="search" placeholder="Nhập tên tour để tìm kiếm..." required>
             <button type="submit">Tìm kiếm</button>
         </form>
 
-        <form action="{{ route('tours.create') }}" method="GET" class="create-form">
+        <form action="{{ route('admins.create') }}" method="GET" class="create-form">
             <button type="submit">Thêm</button>
         </form>
     </div>
@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($tours as $index => $tour)
+            @foreach($admins as $index => $tour)
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $tour->name }}</td>
@@ -45,8 +45,8 @@
                 <td>{{ $tour->price }}</td>
                 <td><img src="{{ asset('images/' . $tour->image) }}" alt="Image" width="50" height="50"></td>
                 <td>
-                    <a href="{{ route('tours.edit', $tour->id) }}">✏️</a>
-                    <form action="{{ route('tours.destroy', $tour->id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('admins.edit', $tour->id) }}">✏️</a>
+                    <form action="{{ route('admins.destroy', $tour->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit">🗑️</button>
@@ -69,7 +69,7 @@
     @endif
 
     <div class="pagination">
-        {{ $tours->links() }} 
+        {{ $admins->links() }} 
     </div>
 
 </body>
