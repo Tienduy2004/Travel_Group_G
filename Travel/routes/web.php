@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\VerifyOTPController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TourController;
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
@@ -16,7 +17,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name("contact");
 
 
 //page
-Route::get('/blog', [HomeController::class, 'blog'])->name("blog");
+// Route::get('/blog', [HomeController::class, 'blog'])->name("blog");
 Route::get('/single', [HomeController::class, 'single'])->name("single");
 Route::get('/destination', [HomeController::class, 'destination'])->name("destination");
 Route::get('/guide', [HomeController::class, 'guide'])->name("guide");
@@ -45,3 +46,10 @@ Route::post('/otp/resend', [OTPVefificationController::class, 'resend'])->name('
 //tour
 Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
 
+
+//Post
+Route::get('/blog', [PostController::class, 'index'])->name('blog');
+Route::get('/blog/{id}', [PostController::class, 'showBlog'])->name('blog.show');
+Route::get('/category/{id}', [PostController::class, 'getPostbyCategory'])->name('category.posts');
+Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+Route::get('/create', [PostController::class, 'create_post'])->name('create.post');
