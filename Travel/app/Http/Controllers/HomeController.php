@@ -30,10 +30,10 @@ class HomeController extends Controller
         return view('home.contact'); 
     }
     //page
-    public function blog()
-    {
-        return view('home.page.blog'); 
-    }
+    // public function blog()
+    // {
+    //     return view('home.page.blog'); 
+    // }
     public function destination()
     {
         return view('home.page.destination'); 
