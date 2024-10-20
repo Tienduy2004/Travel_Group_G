@@ -8,6 +8,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\VerifyOTPController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TourController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
 Route::get('/about', [HomeController::class, 'about'])->name("about");
@@ -53,3 +57,15 @@ Route::get('/blog/{id}', [PostController::class, 'showBlog'])->name('blog.show')
 Route::get('/category/{id}', [PostController::class, 'getPostbyCategory'])->name('category.posts');
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 Route::get('/create', [PostController::class, 'create_post'])->name('create.post');
+
+//quản lý tour
+Route::get('/admin', [AdminController::class, 'index'])->name('tours.index');
+Route::get('/admin/create', [AdminController::class, 'create'])->name('tours.create');
+Route::post('/admin', [AdminController::class, 'store'])->name('tours.store');
+Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
+Route::put('/admin/{id}', [AdminController::class, 'update'])->name('tours.update');
+Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
+Route::get('/admin/search', [AdminController::class, 'search'])->name('tours.search');
+
+
+
