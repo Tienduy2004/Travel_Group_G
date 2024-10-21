@@ -43,7 +43,7 @@
                 <td>{{ $tour->person }}</td>
                 <td>{{ number_format($tour->price, 0, ',', '.') }} VND</td>
                 <td>{{ number_format($tour->discount_price, 0, ',', '.') }} VND</td>
-                <td><img src="{{ asset('images/' . $tour->image_main) }}" alt="Image" width="50" height="50"></td>
+                <td><img src="{{ asset('img/tours/' . $tour->image_main) }}" alt="Image" width="50" height="50"></td>
                 <td>
                     <a href="{{ route('tours.edit', $tour->id) }}">✏️</a>
                     <form action="{{ route('tours.destroy', $tour->id) }}" method="POST" style="display:inline;">

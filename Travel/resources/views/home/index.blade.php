@@ -282,7 +282,7 @@
     @foreach($tours as $tour)
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="package-item bg-white mb-2">
-                <img class="img-fluid" src="{{ asset('images/' . $tour->image_main) }}" alt="{{ $tour->name }}">
+                <img class="img-fluid" src="{{ asset('img/tours/' . $tour->image_main) }}" alt="{{ $tour->name }}">
                 <div class="p-4">
                     <div class="d-flex justify-content-between mb-3">
                         <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $tour->destination->name }}</small>
@@ -292,7 +292,6 @@
                     <a class="h5 text-decoration-none" href="">{{ $tour->name }}</a>
                     <div class="border-top mt-4 pt-4">
                         <div class="d-flex justify-content-between">
-                            <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
                             <h5 class="m-0">${{ $tour->price }}</h5>
                         </div>
                     </div>

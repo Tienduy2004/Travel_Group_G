@@ -89,7 +89,7 @@
                 @if($tour->image_main)
                 <div>
                     <p>Hình ảnh hiện tại:</p>
-                    <img src="{{ asset('images/' . $tour->image_main) }}" alt="Hình ảnh hiện tại" width="150">
+                    <img src="{{ asset('img/tours/' . $tour->image_main) }}" alt="Hình ảnh hiện tại" width="150">
                 </div>
                 @endif
             </div>

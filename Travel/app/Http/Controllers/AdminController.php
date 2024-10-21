@@ -83,16 +83,16 @@ class AdminController extends Controller
             'price' => 'required|numeric|min:0',
             'number_days' => 'required|integer|min:1',
             'discount_price' => 'nullable|numeric|min:0',
-            'program_code' => 'required|string|max:255',
+            'program_code' => 'nullable|string|max:255', 
             'is_active' => 'required|boolean',
            'id_departure_location' => 'required|integer|exists:departure_location,id', // Kiểm tra id_departure_location tồn tại trong bảng departure_location
             'person' => 'required|integer|min:1',
         ];
 
         if (!$update) {
-            $rules['image_main'] = 'required|image|mimes:png,jpg,jpeg|max:2048';
+            $rules['image_main'] = 'required|image|mimes:png,jpg,jpeg,jfif|max:2048';
         } else {
-            $rules['image_main'] = 'nullable|image|mimes:png,jpg,jpeg|max:2048'; // Ảnh có thể không cần thiết phải cập nhật
+            $rules['image_main'] = 'nullable|image|mimes:png,jpg,jpeg,jfif|max:2048'; 
         }
 
         $request->validate($rules);
@@ -126,15 +126,16 @@ class AdminController extends Controller
             }
         }
     
-        // Xử lý lưu file ảnh
+        // Xử lý lưu file ảnh vào thư mục public/img/tour
         if ($request->hasFile('image_main')) {
             $file = $request->file('image_main');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename);
+            $file->move(public_path('img/tours'), $filename); // Lưu ảnh vào public/img/tour
             $tour->image_main = $filename;
         }
     
         $tour->save();
     }
+    
     
 }
