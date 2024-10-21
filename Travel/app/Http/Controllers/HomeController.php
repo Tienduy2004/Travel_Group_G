@@ -19,7 +19,7 @@ class HomeController extends Controller
     {
         return view('home.service'); 
     }
-    public function tour(Request $request)
+    public function tour()
     {
         $tours = Tour::with('destination')->paginate(6);
         
