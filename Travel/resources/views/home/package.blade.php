@@ -93,7 +93,7 @@
                                 <div class="package-item bg-white mb-2">
                                     <div class="image_tour">
                                         <img class="img-fluid" src="img/tours/{{ $tour->image_main }}" alt=""
-                                            loading="lazy">
+                                        loading="lazy">
                                     </div>
 
                                     <div class="p-4">
@@ -125,9 +125,9 @@
             </div>
 
             <div class="d-flex justify-content-center">
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" id="pagination-links">
                     <ul class="pagination">
-                        {{ $tours->links('pagination::bootstrap-4') }}
+                        {!! $tours->links('pagination::bootstrap-4') !!}
                     </ul>
                 </nav>
             </div>
@@ -202,4 +202,26 @@
         </div>
     </div>
     <!-- Destination Start -->
+<script>
+    $(document).on('click', '#pagination-links .pagination a', function(event) {
+    event.preventDefault();
+    let page = $(this).attr('href').split('page=')[1];
+    fetchTours(page);
+});
+function fetchTours(page) {
+    $.ajax({
+        url: "/tours?page=" + page,
+        success: function(data) {
+            $('#tour-list').html($(data).find('#tour-list').html());
+            $('#pagination-links').html($(data).find('#pagination-links').html());
+            window.history.pushState("", "", '/tours?page=' + page);
+             // Thêm hiệu ứng cuộn lên đầu tiêu đề
+             $('html, body').animate({
+                scrollTop: $(".text-center.mb-3.pb-3").offset().top
+            }, 800); // Thời gian cuộn 800ms (0.8 giây)
+        }
+        
+    });
+}
+</script>
 @endsection
