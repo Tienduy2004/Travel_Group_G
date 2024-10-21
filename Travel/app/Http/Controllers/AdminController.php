@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Tour;
 use App\Models\Destination;
 use App\Models\DepartureLocation;
+use App\Models\Promotion;
 
 class AdminController extends Controller
 {
@@ -103,12 +104,28 @@ class AdminController extends Controller
         $tour->description = $request->input('description');
         $tour->price = $request->input('price');
         $tour->number_days = $request->input('number_days');
-        $tour->discount_price = $request->input('discount_price');
         $tour->program_code = $request->input('program_code');
         $tour->is_active = $request->input('is_active');
         $tour->id_departure_location = $request->input('id_departure_location');
         $tour->person = $request->input('person');
-
+    
+        // Kiểm tra xem có mã khuyến mãi không
+        $promotionCode = $request->input('program_code');
+        if ($promotionCode) {
+            $promotion = Promotion::where('code', $promotionCode)
+                ->where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->first();
+    
+            if ($promotion) {
+                // Tính giá sau khi áp dụng khuyến mãi
+                $discountPercentage = $promotion->discount_percentage;
+                $tour->discount_price = $tour->price - ($tour->price * ($discountPercentage / 100));
+            } else {
+                $tour->discount_price = null; // Không có khuyến mãi
+            }
+        }
+    
         // Xử lý lưu file ảnh
         if ($request->hasFile('image_main')) {
             $file = $request->file('image_main');
@@ -116,7 +133,8 @@ class AdminController extends Controller
             $file->move(public_path('images'), $filename);
             $tour->image_main = $filename;
         }
-
+    
         $tour->save();
     }
+    
 }

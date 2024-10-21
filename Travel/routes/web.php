@@ -10,6 +10,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PromotionController;
 
 
 
@@ -67,5 +68,13 @@ Route::put('/admin/{id}', [AdminController::class, 'update'])->name('tours.updat
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
 Route::get('/admin/search', [AdminController::class, 'search'])->name('tours.search');
 
+
+//khuyến mãi
+Route::get('/admin/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
+Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+Route::get('/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+Route::put('/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
+Route::delete('/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
 

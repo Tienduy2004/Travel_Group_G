@@ -27,8 +27,8 @@
                 <th>Địa điểm</th>
                 <th>Số ngày</th>
                 <th>Số người</th>
-                <th>Giá tiền</th>
-                <th>Giảm giá</th>
+                <th>Giá Gốc</th>
+                <th>Giá Sao Khi Giảm</th>
                 <th>Hình ảnh</th>
                 <th>Hành động</th>
             </tr>
