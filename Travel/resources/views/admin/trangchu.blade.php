@@ -1,3 +1,8 @@
+<!-- resources/views/admin/trangchu.blade.php -->
+@extends('layouts.menu')
+
+@section('content')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +14,7 @@
 </head>
 
 <body>
+    <h1>Quản Lý Tour</h1>
     <div class="form-container">
         <form action="{{ route('tours.search') }}" method="GET" class="search-form">
             <input type="text" name="search" placeholder="Nhập tên tour để tìm kiếm..." required>
@@ -76,3 +82,4 @@
 </body>
 
 </html>
+@endsection

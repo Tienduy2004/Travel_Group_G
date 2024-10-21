@@ -10,13 +10,19 @@ use App\Models\Promotion;
 
 class AdminController extends Controller
 {
+    
+
     public function index(Request $request) {
+        return $this->trangchu($request); // Gọi phương thức trangchu để hiển thị nội dung
+    }
+    
+    public function trangchu(Request $request) {
         $search = $request->input('search'); // Lấy giá trị tìm kiếm nếu có
         $tours = Tour::with('destination')->when($search, function ($query) use ($search) {
             return $query->where('name', 'LIKE', "%{$search}%");
         })->paginate(5); // Sử dụng paginate để phân trang
     
-        return view('admin.index', compact('tours', 'search')); // Đảm bảo truyền biến $tours vào view
+        return view('admin.trangchu', compact('tours', 'search')); // Đảm bảo truyền biến $tours vào view
     }
     
     
@@ -35,7 +41,7 @@ class AdminController extends Controller
         $tour = new Tour();
         $this->saveTourData($tour, $request);
 
-        return redirect()->route('tours.index')->with('success', 'Tour đã được thêm thành công.');
+        return redirect()->route('tours.trangchu')->with('success', 'Tour đã được thêm thành công.');
     }
 
     public function edit($id) {
@@ -52,14 +58,14 @@ class AdminController extends Controller
 
         $this->saveTourData($tour, $request);
     
-        return redirect()->route('tours.index')->with('success', 'Tour đã được cập nhật thành công.');
+        return redirect()->route('tours.trangchu')->with('success', 'Tour đã được cập nhật thành công.');
     }
 
     public function destroy($id) {
         $tour = Tour::findOrFail($id); // Sử dụng findOrFail để xử lý lỗi
         $tour->delete();
 
-        return redirect()->route('tours.index')->with('success', 'Tour đã được xóa thành công.');
+        return redirect()->route('tours.trangchu')->with('success', 'Tour đã được xóa thành công.');
     }
 
     public function search(Request $request) {
@@ -71,7 +77,7 @@ class AdminController extends Controller
             return redirect()->route('tours.index')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '".');
         }
 
-        return view('admin.index', compact('tours', 'search')); // Đường dẫn tới view
+        return view('admin.trangchu', compact('tours', 'search')); // Đường dẫn tới view
     }
 
     private function validateTour(Request $request, $update = false) {

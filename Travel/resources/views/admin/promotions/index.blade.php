@@ -1,3 +1,8 @@
+<!-- resources/views/admin/trangchu.blade.php -->
+@extends('layouts.menu')
+
+@section('content')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +15,7 @@
             background-color: #cdadad;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            
         }
 
         h1 {
@@ -267,3 +272,4 @@
 </body>
 
 </html>
+@endsection
