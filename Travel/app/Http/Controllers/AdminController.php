@@ -74,7 +74,7 @@ class AdminController extends Controller
         $tours = Tour::where('name', 'LIKE', "%{$search}%")->paginate(5);
 
         if ($tours->isEmpty()) {
-            return redirect()->route('tours.index')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '".');
+            return redirect()->route('tours.trangchu')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '".');
         }
 
         return view('admin.trangchu', compact('tours', 'search')); // Đường dẫn tới view
@@ -84,25 +84,32 @@ class AdminController extends Controller
         // Validation cho các trường
         $rules = [
             'name' => 'required|string|max:255',
-            'id_destination' => 'required|integer|exists:destination,id', // Kiểm tra id_destination tồn tại trong bảng destination
+            'id_destination' => 'required|integer|exists:destination,id', 
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'number_days' => 'required|integer|min:1',
             'discount_price' => 'nullable|numeric|min:0',
-            'program_code' => 'nullable|string|max:255', 
+            'program_code' => 'nullable|string|max:255',
             'is_active' => 'required|boolean',
-           'id_departure_location' => 'required|integer|exists:departure_location,id', // Kiểm tra id_departure_location tồn tại trong bảng departure_location
+            'id_departure_location' => 'required|integer|exists:departure_location,id',
             'person' => 'required|integer|min:1',
         ];
-
+    
         if (!$update) {
             $rules['image_main'] = 'required|image|mimes:png,jpg,jpeg,jfif|max:2048';
         } else {
-            $rules['image_main'] = 'nullable|image|mimes:png,jpg,jpeg,jfif|max:2048'; 
+            $rules['image_main'] = 'nullable|image|mimes:png,jpg,jpeg,jfif|max:2048';
         }
-
+    
+        // Thực hiện validate dữ liệu
         $request->validate($rules);
+    
+        // Kiểm tra nếu program_code là null, gán giá trị mặc định là chuỗi rỗng
+        if (is_null($request->input('program_code'))) {
+            $request->merge(['program_code' => '']);
+        }
     }
+    
 
     private function saveTourData(Tour $tour, Request $request) {
         $tour->name = $request->input('name');

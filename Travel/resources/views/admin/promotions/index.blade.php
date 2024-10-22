@@ -210,6 +210,39 @@
         .pagination-text {
             display: none !important;
         }
+        form.search-form input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form.search-form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form.search-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Định dạng cho form thêm tour */
+form.create-form button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form.create-form button:hover {
+    background-color: #218838;
+}
     </style>
 </head>
 
@@ -219,12 +252,19 @@
 
     <!-- Toolbar gồm thanh tìm kiếm bên trái và nút thêm khuyến mãi bên phải -->
     <div class="toolbar">
-        <div class="search-box">
-            <input type="text" placeholder="Tìm kiếm khuyến mãi...">
-            <button type="button">Tìm kiếm</button>
-        </div>
+        <form action="{{ route('promotions.index') }}" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Nhập mã hoặc mô tả để tìm kiếm..." value="{{ old('search', $search) }}">
+            <button type="submit">Tìm kiếm</button>
+        </form>
         <a href="{{ route('promotions.create') }}" class="btn btn-primary">Thêm Khuyến Mãi</a>
     </div>
+
+    <!-- Hiển thị thông báo nếu có -->
+    @if(isset($message))
+        <div class="alert alert-info">
+            {{ $message }}
+        </div>
+    @endif
 
     <table>
         <thead>
@@ -244,19 +284,18 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $promotion->code }}</td>
                 <td>{{ $promotion->description }}</td>
-                <td>{{ $promotion->start_date }}</td>
-                <td>{{ $promotion->end_date }}</td>
+                <td>{{ \Carbon\Carbon::parse($promotion->start_date)->format('d/m/Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($promotion->end_date)->format('d/m/Y') }}</td>
                 <td>{{ $promotion->discount_percentage }}%</td>
                 <td class="action-btns">
                     <!-- Nút Sửa -->
                     <a href="{{ route('promotions.edit', $promotion->id) }}" class="btn btn-warning">✏️</a>
 
                     <!-- Nút Xóa -->
-                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST">
+                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')">🗑️</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">🗑️</button>
                     </form>
                 </td>
             </tr>
@@ -270,6 +309,7 @@
     </div>
 
 </body>
+
 
 </html>
 @endsection

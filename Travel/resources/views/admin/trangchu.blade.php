@@ -34,7 +34,7 @@
                 <th>Số ngày</th>
                 <th>Số người</th>
                 <th>Giá Gốc</th>
-                <th>Giá Sao Khi Giảm</th>
+                <th>Giá Giảm</th>
                 <th>Hình ảnh</th>
                 <th>Hành động</th>
             </tr>

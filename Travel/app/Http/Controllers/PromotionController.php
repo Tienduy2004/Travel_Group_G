@@ -10,18 +10,25 @@ class PromotionController extends Controller
     // Phương thức index để hiển thị danh sách khuyến mãi kèm theo phân trang và tìm kiếm
     public function index(Request $request)
     {
-        // Kiểm tra xem có từ khóa tìm kiếm hay không
-        $search = $request->input('search');
-
-        // Lấy danh sách khuyến mãi, có thể có tìm kiếm và phân trang
+        $search = $request->input('search'); // Lấy giá trị từ form tìm kiếm
+    
+        // Nếu có từ khóa tìm kiếm, lọc dữ liệu theo từ khóa
         $promotions = Promotion::when($search, function($query, $search) {
             return $query->where('code', 'like', "%{$search}%")
                          ->orWhere('description', 'like', "%{$search}%");
-        })->paginate(5); // Phân trang với 5 khuyến mãi mỗi trang
-
-        // Trả về view hiển thị danh sách khuyến mãi
-        return view('admin.promotions.index', compact('promotions', 'search'));
+        })->paginate(5); // Phân trang
+    
+        // Tạo thông báo tìm kiếm
+        $message = null;
+        if ($search && $promotions->isEmpty()) {
+            $message = 'Không tìm thấy khuyến mãi nào với từ khóa "' . $search . '".';
+        }
+    
+        // Trả về view với dữ liệu khuyến mãi và thông báo
+        return view('admin.promotions.index', compact('promotions', 'search', 'message'));
     }
+    
+
 
     public function create()
     {
