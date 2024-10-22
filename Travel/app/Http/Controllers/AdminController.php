@@ -74,7 +74,7 @@ class AdminController extends Controller
         $tours = Tour::where('name', 'LIKE', "%{$search}%")->paginate(5);
 
         if ($tours->isEmpty()) {
-            return redirect()->route('tours.index')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '".');
+            return redirect()->route('tours.trangchu')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '".');
         }
 
         return view('admin.trangchu', compact('tours', 'search')); // Đường dẫn tới view
