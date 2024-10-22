@@ -57,13 +57,7 @@
         @enderror
     </div>
 
-    <div>
-        <label for="discount_price">Giá giảm (nếu có):</label>
-        <input type="number" name="discount_price" id="discount_price" placeholder="Nhập giá giảm..." value="{{ old('discount_price') }}" step="0.01" min="0">
-        @error('discount_price')
-        <span style="color: red;">{{ $message }}</span>
-        @enderror
-    </div>
+   
 
     <div>
         <label for="program_code">Mã chương trình:</label>

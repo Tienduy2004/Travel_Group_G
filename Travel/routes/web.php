@@ -10,6 +10,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PromotionController;
 
 
 
@@ -58,14 +59,30 @@ Route::get('/category/{id}', [PostController::class, 'getPostbyCategory'])->name
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 Route::get('/create', [PostController::class, 'create_post'])->name('create.post');
 
+
+
+
+
 //quản lý tour
-Route::get('/admin', [AdminController::class, 'index'])->name('tours.index');
-Route::get('/admin/create', [AdminController::class, 'create'])->name('tours.create');
-Route::post('/admin', [AdminController::class, 'store'])->name('tours.store');
-Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
-Route::put('/admin/{id}', [AdminController::class, 'update'])->name('tours.update');
-Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
-Route::get('/admin/search', [AdminController::class, 'search'])->name('tours.search');
+// Route cho trang chủ admin
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.trangchu');
+
+// Route cho quản lý tour
+Route::get('/admin/tours', [AdminController::class, 'trangchu'])->name('tours.trangchu');
+Route::get('/admin/tours/create', [AdminController::class, 'create'])->name('tours.create');
+Route::post('/admin/tours', [AdminController::class, 'store'])->name('tours.store');
+Route::get('/admin/tours/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
+Route::put('/admin/tours/{id}', [AdminController::class, 'update'])->name('tours.update');
+Route::delete('/admin/tours/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
+Route::get('/admin/tours/search', [AdminController::class, 'search'])->name('tours.search');
+
+// Route cho khuyến mãi
+Route::get('/admin/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
+Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
+Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
 
 

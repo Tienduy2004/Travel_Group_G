@@ -1,0 +1,61 @@
+body {
+    background-color: #f8f9fa; /* Màu nền nhẹ nhàng */
+    font-family: Arial, sans-serif; /* Font chữ */
+}
+.container {
+    margin: 50px auto; /* Căn giữa và thêm khoảng cách trên dưới */
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white; /* Nền trắng cho form */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
+    width: 400px; /* Chiều rộng của form */
+}
+h1 {
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    text-align: center; /* Canh giữa tiêu đề */
+    color: #007bff; /* Màu xanh cho tiêu đề */
+}
+.form-group {
+    margin-bottom: 15px; /* Khoảng cách giữa các nhóm input */
+}
+label {
+    font-weight: bold; /* In đậm cho label */
+    color: #333; /* Màu chữ cho label */
+    display: block; /* Đặt label ở dòng mới */
+}
+input, textarea {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    padding: 10px;
+    margin-top: 5px; /* Khoảng cách trên input */
+    border: 1px solid #ced4da; /* Viền mặc định */
+    border-radius: 5px; /* Bo góc */
+    transition: border-color 0.3s; /* Hiệu ứng chuyển màu viền */
+}
+input:focus, textarea:focus {
+    border-color: #007bff; /* Màu viền khi focus */
+    outline: none; /* Ẩn outline mặc định */
+}
+.invalid-feedback {
+    color: red; /* Màu đỏ cho thông báo lỗi */
+    font-size: 0.875em; /* Kích thước chữ nhỏ hơn */
+}
+button {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    background-color: #007bff; /* Màu nền cho nút */
+    color: white; /* Màu chữ trắng */
+    border: none; /* Bỏ viền */
+    padding: 10px; /* Khoảng cách bên trong nút */
+    border-radius: 5px; /* Bo góc */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+    cursor: pointer; /* Con trỏ khi hover */
+    margin-top: 10px; /* Khoảng cách trên nút */
+}
+button:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+}
+.btn-secondary {
+    background-color: #6c757d; /* Màu nền cho nút quay lại */
+}
+.btn-secondary:hover {
+    background-color: #5a6268; /* Màu nền khi hover cho nút quay lại */
+}

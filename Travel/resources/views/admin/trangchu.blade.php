@@ -1,3 +1,8 @@
+<!-- resources/views/admin/trangchu.blade.php -->
+@extends('layouts.menu')
+
+@section('content')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +14,7 @@
 </head>
 
 <body>
+    <h1>Quản Lý Tour</h1>
     <div class="form-container">
         <form action="{{ route('tours.search') }}" method="GET" class="search-form">
             <input type="text" name="search" placeholder="Nhập tên tour để tìm kiếm..." required>
@@ -27,8 +33,8 @@
                 <th>Địa điểm</th>
                 <th>Số ngày</th>
                 <th>Số người</th>
-                <th>Giá tiền</th>
-                <th>Giảm giá</th>
+                <th>Giá Gốc</th>
+                <th>Giá Sao Khi Giảm</th>
                 <th>Hình ảnh</th>
                 <th>Hành động</th>
             </tr>
@@ -43,7 +49,7 @@
                 <td>{{ $tour->person }}</td>
                 <td>{{ number_format($tour->price, 0, ',', '.') }} VND</td>
                 <td>{{ number_format($tour->discount_price, 0, ',', '.') }} VND</td>
-                <td><img src="{{ asset('images/' . $tour->image_main) }}" alt="Image" width="50" height="50"></td>
+                <td><img src="{{ asset('img/tours/' . $tour->image_main) }}" alt="Image" width="50" height="50"></td>
                 <td>
                     <a href="{{ route('tours.edit', $tour->id) }}">✏️</a>
                     <form action="{{ route('tours.destroy', $tour->id) }}" method="POST" style="display:inline;">
@@ -76,3 +82,4 @@
 </body>
 
 </html>
+@endsection
