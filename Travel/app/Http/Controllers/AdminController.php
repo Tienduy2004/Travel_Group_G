@@ -86,7 +86,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'id_destination' => 'required|integer|exists:destination,id', // Kiểm tra id_destination tồn tại trong bảng destination
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0', // Rule cho giá tiền
             'number_days' => 'required|integer|min:1',
             'discount_price' => 'nullable|numeric|min:0',
             'program_code' => 'nullable|string|max:255', 

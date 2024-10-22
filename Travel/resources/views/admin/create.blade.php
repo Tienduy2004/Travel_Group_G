@@ -70,8 +70,9 @@
     <div>
         <label for="is_active">Trạng thái hoạt động:</label>
         <select name="is_active" id="is_active">
-            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>Hoạt động</option>
-            <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>--Chọn trạng Thái--</option>
+            <option value="1" {{ old('is_active') == '2' ? 'selected' : '' }}>Hoạt động</option>
+            <option value="0" {{ old('is_active') == '3' ? 'selected' : '' }}>Không hoạt động</option>
         </select>
         @error('is_active')
         <span style="color: red;">{{ $message }}</span>
