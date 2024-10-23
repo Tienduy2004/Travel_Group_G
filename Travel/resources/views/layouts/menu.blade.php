@@ -108,12 +108,17 @@
 <body>
     <div class="menu">
         <h3>TRAVELER</h3>
+        <h2>{{ session('admin_name') }}</h2>
         <div class="circle-container">
             <img src="{{ asset('img/tours/logo.jpg') }}" alt="Logo">
         </div>
         <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i>Quản Lý Tour</a>
         <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i>Quản Lý Khuyến Mãi</a>
         <!-- Thêm các mục menu khác tại đây -->
+        <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+    @csrf
+    <button type="submit" class="btn btn-danger">Đăng Xuất</button>
+</form>
     </div>
 
     <div class="content">
