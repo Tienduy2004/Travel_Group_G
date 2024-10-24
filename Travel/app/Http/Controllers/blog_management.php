@@ -1,3 +1,43 @@
+<?php
+include 'connect.php'; // Kết nối cơ sở dữ liệu
+session_start();
+
+// Số bài viết trên mỗi trang
+$postsPerPage = 5;
+
+// Lấy số trang hiện tại (mặc định là 1)
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+
+// Tính toán bài viết bắt đầu từ vị trí nào
+$start = ($page - 1) * $postsPerPage;
+
+// Xử lý tìm kiếm
+$searchKeyword = '';
+if (isset($_GET['search'])) {
+    $searchKeyword = $conn->real_escape_string($_GET['search']);
+    // Cập nhật câu truy vấn tìm kiếm để bao gồm cả tiêu đề, nội dung, user_id và ngày tạo
+    $searchQuery = "WHERE title LIKE '%$searchKeyword%' 
+                    OR content LIKE '%$searchKeyword%' 
+                    OR user_id LIKE '%$searchKeyword%'
+                    OR created_at LIKE '%$searchKeyword%'";
+} else {
+    $searchQuery = '';
+}
+
+// Lấy tổng số bài viết phù hợp
+$countSql = "SELECT COUNT(*) as total FROM posts $searchQuery";
+$countResult = $conn->query($countSql);
+$totalPosts = $countResult->fetch_assoc()['total'];
+
+// Tính toán tổng số trang
+$totalPages = ceil($totalPosts / $postsPerPage);
+
+// Truy vấn để lấy danh sách bài viết với giới hạn phân trang và tìm kiếm
+$sql = "SELECT * FROM posts $searchQuery LIMIT $start, $postsPerPage";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,14 +81,19 @@
 
         <!-- Hiển thị thông báo sau khi thêm/sửa/xóa -->
         <?php
-        session_start();
-        include 'connect.php'; // Kết nối cơ sở dữ liệu
-        
         if (isset($_SESSION['message'])) {
             echo "<div class='alert alert-success' role='alert'>" . $_SESSION['message'] . "</div>";
             unset($_SESSION['message']);
         }
         ?>
+
+        <!-- Form tìm kiếm -->
+        <form method="GET" action="blog_management.php" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tiêu đề, nội dung, tác giả, ngày tháng" value="<?php echo htmlspecialchars($searchKeyword); ?>">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </form>
 
         <!-- Nút thêm bài viết mới -->
         <div class="mb-3">
@@ -69,10 +114,6 @@
             </thead>
             <tbody>
                 <?php
-                // Lấy dữ liệu từ cơ sở dữ liệu
-                $sql = "SELECT * FROM posts"; // Cập nhật tên bảng
-                $result = $conn->query($sql);
-
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
@@ -89,10 +130,10 @@
 
                         echo "<td>" . htmlspecialchars($row['created_at']) . "</td>"; // Cập nhật trường ngày tạo
                         echo "<td>
-                <a href='edit_blog.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-success btn-sm'>Sửa</a>
-                <a href='delete_blog.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-danger btn-sm' onclick='return confirmDelete();'>Xóa</a>
-                <button class='btn btn-info btn-sm' onclick='showDetails(\"" . htmlspecialchars($row['title']) . "\", \"" . htmlspecialchars($row['content']) . "\", \"$author\", \"" . htmlspecialchars($row['created_at']) . "\", \"$imagePath\")'>Hiển thị chi tiết</button>
-            </td>";
+                            <a href='edit_blog.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-success btn-sm'>Sửa</a>
+                            <a href='delete_blog.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-danger btn-sm' onclick='return confirmDelete();'>Xóa</a>
+                            <button class='btn btn-info btn-sm' onclick='showDetails(\"" . htmlspecialchars($row['title']) . "\", \"" . htmlspecialchars($row['content']) . "\", \"$author\", \"" . htmlspecialchars($row['created_at']) . "\", \"$imagePath\")'>Hiển thị chi tiết</button>
+                        </td>";
                         echo "</tr>";
                     }
                 } else {
@@ -101,6 +142,26 @@
                 ?>
             </tbody>
         </table>
+
+        <!-- Phân trang -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <?php
+                if ($page > 1) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page - 1) . "&search=" . urlencode($searchKeyword) . "'>Trước</a></li>";
+                }
+
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    $active = ($i == $page) ? 'active' : '';
+                    echo "<li class='page-item $active'><a class='page-link' href='?page=$i&search=" . urlencode($searchKeyword) . "'>$i</a></li>";
+                }
+
+                if ($page < $totalPages) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . urlencode($searchKeyword) . "'>Tiếp</a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- Modal để hiển thị hình ảnh  -->
