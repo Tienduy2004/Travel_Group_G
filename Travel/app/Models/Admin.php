@@ -12,5 +12,5 @@ class Admin extends Authenticatable implements AuthenticatableContract
 
     protected $guarded = []; // Hoặc bạn có thể định nghĩa các thuộc tính cho phép
 
-    // Các phương thức khác của model
+   
 }

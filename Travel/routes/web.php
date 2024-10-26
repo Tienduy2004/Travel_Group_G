@@ -66,7 +66,7 @@ Route::get('/create', [PostController::class, 'create_post'])->name('create.post
 
 
 //quản lý tour
-    Route::get('/admin', [AdminController::class, 'trangchu'])->name('admin.trangchu');
+    Route::get('/admin', [AdminController::class, 'trangchu'])->name('admin.trangchu'); 
     // Route cho quản lý tour
     Route::get('/admin/tours', [AdminController::class, 'trangchu'])->name('tours.trangchu');
     Route::get('/admin/tours/create', [AdminController::class, 'create'])->name('tours.create');
@@ -75,7 +75,6 @@ Route::get('/create', [PostController::class, 'create_post'])->name('create.post
     Route::put('/admin/tours/{id}', [AdminController::class, 'update'])->name('tours.update');
     Route::delete('/admin/tours/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
     Route::get('/admin/tours/search', [AdminController::class, 'search'])->name('tours.search');
-
 
 
 // Route cho khuyến mãi
@@ -90,12 +89,10 @@ Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('pr
 // Route cho trang đăng nhập admin
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
-
 // Route cho trang đăng ký admin
 Route::get('/admin/register', [AdminAuthController::class, 'showRegistrationForm'])->name('admin.register');
 Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-
 
 
 

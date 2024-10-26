@@ -15,22 +15,23 @@ class AdminAuthController extends Controller
     }
 
     public function login(Request $request)
-{
-    $credentials = $request->only('email', 'password');
-
-    if (Auth::guard('admin')->attempt($credentials)) {
-        // Lưu tên admin vào session
-        $admin = Auth::guard('admin')->user();
-        $request->session()->put('admin_name', $admin->name);
-
-        // Redirect đến trang bạn muốn sau khi đăng nhập thành công
-        return redirect()->route('admin.trangchu'); // Chuyển hướng đến trang dashboard
+    {
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::guard('admin')->attempt($credentials)) {
+            // Lưu tên admin vào session
+            $admin = Auth::guard('admin')->user();
+            $request->session()->put('admin_name', $admin->name);
+    
+            // Redirect đến trang bạn muốn sau khi đăng nhập thành công
+            return redirect()->route('admin.trangchu'); // Chuyển hướng đến trang dashboard
+        }
+    
+        return back()->withErrors([
+            'email' => 'Thông tin đăng nhập không chính xác.',
+        ]);
     }
-
-    return back()->withErrors([
-        'email' => 'Thông tin đăng nhập không chính xác.',
-    ]);
-}
+    
 
     
     public function showRegistrationForm()

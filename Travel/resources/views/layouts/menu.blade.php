@@ -1,4 +1,3 @@
-<!-- resources/views/layouts/menu.blade.php -->
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -8,105 +7,103 @@
     <title>Menu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            /* Để chứa menu và nội dung theo chiều dọc */
+        /* Menu mặc định ẩn */
+        .menu {
+            width: 180px;
+            background-color: #007700;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -220px;
+            /* Ẩn menu bên ngoài */
+            transition: 0.5s;
         }
 
-        .menu {
-            background-color: #007700;
-            /* Màu nền menu */
-            padding: 20px;
-            /* Padding cho menu */
-            width: 200px;
-            /* Độ rộng của menu */
-            height: 100vh;
-            /* Chiều cao menu 100% màn hình */
-            display: flex;
-            /* Sử dụng flexbox để sắp xếp các mục menu */
-            flex-direction: column;
-            /* Sắp xếp các mục menu theo chiều dọc */
-            align-items: flex-start;
-            /* Căn trái các mục menu */
-            box-shadow: 5px 0 10px rgba(0, 0, 0, 0.2);
-            /* Đổ bóng cho menu */
+        .menu.open {
+            left: 0;
+            /* Menu trượt vào */
+        }
+
+        /* CSS cho biểu tượng 3 gạch */
+        .hamburger {
+            display: block;
+            cursor: pointer;
+            padding: 15px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Ẩn hamburger khi menu mở */
+        .hamburger.hide {
+            opacity: 0;
+            pointer-events: none;
+            /* Vô hiệu hóa click khi hamburger ẩn */
+        }
+
+        .hamburger .bar {
+            width: 35px;
+            height: 5px;
+            background-color: #fff;
+            margin: 6px 0;
+            transition: 0.4s;
         }
 
         .menu a {
             margin: 10px 0;
-            /* Khoảng cách giữa các mục menu */
             text-decoration: none;
             color: #ffffff;
-            /* Màu chữ trắng */
             padding: 10px 6px;
-            /* Padding cho các mục menu */
             border-radius: 5px;
-            /* Bo tròn góc */
-            transition: background-color .7s, box-shadow 0.5s;
-            /* Hiệu ứng chuyển màu nền và bóng khi hover */
+            transition: background-color 0.7s, box-shadow 0.5s;
             display: flex;
-            /* Sử dụng flexbox cho các mục menu */
             align-items: center;
-            /* Căn giữa biểu tượng và chữ */
             width: 100%;
-            /* Đảm bảo các mục menu có chiều rộng 100% */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            /* Bóng nhẹ cho mục menu */
-        }
-
-        .menu a i {
-            margin-right: 5px;
-            /* Khoảng cách giữa biểu tượng và chữ */
         }
 
         .menu a:hover {
             background-color: #FF0000;
-            /* Màu nền khi hover */
-            text-decoration: none;
-            /* Bỏ gạch chân khi hover */
-            width: 190px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            /* Bóng đậm hơn khi hover */
         }
 
-        .content {
-            padding: 20px;
-            /* Padding cho nội dung */
-            flex-grow: 1;
-            /* Để nội dung chiếm không gian còn lại */
+        /* Khi menu được mở */
+        .menu.open {
+            left: 0;
         }
 
         .circle-container {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             margin: 0 auto;
             overflow: hidden;
             border-radius: 50%;
-            /* Biến khung chứa thành hình tròn */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            /* Bóng nhẹ cho hình tròn */
         }
 
         .circle-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Đảm bảo hình ảnh vừa khung tròn mà không bị biến dạng */
         }
 
-        h3 {
-            padding-left: 20px;
-            color: #ffffff;
-            font-size: 30px;
+        .hamburger img {
+            width: 38px;
+            height: 38px;
+            margin-top: -10px;
+            margin-left: -10px;
         }
     </style>
 </head>
 
 <body>
-    <div class="menu">
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <img src="{{ asset('img/tours/icons8-menu-48.png') }}" alt="Logo">
+    </div>
+
+    <div class="menu" id="side-menu">
         <h3>TRAVELER</h3>
         <h2>{{ session('admin_name') }}</h2>
         <div class="circle-container">
@@ -114,12 +111,42 @@
         </div>
         <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i>Quản Lý Tour</a>
         <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i>Quản Lý Khuyến Mãi</a>
-        <!-- Thêm các mục menu khác tại đây -->
-        <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
-    @csrf
-    <button type="submit" class="btn btn-danger">Đăng Xuất</button>
-</form>
+        <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
+            @csrf
+            <button type="submit" class="btn btn-danger">Đăng Xuất</button>
+        </form>
     </div>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('side-menu');
+            var hamburger = document.getElementById('hamburger');
+            menu.classList.toggle('open');
+            hamburger.classList.toggle('hide'); // Ẩn/hiện hamburger khi menu mở/đóng
+        }
+
+        // Ẩn menu khi cuộn trang
+        window.addEventListener('scroll', function () {
+            var menu = document.getElementById('side-menu');
+            var hamburger = document.getElementById('hamburger');
+            if (menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                hamburger.classList.remove('hide');
+            }
+        });
+
+        // Đóng menu khi nhấn ra ngoài
+        document.addEventListener('click', function (event) {
+            var menu = document.getElementById('side-menu');
+            var hamburger = document.getElementById('hamburger');
+            var isClickInsideMenu = menu.contains(event.target);
+            var isClickInsideHamburger = hamburger.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickInsideHamburger && menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                hamburger.classList.remove('hide'); // Hiện lại hamburger khi menu đóng
+            }
+        });
+    </script>
 
     <div class="content">
         @yield('content')
