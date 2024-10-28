@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\VerifyOTPController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TourController;
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
@@ -43,5 +45,12 @@ Route::post('/verify-otp', [VerifyOTPController::class, 'verify'])->middleware('
 Route::post('/otp/resend', [OTPVefificationController::class, 'resend'])->name('otp.resend');
 
 //tour
-Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
+Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/booking/{name}', [TourController::class, 'showBookingPage'])->name('tours.booking');
+    
+});
+Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+Route::get('/booking-payment/{bookingId}', [PaymentController::class, 'showPaymentForm'])->name('booking.payment');
+Route::post('/booking-payment/{bookingId}', [PaymentController::class, 'processPayment'])->name('booking.payment.process');
 

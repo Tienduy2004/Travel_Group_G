@@ -108,7 +108,7 @@
                                                 Person</small>
                                         </div>
                                         <a class="h5 text-decoration-none"
-                                            href="{{ route('tours.show', ['id' => $tour->id]) }}">{{ $tour->name }}</a>
+                                            href="{{ route('tours.show', ['slug' => $tour->slug]) }}">{{ $tour->name }}</a>
                                         <div class="border-top mt-4 pt-4">
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="m-0">Price: 

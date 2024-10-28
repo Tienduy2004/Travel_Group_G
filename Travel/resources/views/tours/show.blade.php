@@ -2,15 +2,14 @@
 
 @section('content')
     @if (is_null($tour) || empty($tour->id) || is_null($minPriceSchedule) || empty($minPriceSchedule))
-    <div class="tour-page">
-        <div class="container mt-4" >
-            <div class="col-12 text-center">
-                <h4 class="text-danger">Tour does not exist</h4>
+        <div class="tour-page">
+            <div class="container mt-4">
+                <div class="col-12 text-center">
+                    <h4 class="text-danger">Tour does not exist</h4>
+                </div>
             </div>
+
         </div>
-        
-    </div>
-        
     @else
         <div class="tour-page">
             <div class="container mt-4">
@@ -283,9 +282,18 @@
                             <p>Time: <span style="font-weight: bold;">{{ $tour->number_days }} Days</span></p>
                             <p>Number of seats left: <span style="font-weight: bold;"
                                     id="seatNumber">{{ $minPriceSchedule->seat_number }}</span></p>
-                            <button class="btn btn-primary btn-block" id="bookNowBtn" type="button">
-                                Book Now
-                            </button>
+                            @auth
+                                <!-- Nếu người dùng đã đăng nhập, hiện nút Book Now -->
+                                <button class="btn btn-primary btn-block" id="bookNowBtn" type="button"
+                                    onclick="redirectToBookingPage({{ $tour->id}})">
+                                    Book Now
+                                </button>
+                            @else
+                                <!-- Nếu người dùng chưa đăng nhập, hiện nút Đăng nhập hoặc thông báo yêu cầu đăng nhập -->
+                                <a href="{{ route('login') }}" class="btn btn-secondary btn-block">
+                                    Login to Book
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -316,7 +324,7 @@
                                                 Person</small>
                                         </div>
                                         <a class="h5 text-decoration-none"
-                                            href="{{ route('tours.show', ['id' => $tour->id]) }}">{{ $tour->name }}</a>
+                                            href="{{ route('tours.show', ['slug' => $tour->slug]) }}">{{ $tour->name }}</a>
                                         <div class="border-top mt-4 pt-4">
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="m-0">Price:</h5>
@@ -331,8 +339,30 @@
                 </div>
             </div>
         </div>
-
         <script>
+            let selectedScheduleId = null;
+            const minPriceScheduleId = {{ $minPriceSchedule->id }};
+
+            function encodeIdWithKey(key, id) {
+                // Nối key và id lại với nhau
+                const combined = `${key}-${id}`;
+                // Mã hóa bằng Base64
+                return btoa(combined);
+            }
+            
+
+            function redirectToBookingPage(id) {
+                
+                // Nếu không có lịch trình nào được chọn, sử dụng lịch trình có giá thấp nhất
+                const scheduleIdToUse = selectedScheduleId || minPriceScheduleId;
+
+                const key = '{{ env('YOUR_SECRET_KEY') }}'; // Lấy khóa bí mật từ .env
+                const encodedScheduleId = encodeIdWithKey(key, scheduleIdToUse); // Mã hóa ID
+
+                const url = `/booking/${id}?departure_schedule_id=${encodedScheduleId}`; // Sử dụng ID đã mã hóa
+                window.location.href = url; // Chuyển hướng đến URL
+            }
+
             function formatDate(dateString) {
                 // Tách các phần ngày, tháng, năm từ chuỗi
                 const [year, month, day] = dateString.split('-');
@@ -422,6 +452,9 @@
                     document.getElementById('discountPrice').innerHTML = price;
                     document.getElementById('departureDate').innerHTML = date;
                     document.getElementById('seatNumber').innerHTML = seatNumber;
+
+                    // Cập nhật biến selectedScheduleId
+                    selectedScheduleId = schedule.id; // Cập nhật ID lịch trình đã chọn
 
                     // Tô màu cho ô được chọn
                     if (schedule.date) {
