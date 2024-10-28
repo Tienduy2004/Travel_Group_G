@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class Tour extends Model
 {
     use HasFactory;
+
     // Khai báo bảng tương ứng trong cơ sở dữ liệu
     protected $table = 'tour'; // Đặt tên bảng nếu khác tên mặc định
 
@@ -17,6 +18,7 @@ class Tour extends Model
         'id_destination',      // ID điểm đến (không ràng buộc khóa ngoại)
         'description',         // Mô tả chi tiết về tour
         'price',               // Giá gốc của tour
+
         'price_single_room',
         'number_days',          // Số ngày 1 tour
         'image_main',          // Ảnh chính của tour

@@ -53,7 +53,6 @@
                             <a href="#" class="nav-link dropdown-toggle {{ Request::is('blog', 'single', 'destination', 'guide', 'testimonial') ? 'active' : '' }}" data-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu border-0 rounded-0 m-0">
                                 <a href="{{ route('blog') }}" class="dropdown-item {{ Request::is('blog') ? 'active' : '' }}">Blog Grid</a>
-                                <a href="{{ route('single') }}" class="dropdown-item {{ Request::is('single') ? 'active' : '' }}">Blog Detail</a>
                                 <a href="{{ route('destination') }}" class="dropdown-item {{ Request::is('destination') ? 'active' : '' }}">Destination</a>
                                 <a href="{{ route('guide') }}" class="dropdown-item {{ Request::is('guide') ? 'active' : '' }}">Travel Guides</a>
                                 <a href="{{ route('testimonial') }}" class="dropdown-item {{ Request::is('testimonial') ? 'active' : '' }}">Testimonial</a>

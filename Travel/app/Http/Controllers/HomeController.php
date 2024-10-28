@@ -9,7 +9,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home.index'); 
+        // Lấy tất cả các tour hoặc tùy chỉnh số lượng tour muốn hiển thị
+        $tours = Tour::with('destination')->get(); // Lấy các tour kèm địa điểm
+        return view('home.index', compact('tours')); // Truyền biến $tours vào view
     }
     public function about()
     {
@@ -31,10 +33,10 @@ class HomeController extends Controller
         return view('home.contact'); 
     }
     //page
-    public function blog()
-    {
-        return view('home.page.blog'); 
-    }
+    // public function blog()
+    // {
+    //     return view('home.page.blog'); 
+    // }
     public function destination()
     {
         return view('home.page.destination'); 
