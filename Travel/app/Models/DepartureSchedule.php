@@ -17,11 +17,15 @@ class DepartureSchedule extends Model
         'seat_number', // số lượng ghế 
     ];
 
-    
+
 
     // Định nghĩa mối quan hệ với Tour
     public function tour()
     {
         return $this->belongsTo(Tour::class);
+    }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }

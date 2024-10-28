@@ -34,5 +34,10 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'payos' => [
+        'api_key' => env('PAYOS_API_KEY'),
+        'secret_key' => env('PAYOS_SECRET_KEY'),
+        'base_url' => env('PAYOS_BASE_URL', 'https://api.payos.com'),
+    ],
 
 ];
