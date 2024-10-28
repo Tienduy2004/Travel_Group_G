@@ -24,6 +24,12 @@ class DepartureScheduleSeeder extends Seeder
             ['tour_id' => 7, 'date' => '2024-06-25', 'price' => 20000000, 'seat_number' => 10],
             ['tour_id' => 8, 'date' => '2024-05-30', 'price' => 6000000, 'seat_number' => 9],
             ['tour_id' => 9, 'date' => '2024-04-15', 'price' => 5500000, 'seat_number' => 8],
+            ['tour_id' => 10, 'date' => '2024-04-15', 'price' => 5500000, 'seat_number' => 8],
+            ['tour_id' => 11, 'date' => '2024-04-15', 'price' => 5500000, 'seat_number' => 8],
+            ['tour_id' => 12, 'date' => '2024-07-20', 'price' => 18000000, 'seat_number' => 10],
+            ['tour_id' => 13, 'date' => '2024-06-25', 'price' => 20000000, 'seat_number' => 10],
+            ['tour_id' => 14, 'date' => '2024-05-30', 'price' => 6000000, 'seat_number' => 9],
+            ['tour_id' => 15, 'date' => '2024-04-15', 'price' => 5500000, 'seat_number' => 8],
         ]);
     }
 }
