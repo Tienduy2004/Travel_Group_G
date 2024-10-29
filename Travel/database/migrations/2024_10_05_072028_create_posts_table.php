@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('categories');
+            $table->unsignedBigInteger('category_id');
             $table->string('title');
-            $table->text('content');
+            $table->longText('content');
             $table->string('image_url')->nullable(); 
             $table->bigInteger('view_count')->default(0);
             $table->boolean('is_featured')->default(false);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

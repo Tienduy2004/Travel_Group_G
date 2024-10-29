@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+<link href="{{asset('css/create_blog.css') }}" rel="stylesheet">
+
 <!-- Header Start -->
 <div class="container-fluid page-header">
     <div class="container">
@@ -77,13 +79,15 @@
                 <img src="https://via.placeholder.com/40" alt="Hình đại diện" class="profile-pic">
             </a>
             <div>
-                <h3 class="mb-0">Tạo bài viết</h3>
-                <div class="user-prompt">Bạn đang nghĩ gì thế?</div>
-                <a href="{{route('create.post')}}">Create</a>
+                <h3 class="mb-0">New Posts</h3>
+                <div class="user-prompt">
+                    <a href="{{ route('create.post') }}">What are you thinking?</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Blog Start -->
 <div class="container-fluid py-5">
@@ -117,7 +121,7 @@
                                         </div>
                                         <a class="h5 m-0 text-decoration-none"
                                             href="{{ route('blog.show', Crypt::encrypt($post->id)) }}">{{ Str::limit($post->title, limit: 60, end: '...') }}</a>
-                                        <p class="mt-2">{{ Str::limit($post->content, 100, '...') }}</p>
+                                        <p class="mt-2">{{ Str::limit( strip_tags($post->content), 100, '...') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -294,6 +298,5 @@
 </div>
 <!-- Blog End -->
 
-
-
 @endsection
+

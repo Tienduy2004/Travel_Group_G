@@ -1,50 +1,47 @@
 @extends('layouts.app')
 @section('content')
-<style>
-    .user-info {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-    .user-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 15px;
-    }
-</style>
 
-<div class="container mt-5">
-    <h1 class="mb-4">Create a New Blog Post</h1>
-    <div class="user-info">
-        <img src="" alt="User Avatar" class="user-avatar">
-        <h5 class="mb-0">John Doe</h5>
+<div class="container mx-auto p-10 mt-10 bg-white rounded-lg shadow-md max-w-6xl">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">Write News Post</h1>
+
+    <div class="flex items-center space-x-4 mb-4">
+        <img src="https://via.placeholder.com/50" alt="User Avatar" class="w-12 h-12 rounded-full">
+        <span class="text-lg font-semibold">{{ $user->name }}</span>
     </div>
-    <form>
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select class="form-select" id="category" required>
-                <option value="">Choose a category</option>
-                <option value="technology">Technology</option>
-                <option value="lifestyle">Lifestyle</option>
-                <option value="travel">Travel</option>
-                <option value="food">Food</option>
+
+    <form action="{{ route('store.post') }}" method="POST" id="blogForm" enctype="multipart/form-data">
+        @csrf
+
+        <div class="mb-4">
+            <label for="title" class="block text-gray-700 font-medium">Title</label>
+            <input type="text" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" id="title" name="title" required placeholder="Enter the title of your post">
+        </div>
+
+        <div class="mb-4">
+            <label for="category" class="block text-gray-700 font-medium">Category</label>
+            <select class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" id="category" name="category_id" required>
+                <option value="">Select a category</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
             </select>
         </div>
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" required>
+
+        <div class="mb-4">
+            <label for="featuredImage" class="block text-gray-700 font-medium">Featured Image</label>
+            <input type="file" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" id="featuredImage" name="image_url" accept="image/*">
         </div>
-        <div class="mb-3">
-            <label for="featuredImage" class="form-label">Featured Image</label>
-            <input type="file" class="form-control" id="featuredImage" accept="image/*">
+
+        <div id="imagePreview" class="mt-2 mb-2"></div>
+
+        <div class="mb-4">
+            <label for="content" class="block text-gray-700 font-medium">Content</label>
+            <textarea id="content" name="content" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300" rows="5" placeholder="Write your content here..."></textarea>
         </div>
-        <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
-            <textarea id="content" name="content"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Publish Post</button>
+
+        <button type="submit" class="w-full py-3 mt-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200">Publish Post</button>
     </form>
 </div>
 

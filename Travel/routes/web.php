@@ -53,3 +53,4 @@ Route::get('/blog/{id}', [PostController::class, 'showBlog'])->name('blog.show')
 Route::get('/category/{id}', [PostController::class, 'getPostbyCategory'])->name('category.posts');
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 Route::get('/create', [PostController::class, 'create_post'])->name('create.post');
+Route::post('/create-post', [PostController::class, 'storePost'])->name('store.post');

@@ -1,5 +1,14 @@
 @extends('layouts.app') 
 @section('content')
+<style>
+    .post-content img {
+    max-width: 100%; /* Ensure the image doesn't exceed the container width */
+    height: auto;    /* Keeps the aspect ratio intact */
+    max-height: 400px; /* Limits the maximum height */
+    object-fit: contain; /* Scales the image to fit within the height without cropping */
+}
+
+</style>
 <!-- Header Start -->
 <div class="container-fluid page-header">
     <div class="container">
@@ -101,38 +110,9 @@
                                 href="">{{ $blog->category->name }}</a>
                         </div>
                         <h2 class="mb-3">{{ $blog->title }}</h2>
-                        <p>{{ $blog->content }}</p>
-                        <p>Voluptua est takimata stet invidunt sed rebum nonumy stet, clita aliquyam dolores
-                            vero stet consetetur elitr takimata rebum sanctus. Sit sed accusam stet sit
-                            nonumy kasd diam dolores, sanctus lorem kasd duo dolor dolor vero sit et. Labore
-                            ipsum duo sanctus amet eos et. Consetetur no sed et aliquyam ipsum justo et,
-                            clita lorem sit vero amet amet est dolor elitr, stet et no diam sit. Dolor erat
-                            justo dolore sit invidunt.</p>
-                        <h4 class="mb-3">Est dolor lorem et ea</h4>
-                        <img class="img-fluid w-50 float-left mr-4 mb-2" src="img/blog-2.jpg">
-                        <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor
-                            invidunt at est sanctus sanctus. Clita dolores sit kasd diam takimata justo diam
-                            lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor
-                            rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor
-                            sea diam kasd, takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at
-                            lorem invidunt sadipscing rebum sit amet ut ut, voluptua diam dolores at
-                            sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos. Invidunt sed diam
-                            dolores takimata dolor dolore dolore sit. Sit ipsum erat amet lorem et, magna
-                            sea at sed et eos. Accusam eirmod kasd lorem clita sanctus ut consetetur et. Et
-                            duo tempor sea kasd clita ipsum et.</p>
-                        <h5 class="mb-3">Est dolor lorem et ea</h5>
-                        <img class="img-fluid w-50 float-right ml-4 mb-2" src="img/blog-3.jpg">
-                        <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor
-                            invidunt at est sanctus sanctus. Clita dolores sit kasd diam takimata justo diam
-                            lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor
-                            rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor
-                            sea diam kasd, takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at
-                            lorem invidunt sadipscing rebum sit amet ut ut, voluptua diam dolores at
-                            sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos. Invidunt sed diam
-                            dolores takimata dolor dolore dolore sit. Sit ipsum erat amet lorem et, magna
-                            sea at sed et eos. Accusam eirmod kasd lorem clita sanctus ut consetetur et. Et
-                            duo tempor sea kasd clita ipsum et. Takimata kasd diam justo est eos erat
-                            aliquyam et ut.</p>
+                        <div class="post-content">
+                            {!! $blog->content !!}
+                        </div>
                     </div>
                 </div>
                 <!-- Blog Detail End -->
@@ -257,7 +237,8 @@
                             </li>
                             @foreach ($categories as $category)
                                 <li class="mb-3 d-flex justify-content-between align-items-center">
-                                    <a class="text-dark" href="{{ route('category.posts', Crypt::encrypt($category->id)) }}"><i
+                                    <a class="text-dark"
+                                        href="{{ route('category.posts', Crypt::encrypt($category->id)) }}"><i
                                             class="fa fa-angle-right text-primary mr-2"></i>{{ $category->name }}</a>
                                     <span class="badge badge-primary badge-pill">{{ $category->posts_count }}</span>
                                 </li>
