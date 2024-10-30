@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('birthdate'); // Ngày Sinh
             $table->enum('gender', ['Nam', 'Nữ']); // Giới tính (có thể null)
             $table->enum('passenger_type', ['adult', 'child']); // Loại hành khách (người lớn hoặc trẻ em)
+            $table->boolean('single_room')->default(false);
             $table->unsignedBigInteger('booking_id'); // ID của booking liên quan
             $table->timestamps(); // Thời gian tạo và cập nhật (created_at và updated_at)
         });

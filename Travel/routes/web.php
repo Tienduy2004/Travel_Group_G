@@ -33,13 +33,13 @@ Route::get('/dashboard', function () {
 //     return view('welcome');
 // });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/verify-otp', [VerifyOTPController::class, 'showVerifyForm'])->middleware('auth')->name('otp.verify');
 Route::post('/verify-otp', [VerifyOTPController::class, 'verify'])->middleware('auth')->name('otp.verify.post');
 Route::post('/otp/resend', [OTPVefificationController::class, 'resend'])->name('otp.resend');
@@ -47,10 +47,15 @@ Route::post('/otp/resend', [OTPVefificationController::class, 'resend'])->name('
 //tour
 Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/booking/{name}', [TourController::class, 'showBookingPage'])->name('tours.booking');
+    Route::get('/booking/{id}', [TourController::class, 'showBookingPage'])->name('tours.booking');
+    Route::post('/booking', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/booking-payment/{bookingCode}', [PaymentController::class, 'showPaymentForm'])->name('booking.payment');
+    Route::post('/payment', [PaymentController::class, 'createPaymentLink'])->name('payment.create');
+    Route::post('/booking', [BookingController::class, 'cancel'])->name('bookings.cancel');
+    Route::get('/payment/cancel', [PaymentController::class, 'cancelPaymentLink']);
+    Route::get('/payment/success', [PaymentController::class, 'successPaymentLink']);
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     
 });
-Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
-Route::get('/booking-payment/{bookingId}', [PaymentController::class, 'showPaymentForm'])->name('booking.payment');
-Route::post('/booking-payment/{bookingId}', [PaymentController::class, 'processPayment'])->name('booking.payment.process');
-

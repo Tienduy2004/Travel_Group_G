@@ -96,6 +96,11 @@ class Tour extends Model
     }
     public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class, 'tour_id', 'id');
+    }
+
+    public static function getLatestTours($limit)
+    {
+        return self::latest()->take($limit)->get(); // Lấy 6 tour mới nhất theo thứ tự thời gian tạo
     }
 }

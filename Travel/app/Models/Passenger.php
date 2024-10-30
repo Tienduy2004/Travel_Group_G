@@ -16,6 +16,7 @@ class Passenger extends Model
         'name',
         'birthdate',
         'gender',
+        'single_room',
         'booking_id',
         'passenger_type',
     ];

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id(); // Tạo khóa chính tự động tăng
+            $table->string('booking_code', 15)->unique()->nullable();
             $table->unsignedBigInteger('tour_id'); // ID của tour được đặt
             $table->unsignedBigInteger('departure_schedule_id'); // ID của lịch khởi hành
             $table->unsignedBigInteger('user_id'); // ID của lịch khởi hành
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->integer('child_count')->default(0); // Số lượng trẻ em
             $table->integer('single_rooms')->default(0);
             $table->decimal('total_price', 15, 2); // Tổng giá trị đặt tour
+            $table->decimal('amount_paid', 15, 2); // Tổng giá trị đặt tour
             $table->text('note')->nullable(); // Ghi chú (có thể null)
             $table->enum('payment_method', ['cash', 'transfer']); // Phương thức thanh toán
             $table->enum('booking_status', ['pending', 'confirmed', 'canceled'])->default('pending'); // Trạng thái đặt tour

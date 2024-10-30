@@ -48,42 +48,53 @@ class TourController extends Controller
 
         // Lấy danh sách các tour gợi ý (ngoại trừ tour hiện tại)
         $suggestedTours = $tour->suggestedTours(3);
-        
+
 
 
         return view('tours.show', compact('tour', 'images', 'departureSchedules', 'itineraries', 'importantInfos', 'minPriceSchedule', 'tripInformations', 'suggestedTours'));
     }
 
     public function showBookingPage($id, Request $request)
-{
-    // Kiểm tra nếu người dùng chưa đăng nhập
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Please log in to book a tour.');
+    {
+        // Kiểm tra nếu người dùng chưa đăng nhập
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to book a tour.');
+        }
+
+        $tour = Tour::find($id);
+
+        // Lấy departure_schedule_id đã mã hóa từ yêu cầu
+        $encodedScheduleId = $request->query('departure_schedule_id');
+
+        // Giải mã ID
+        $decodedScheduleId = base64_decode($encodedScheduleId); // Giải mã Base64
+        list($key, $scheduleId) = explode('-', $decodedScheduleId); // Tách key và id
+
+        // Kiểm tra xem key có khớp không
+        if ($key !== env('YOUR_SECRET_KEY')) {
+            return redirect()->route('tours.show', ['slug' => $tour->slug])->with('error', 'Invalid schedule ID');
+        }
+
+        $selectedSchedule = DepartureSchedule::find($scheduleId); // Tìm lịch trình bằng ID
+
+        if (!$tour || !$selectedSchedule) {
+            return redirect()->route('tours.show', ['slug' => $tour->slug])->with('error', 'Tour or schedule not found');
+        }
+
+        $encryptedTourId = encrypt($tour->id);
+        $encryptedDepartureScheduleId = encrypt($selectedSchedule->id);
+
+        $flightAway = null;
+        $returnFlight = null;
+
+        // Kiểm tra và phân loại chuyến bay
+        foreach ($selectedSchedule->flight as $flight) {
+            if ($flight->flight_type === "one_way") {
+                $flightAway = $flight;
+            } elseif ($flight->flight_type === "round_trip") {
+                $returnFlight = $flight;
+            }
+        }
+        return view('booking.booking', compact('tour', 'selectedSchedule', 'encryptedTourId', 'encryptedDepartureScheduleId','flightAway','returnFlight'));
     }
-
-    $tour = Tour::find($id);
-    
-    // Lấy departure_schedule_id đã mã hóa từ yêu cầu
-    $encodedScheduleId = $request->query('departure_schedule_id');
-
-    // Giải mã ID
-    $decodedScheduleId = base64_decode($encodedScheduleId); // Giải mã Base64
-    list($key, $scheduleId) = explode('-', $decodedScheduleId); // Tách key và id
-
-    // Kiểm tra xem key có khớp không
-    if ($key !== env('YOUR_SECRET_KEY')) {
-        return redirect()->route('tours.show', ['slug' => $tour->slug])->with('error', 'Invalid schedule ID');
-    }
-
-    $selectedSchedule = DepartureSchedule::find($scheduleId); // Tìm lịch trình bằng ID
-
-    if (!$tour || !$selectedSchedule) {
-        return redirect()->route('tours.show', ['slug' => $tour->slug])->with('error', 'Tour or schedule not found');
-    }
-    
-    $encryptedTourId = encrypt($tour->id);
-    $encryptedDepartureScheduleId = encrypt($selectedSchedule->id);
-    
-    return view('booking.booking', compact('tour', 'selectedSchedule', 'encryptedTourId', 'encryptedDepartureScheduleId'));
-}
 }
