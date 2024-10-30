@@ -172,7 +172,68 @@
                                 </div>
                             </div>
                             <div class="border-t pt-4 mb-4">
+                                <h3 class="font-semibold mt-4 mb-2 text-gray-600">THÔNG TIN CHUYẾN BAY</h3>
+                                @if (isset($flightAway) == false || isset($returnFlight) == false)
+                                    <div class="col-span-full text-center">
+                                        <h4 class="text-red-600">Chưa có chuyến bay</h4>
+                                    </div>
+                                @else
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="border-t pt-2">
+                                            <div class="flex justify-between text-gray-800 mb-2">
+                                                <p class="font-semibold text-gray-600 ">Ngày đi -
+                                                    {{ \Carbon\Carbon::parse($flightAway->departure_date)->format('d/m/Y') }}
+                                                </p>
+                                                <p class="font-bold text-blue-400">{{ $flightAway->flight_code }}</p>
+                                            </div>
 
+                                            <div class="flex justify-between text-gray-800">
+                                                <p class="mb-1">
+                                                    {{ \Carbon\Carbon::parse($flightAway->departure_time)->format('H:i') }}
+                                                </p>
+                                                <p>{{ \Carbon\Carbon::parse($flightAway->arrival_time)->format('H:i') }}
+                                                </p>
+                                            </div>
+                                            <div class="flex justify-center">
+                                                <p class="border-b-4 border-gray-300 w-48"> </p>
+                                            </div>
+                                            <div class="flex justify-between items-center text-gray-800 mb-2">
+                                                <p>{{ $flightAway->departure_location }}</p>
+
+                                                <p>{{ $flightAway->arrival_location }}</p>
+                                            </div>
+                                            <div class="flex justify-center">
+                                                <p class="text-green-400">{{ $flightAway->airline }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="border-t pt-2">
+                                            <div class="flex justify-between text-gray-800 mb-2">
+                                                <p class="font-semibold text-gray-600">Ngày về -
+                                                    {{ \Carbon\Carbon::parse($returnFlight->departure_date)->format('d/m/Y') }}
+                                                </p>
+                                                <p class="font-bold text-blue-400">{{ $returnFlight->flight_code }}</p>
+                                            </div>
+
+                                            <div class="flex justify-between text-gray-800">
+                                                <p class="mb-1">
+                                                    {{ \Carbon\Carbon::parse($returnFlight->departure_time)->format('H:i') }}
+                                                </p>
+                                                <p>{{ \Carbon\Carbon::parse($returnFlight->arrival_time)->format('H:i') }}
+                                                </p>
+                                            </div>
+                                            <div class="flex justify-center">
+                                                <p class="border-b-4 border-gray-300 w-48"> </p>
+                                            </div>
+                                            <div class="flex justify-between items-center text-gray-800">
+                                                <p>{{ $returnFlight->departure_location }}</p>
+                                                <p>{{ $returnFlight->arrival_location }}</p>
+                                            </div>
+                                            <div class="flex justify-center">
+                                                <p class="text-green-400">{{ $returnFlight->airline }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <div class="border-t pt-4 mb-4">
                                 <div class="flex justify-between font-semibold text-lg">
