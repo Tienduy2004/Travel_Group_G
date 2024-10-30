@@ -48,10 +48,10 @@ Route::post('/otp/resend', [OTPVefificationController::class, 'resend'])->name('
 Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
 Route::middleware(['auth'])->group(function () {
     Route::get('/booking/{id}', [TourController::class, 'showBookingPage'])->name('tours.booking');
-    Route::post('/booking', [BookingController::class, 'store'])->name('bookings.store');
+    Route::post('/booking/store', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('/booking-payment/{bookingCode}', [PaymentController::class, 'showPaymentForm'])->name('booking.payment');
     Route::post('/payment', [PaymentController::class, 'createPaymentLink'])->name('payment.create');
-    Route::post('/booking', [BookingController::class, 'cancel'])->name('bookings.cancel');
+    Route::post('/booking/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
     Route::get('/payment/cancel', [PaymentController::class, 'cancelPaymentLink']);
     Route::get('/payment/success', [PaymentController::class, 'successPaymentLink']);
 });
