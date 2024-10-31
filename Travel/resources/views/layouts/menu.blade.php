@@ -111,6 +111,7 @@
         </div>
         <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i>Quản Lý Tour</a>
         <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i>Quản Lý Khuyến Mãi</a>
+     
         <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
             @csrf
             <button type="submit" class="btn btn-danger">Đăng Xuất</button>
