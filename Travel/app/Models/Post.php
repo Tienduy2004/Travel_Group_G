@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'user_id',
@@ -76,15 +77,36 @@ class Post extends Model
     // Tim kiem bai viet
     public static function searchPosts($query)
     {
-        return self::where('title', 'LIKE', "%{$query}%")
-            ->orWhere('content', 'LIKE', "%{$query}%")
-            ->orWhereHas('user', function ($q) use ($query) {
-                $q->where('name', 'LIKE', "%{$query}%");
-            })
-            ->orWhereHas('category', function ($q) use ($query) {
-                $q->where('name', 'LIKE', "%{$query}%");
+        return self::where('status', 'approved')
+            ->where(function ($q) use ($query) {
+                // Fuzzy Search với LIKE
+                $q->where('title', 'LIKE', "%{$query}%")
+                    ->orWhereHas('category', function ($q) use ($query) {
+                    $q->where('name', 'LIKE', "%{$query}%");
+                })
+                    // FULLTEXT Search
+                    ->orWhereRaw("MATCH(title) AGAINST(? IN BOOLEAN MODE)", [$query])
+                    ->orWhereHas('category', function ($q) use ($query) {
+                    $q->whereRaw("MATCH(name) AGAINST(? IN BOOLEAN MODE)", [$query]);
+                });
             });
     }
+    public static function scoutSearch($query)
+    {
+        return self::search($query)->get();
+    }
+    public function toSearchableArray()
+    {
+        $array = $this->only(['title']); // Chỉ lấy title để tìm kiếm
+
+        // Cấu hình cho Algolia sử dụng fuzzy search
+        return [
+            'title' => $this->title,
+            '_tags' => explode(" ", $this->title), // Gợi ý dùng tags để hỗ trợ từ khóa không chính xác
+        ];
+    }
+
+
 
     //Tao bai viet
     public static function storePost($data)
