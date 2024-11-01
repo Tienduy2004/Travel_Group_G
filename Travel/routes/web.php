@@ -14,6 +14,8 @@ Route::get('/', [HomeController::class, 'index'])->name("home");
 Route::get('/about', [HomeController::class, 'about'])->name("about");
 Route::get('/service', [HomeController::class, 'service'])->name("service");
 Route::get('/tours', [HomeController::class, 'tour'])->name("tour");
+Route::get('/search-results', [TourController::class, 'searchResults'])->name('search.results');
+Route::get('/search-suggestions', [HomeController::class, 'searchSuggestions']);
 Route::get('/contact', [HomeController::class, 'contact'])->name("contact");
 
 
@@ -54,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/booking/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
     Route::get('/payment/cancel', [PaymentController::class, 'cancelPaymentLink']);
     Route::get('/payment/success', [PaymentController::class, 'successPaymentLink']);
+    Route::get('/encrypt-id/{id}', [TourController::class, 'encryptId']);
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');

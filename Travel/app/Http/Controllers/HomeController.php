@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Budget;
+use App\Models\Destination;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -15,22 +18,34 @@ class HomeController extends Controller
     }
     public function about()
     {
-        return view('home.about'); 
+        return view('home.about');
     }
     public function service()
     {
-        return view('home.service'); 
+        return view('home.service');
     }
     public function tour()
     {
-        $tours = Tour::with('destination')->paginate(6);
-        
-        
-        return view('home.package',compact('tours')); 
+        $tours = Tour::getActiveToursWithDestination(6); // Lấy 6 tour đang hoạt động
+
+        $budgets = Budget::all();
+        return view('home.package', compact('tours', 'budgets'));
     }
+
+    public function searchSuggestions(Request $request)
+    {
+        
+        //dd($request->get('destination'));
+        $destination = $request->input('destination');
+        
+        // Lấy danh sách các địa điểm từ cơ sở dữ liệu dựa trên từ khóa
+        $suggestions =  Destination::getSuggestions($destination);
+        return response()->json($suggestions);
+    }
+
     public function contact()
     {
-        return view('home.contact'); 
+        return view('home.contact');
     }
     //page
     // public function blog()
@@ -39,19 +54,18 @@ class HomeController extends Controller
     // }
     public function destination()
     {
-        return view('home.page.destination'); 
+        return view('home.page.destination');
     }
     public function guide()
     {
-        return view('home.page.guide'); 
+        return view('home.page.guide');
     }
     public function single()
     {
-        return view('home.page.single'); 
+        return view('home.page.single');
     }
     public function testimonial()
     {
-        return view('home.page.testimonial'); 
+        return view('home.page.testimonial');
     }
-    
 }

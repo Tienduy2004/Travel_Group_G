@@ -101,7 +101,7 @@ class PaymentController extends Controller
 
         $paymentOrder = PaymentOrder::findOrFail($request->input('orderCode'));
 
-        return redirect()->route('booking.payment', [$paymentOrder->booking_id])->with('success', 'Đã hủy thanh toán thành công.');
+        return redirect()->route('booking.payment', [$paymentOrder->booking->booking_code])->with('success', 'Đã hủy thanh toán thành công.');
     }
 
     public function successPaymentLink(Request $request)
@@ -135,15 +135,15 @@ class PaymentController extends Controller
                     ]);
 
                     // Chuyển hướng đến route 'booking.payment' với thông tin về booking_id
-                    return redirect()->route('booking.payment', [$paymentOrder->booking_id])
+                    return redirect()->route('booking.payment', [$paymentOrder->booking->booking_code])
                         ->with('success', 'Đã thanh toán thành công.');
                 } else {
-                    return redirect()->route('booking.payment', [$paymentOrder->booking_id])
+                    return redirect()->route('booking.payment', [$paymentOrder->booking->booking_code])
                         ->with('error', 'Số tiền thanh toán không hợp lệ.');
                 }
             } else {
                 // Xử lý lỗi nếu không thành công
-                return redirect()->route('booking.payment', [$paymentOrder->booking_id])
+                return redirect()->route('booking.payment', [$paymentOrder->booking->booking_code])
                     ->with('error', 'Đã xảy ra lỗi trong quá trình thanh toán.');
             }
         } catch (\Exception $e) {
