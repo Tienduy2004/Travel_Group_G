@@ -15,7 +15,7 @@
             background-color: #cdadad;
             font-family: Arial, sans-serif;
             margin: 0;
-            
+
         }
 
         h1 {
@@ -26,37 +26,47 @@
         .toolbar {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .search-box {
-            display: flex;
             align-items: center;
-            gap: 10px;
-            flex-grow: 1;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+    
         }
 
-        .search-box input[type="text"] {
-            padding: 8px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 300px;
-            border: 1px solid #ccc;
+        .toolbar form {
+            display: flex;    
+            gap: 10px;          
+        }
+
+        .toolbar input[type="date"] {
+            padding: 8px;  
+            border: 1px solid #ced4da;          
             border-radius: 4px;
+           
         }
 
-        .search-box button {
-            padding: 8px 16px;
-            font-size: 16px;
-            background-color: #28a745;
+        .toolbar button {
+            padding: 8px 12px;
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 4px;    
             cursor: pointer;
+           
         }
 
-        .search-box button:hover {
+        .toolbar a.btn {
+            padding: 8px 12px;
+            background-color: #28a745;
+            color: white; 
+            text-decoration: none;
+            border-radius: 4px;    
+            transition: background-color 0.3s;
+        }
+
+        .toolbar a.btn:hover {
             background-color: #218838;
+          
         }
 
         a.btn-primary {
@@ -199,7 +209,6 @@
         .pagination li:last-child a,
         .pagination li:last-child span {
             padding: 6px 9px;
-            /* Điều chỉnh mũi tên đầu và cuối */
         }
 
         .pagination .disabled a {
@@ -210,39 +219,20 @@
         .pagination-text {
             display: none !important;
         }
-        form.search-form input[type="text"] {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
 
-form.search-form button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+      
+        form.create-form button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-form.search-form button:hover {
-    background-color: #0056b3;
-}
-
-/* Định dạng cho form thêm tour */
-form.create-form button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-form.create-form button:hover {
-    background-color: #218838;
-}
+        form.create-form button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 
@@ -252,8 +242,9 @@ form.create-form button:hover {
 
     <!-- Toolbar gồm thanh tìm kiếm bên trái và nút thêm khuyến mãi bên phải -->
     <div class="toolbar">
-        <form action="{{ route('promotions.index') }}" method="GET" class="search-form">
-            <input type="text" name="search" placeholder="Nhập mã hoặc mô tả để tìm kiếm..." value="{{ old('search', $search) }}">
+        <form action="{{ route('promotions.index') }}" method="GET">
+            <input type="date" name="start_date" value="{{ request('start_date') }}" placeholder="Ngày bắt đầu">
+            <input type="date" name="end_date" value="{{ request('end_date') }}" placeholder="Ngày kết thúc">
             <button type="submit">Tìm kiếm</button>
         </form>
         <a href="{{ route('promotions.create') }}" class="btn btn-primary">Thêm Khuyến Mãi</a>
@@ -261,9 +252,9 @@ form.create-form button:hover {
 
     <!-- Hiển thị thông báo nếu có -->
     @if(isset($message))
-        <div class="alert alert-info">
-            {{ $message }}
-        </div>
+    <div class="alert alert-info">
+        {{ $message }}
+    </div>
     @endif
 
     <table>
@@ -292,10 +283,12 @@ form.create-form button:hover {
                     <a href="{{ route('promotions.edit', $promotion->id) }}" class="btn btn-warning">✏️</a>
 
                     <!-- Nút Xóa -->
-                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST"
+                        style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">🗑️</button>
+                        <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')">🗑️</button>
                     </form>
                 </td>
             </tr>
