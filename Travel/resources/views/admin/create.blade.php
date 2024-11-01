@@ -57,13 +57,7 @@
         @enderror
     </div>
 
-    <div>
-        <label for="discount_price">Giá giảm (nếu có):</label>
-        <input type="number" name="discount_price" id="discount_price" placeholder="Nhập giá giảm..." value="{{ old('discount_price') }}" step="0.01" min="0">
-        @error('discount_price')
-        <span style="color: red;">{{ $message }}</span>
-        @enderror
-    </div>
+   
 
     <div>
         <label for="program_code">Mã chương trình:</label>
@@ -76,8 +70,9 @@
     <div>
         <label for="is_active">Trạng thái hoạt động:</label>
         <select name="is_active" id="is_active">
-            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>Hoạt động</option>
-            <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>--Chọn trạng Thái--</option>
+            <option value="1" {{ old('is_active') == '2' ? 'selected' : '' }}>Hoạt động</option>
+            <option value="0" {{ old('is_active') == '3' ? 'selected' : '' }}>Không hoạt động</option>
         </select>
         @error('is_active')
         <span style="color: red;">{{ $message }}</span>

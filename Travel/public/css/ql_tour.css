@@ -3,6 +3,9 @@ body {
     font-family: Arial, sans-serif;
     background-color: #cdadad;
 }
+h1{
+    text-align: center;
+}
 
 /* Căn chỉnh các form tìm kiếm và thêm tour */
 .form-container {

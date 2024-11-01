@@ -1,0 +1,70 @@
+body {
+    background-color: #f0f2f5;
+}
+.sidebar {
+    height: 100vh;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+.nav-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.nav-item:hover, .nav-item.active {
+    background-color: #e6f2ff;
+    color: #3b82f6;
+}
+.stat-card h3 {
+    font-size: 0.9em;
+    color: #666;
+}
+.stat-card h2 {
+    font-size: 1.8em;
+}
+.stat-card p {
+    font-size: 0.8em;
+    color: #4caf50;
+}
+.revenue-chart {
+    height: 200px;
+    background-color: #f0f2f5;
+    border-radius: 5px;
+}
+.pie-chart-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(#3b82f6 0deg 180deg, #10b981 180deg 270deg, #f59e0b 270deg 360deg);
+}
+.package-image {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+}
+.package-price {
+    color: #3b82f6;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.calendar th, .calendar td {
+    text-align: center;
+    padding: 10px;
+}
+.calendar .today {
+    background-color: #e6f2ff;
+    color: #3b82f6;
+    font-weight: bold;
+    border-radius: 50%;
+}

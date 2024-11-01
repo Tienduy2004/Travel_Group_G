@@ -87,10 +87,9 @@ Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'des
 
 // Route cho quản lý Blog
 use App\Http\Controllers\BlogManagementController;
+
 Route::prefix('managementblog')->group(function () {
     Route::get('/', [BlogManagementController::class, 'index'])->name('admin.blog.index');
-    Route::get('/create', [BlogManagementController::class, 'create'])->name('admin.blog.create');
-    Route::post('/', [BlogManagementController::class, 'store'])->name('admin.blog.store');
     Route::get('/{id}/edit', [BlogManagementController::class, 'edit'])->name('admin.blog.edit');
     Route::put('/{id}', [BlogManagementController::class, 'update'])->name('admin.blog.update');
     Route::delete('/{id}', [BlogManagementController::class, 'destroy'])->name('admin.blog.destroy');

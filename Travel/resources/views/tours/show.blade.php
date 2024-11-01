@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (is_null($tour) || empty($tour->id))
-        <div class="col-12 text-center">
-            <h4 class="text-danger">Tour does not exist</h4>
+    @if (is_null($tour) || empty($tour->id) || is_null($minPriceSchedule) || empty($minPriceSchedule))
+    <div class="tour-page">
+        <div class="container mt-4" >
+            <div class="col-12 text-center">
+                <h4 class="text-danger">Tour does not exist</h4>
+            </div>
         </div>
+        
+    </div>
+        
     @else
         <div class="tour-page">
             <div class="container mt-4">

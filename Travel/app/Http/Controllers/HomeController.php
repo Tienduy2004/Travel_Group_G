@@ -21,9 +21,10 @@ class HomeController extends Controller
     {
         return view('home.service'); 
     }
-    public function tour(Request $request)
+    public function tour()
     {
-        $tours = Tour::paginate(6);
+        $tours = Tour::with('destination')->paginate(6);
+        
         
         return view('home.package',compact('tours')); 
     }
