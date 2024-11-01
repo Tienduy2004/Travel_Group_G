@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             DepartureLocationSeeder::class,
             DepartureScheduleSeeder::class,
             FlightSeeder::class,
+            BudgetSeeder::class,
         ]);
     }
 }

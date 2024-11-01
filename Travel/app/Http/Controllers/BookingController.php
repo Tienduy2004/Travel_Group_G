@@ -149,6 +149,12 @@ class BookingController extends Controller
             'note' => 'Khách hàng đã hủy chuyến đi vào ngày: ' . now()->format('d/m/Y H:i:s'), // Định dạng thời gian
             'total_price' => 0,
         ]);
+        
+        // Giảm số lượng ghế trong lịch khởi hành
+        $departureSchedule = DepartureSchedule::findOrFail($booking->departure_schedule_id);
+        $totalPassengers = $booking->adult_count + $booking->child_count; // Tổng số hành khách
+        $departureSchedule->seat_number += $totalPassengers;
+        $departureSchedule->save();
 
         return redirect()->back()->with('success', 'Bạn đã hủy chuyến đi du lịch thành công.');
     }

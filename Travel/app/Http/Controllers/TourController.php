@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Budget;
 use App\Models\ImportantInformation;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use App\Models\DepartureSchedule;
+use App\Models\Destination;
 use App\Models\ImageTour;
 use App\Models\Itinerary;
 use App\Models\TripInformation;
@@ -19,7 +21,9 @@ class TourController extends Controller
 {
     public function encryptId($id)
     {
-        return Crypt::encryptString($id);
+        // Mã hóa ID
+        $encryptedId = Crypt::encryptString($id);
+        return response()->json(['encryptedId' => $encryptedId]);
     }
 
     public function show($slug)
@@ -31,8 +35,8 @@ class TourController extends Controller
         // Lấy hình ảnh của tour
         $images = $tour->images;
 
-        // Lấy lịch khởi hành của tour
-        $departureSchedules = $tour->departureSchedules;
+        // Lấy lịch khởi hành của tour lớn hơn ngày hiện tại ít nhất 1 ngày
+        $departureSchedules = $tour->upcomingDepartureSchedules();
 
         // Lấy lịch trình của tour
         $itineraries = $tour->itineraries;
@@ -49,13 +53,12 @@ class TourController extends Controller
         // Lấy danh sách các tour gợi ý (ngoại trừ tour hiện tại)
         $suggestedTours = $tour->suggestedTours(3);
 
-
-
         return view('tours.show', compact('tour', 'images', 'departureSchedules', 'itineraries', 'importantInfos', 'minPriceSchedule', 'tripInformations', 'suggestedTours'));
     }
 
     public function showBookingPage($id, Request $request)
     {
+
         // Kiểm tra nếu người dùng chưa đăng nhập
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Please log in to book a tour.');
@@ -65,17 +68,11 @@ class TourController extends Controller
 
         // Lấy departure_schedule_id đã mã hóa từ yêu cầu
         $encodedScheduleId = $request->query('departure_schedule_id');
-
+        
         // Giải mã ID
-        $decodedScheduleId = base64_decode($encodedScheduleId); // Giải mã Base64
-        list($key, $scheduleId) = explode('-', $decodedScheduleId); // Tách key và id
+        $decodedScheduleId = Crypt::decryptString($encodedScheduleId);
 
-        // Kiểm tra xem key có khớp không
-        if ($key !== env('YOUR_SECRET_KEY')) {
-            return redirect()->route('tours.show', ['slug' => $tour->slug])->with('error', 'Invalid schedule ID');
-        }
-
-        $selectedSchedule = DepartureSchedule::find($scheduleId); // Tìm lịch trình bằng ID
+        $selectedSchedule = DepartureSchedule::find($decodedScheduleId); // Tìm lịch trình bằng ID
 
         if (!$tour || !$selectedSchedule) {
             return redirect()->route('tours.show', ['slug' => $tour->slug])->with('error', 'Tour or schedule not found');
@@ -95,6 +92,21 @@ class TourController extends Controller
                 $returnFlight = $flight;
             }
         }
-        return view('booking.booking', compact('tour', 'selectedSchedule', 'encryptedTourId', 'encryptedDepartureScheduleId','flightAway','returnFlight'));
+
+        return view('booking.booking', compact('tour', 'selectedSchedule', 'encryptedTourId', 'encryptedDepartureScheduleId', 'flightAway', 'returnFlight'));
+    }
+
+    public function searchResults(Request $request)
+    {
+        $destination = $request->input('destination');
+        $date = $request->input('date');
+        $budgetOption = $request->input('budget');
+
+        // Lấy khoảng ngân sách từ cơ sở dữ liệu dựa trên lựa chọn ngân sách của người dùng
+        $budget = Budget::getBudgetRange($budgetOption);
+        // Gọi phương thức search trong model Tour
+        $results = Tour::search($destination, $date, $budget);
+
+        return view('home.search-results', compact('results'));
     }
 }

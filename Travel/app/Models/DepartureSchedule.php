@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class DepartureSchedule extends Model
 {
@@ -33,4 +34,6 @@ class DepartureSchedule extends Model
         
         return $this->hasMany(Flight::class, 'departure_schedule_id', 'id');
     }
+
+    
 }

@@ -12,9 +12,9 @@
         </div>
     @else
         <div class="tour-page">
-            <div class="container max-w-screen-xl mx-auto p-5">
-                <h2 class="m-4 text-3xl">{{ $tour->name }}</h2>
-                <div class="row">
+            <div class="container mx-auto px-4 py-8">
+                <h2 class="text-3xl font-bold mb-6">{{ $tour->name }}</h2>
+                <div class="flex flex-wrap -mx-4">
                     <!-- Phần 1: Nội dung chính -->
                     <div class="col-lg-8">
                         <div id="tour-carousel" class="carousel slide" data-ride="carousel">
@@ -43,7 +43,7 @@
                         <!-- Introductio Section -->
                         <div class="row mt-4 intro-section">
                             <div class="col-lg-12">
-                                <h3 class="text-2xl">Introduction to the tour</h3>
+                                <h3>Introduction to the tour</h3>
                                 <p><strong>Description:</strong> {{ $tour->description }}</p>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                         <!-- Departure Schedule Section -->
                         <div class="row mt-4" id="scheduleTableContainer">
                             <div class="col-lg-12">
-                                <h3 class="text-2xl">Departure Schedule</h3>
+                                <h3>Departure Schedule</h3>
                                 <!-- Ô chọn tháng -->
                                 <div class="mt-4">
                                     <label for="monthSelect">Select Month:</label>
@@ -83,10 +83,9 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <h4 class="text-2xl mt-4" id="currentMonthDisplay">Current Month: {{ date('F Y') }}
-                                    </h4>
+                                    <h4 id="currentMonthDisplay">Current Month: {{ date('F Y') }}</h4>
                                     <table class="table table-bordered" id="scheduleTable">
-                                        <thead class="table-header">
+                                        <thead>
                                             <tr>
                                                 <th>Mon</th>
                                                 <th>Tue</th>
@@ -102,14 +101,21 @@
                                                 // Tính số ngày trong tháng đầu tiên
                                                 $currentMonth = date('n');
                                                 $currentYear = date('Y');
-                                                $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
-                                                $firstDayOfMonth = strtotime("first day of {$currentYear}-{$currentMonth}");
+                                                $daysInMonth = cal_days_in_month(
+                                                    CAL_GREGORIAN,
+                                                    $currentMonth,
+                                                    $currentYear,
+                                                );
+                                                $firstDayOfMonth = strtotime(
+                                                    "first day of {$currentYear}-{$currentMonth}",
+                                                );
                                                 $startDay = date('w', $firstDayOfMonth);
+                                                // Điều chỉnh startDay để bắt đầu từ thứ Hai
                                                 $startDay = $startDay === 0 ? 6 : $startDay - 1; // Đổi Chủ Nhật (0) thành thứ Bảy (6)
-                                    
+
                                                 $currentDay = 1;
                                             @endphp
-                                    
+
                                             @for ($week = 0; $week < 6; $week++)
                                                 <tr>
                                                     @for ($day = 0; $day < 7; $day++)
@@ -118,15 +124,26 @@
                                                         @else
                                                             @php
                                                                 // Tìm ngày có giá trong mảng $departureSchedules
-                                                                $dateString = date('Y-m-d', strtotime("{$currentYear}-{$currentMonth}-{$currentDay}"));
-                                                                $schedule = $departureSchedules->firstWhere('date', $dateString);
-                                                                $price = $schedule ? number_format($schedule->price) . ' VND' : '';
+                                                                $dateString = date(
+                                                                    'Y-m-d',
+                                                                    strtotime(
+                                                                        "{$currentYear}-{$currentMonth}-{$currentDay}",
+                                                                    ),
+                                                                );
+                                                                $schedule = $departureSchedules->firstWhere(
+                                                                    'date',
+                                                                    $dateString,
+                                                                );
+                                                                $price = $schedule
+                                                                    ? number_format($schedule->price) . ' VND'
+                                                                    : '';
+
                                                             @endphp
                                                             <td class="{{ $schedule ? 'clickable-day' : 'no-price' }}"
                                                                 data-price="{{ $schedule ? json_encode($schedule) : '{}' }}"
                                                                 onclick="updatePrice({{ $schedule ? json_encode($schedule) : '{}' }})">
                                                                 {{ $currentDay }}<br>
-                                                                <span>{{ $price }}</span>
+                                                                <span style="font-weight: bold;">{{ $price }}</span>
                                                             </td>
                                                             @php
                                                                 $currentDay++;
@@ -136,37 +153,30 @@
                                                 </tr>
                                             @endfor
                                         </tbody>
+
                                     </table>
-                                    
                                 </div>
                                 <div id="priceDisplay" class="mt-3"></div>
                             </div>
                         </div>
 
                         <!-- More Information Section -->
-                        <div class="mt-4 flex flex-wrap">
-                            <div class="w-full">
-                                <h3 class="text-3xl font-bold mb-6 text-center text-gray-800">More Information About the
-                                    Trip</h3>
+                        <div class="row mt-4">
+                            <div class="col-lg-12">
+                                <h3>More Information About the Trip</h3>
                                 @if ($tripInformations->isEmpty())
-                                    <p class="text-center text-lg text-gray-600">No additional trip information available.
-                                    </p>
+                                    <p>No additional trip information available.</p>
                                 @else
-                                    <div class="flex flex-wrap w-full">
+                                    <div class="row">
                                         @foreach ($tripInformations as $tripInfo)
-                                            <div class="w-full lg:w-1/3 md:w-1/2 p-2 flex justify-center">
-                                                <div
-                                                    class="bg-white shadow-lg rounded-lg text-center transition-transform transform hover:scale-105 hover:shadow-xl duration-300">
-                                                    <div class="p-4">
-                                                        <img class="icon mb-4 mx-auto h-24 w-24 object-cover"
+                                            <div class="col-lg-4 col-md-6 mb-4">
+                                                <div class="card text-center equal-card">
+                                                    <div class="card-body">
+                                                        <img class="icon"
                                                             src="{{ asset('img/tours/trip_information/' . $tripInfo->tripDirectory->icon) }}"
-                                                            alt="{{ $tripInfo->tripDirectory->title }}" />
-                                                        <h5 class="text-xl font-semibold text-gray-800">
-                                                            {{ $tripInfo->tripDirectory->title }}
-                                                        </h5>
-                                                        <p class="text-gray-700 text-center mt-2 w-full">
-                                                            {{ $tripInfo->content }}
-                                                        </p>
+                                                            alt="" />
+                                                        <h5 class="card-title">{{ $tripInfo->tripDirectory->title }}</h5>
+                                                        <p class="card-text">{{ $tripInfo->content }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,27 +187,30 @@
                         </div>
 
                         <!-- Schedule Section -->
-                        <div class="mt-4">
-                            <div class="w-full">
-                                <h3 class="text-3xl font-bold text-center mb-6 text-gray-800">Schedule</h3>
+                        <div class="row mt-4">
+                            <div class="col-lg-12">
+                                <h3>Schedule</h3>
                                 <div class="accordion" id="scheduleAccordion">
                                     @php $day = 1; @endphp <!-- Bắt đầu đếm ngày từ 1 -->
                                     @foreach ($itineraries as $itinerary)
-                                        <div
-                                            class="border border-gray-300 rounded-lg mb-4 shadow-md transition-shadow duration-300 hover:shadow-lg">
-                                            <div class="bg-white text-white p-4 cursor-pointer rounded-t-lg"
-                                                id="day{{ $day }}"
-                                                onclick="toggleCollapse('collapseDay{{ $day }}')"
-                                                onmousedown="event.preventDefault();"> <!-- Ngăn chọn văn bản -->
-                                                <h5 class="mb-0 font-semibold">
-                                                    Day {{ $day }}: {{ $itinerary->title }}
+                                        <div class="card">
+                                            <div class="card-header" id="day{{ $day }}">
+                                                <h5 class="mb-0">
+                                                    <button style="inline-block" class="btn btn-link" type="button"
+                                                        data-toggle="collapse"
+                                                        data-target="#collapseDay{{ $day }}"
+                                                        aria-expanded="{{ $day == 1 ? 'true' : 'false' }}"
+                                                        aria-controls="collapseDay{{ $day }}">
+                                                        Day {{ $day }}: {{ $itinerary->title }}
+                                                        <!-- Sử dụng title từ trip information -->
+                                                    </button>
                                                 </h5>
                                             </div>
                                             <div id="collapseDay{{ $day }}"
-                                                class="overflow-hidden transition-all duration-300 max-h-0">
-                                                <div class="p-4 border-t border-gray-300 bg-gray-100">
-                                                    <p class="text-gray-700">{{ $itinerary->description }}</p>
-                                                    <!-- Mô tả cho từng lịch trình -->
+                                                class="collapse {{ $day == 1 ? 'show' : '' }}"
+                                                aria-labelledby="day{{ $day }}" data-parent="#scheduleAccordion">
+                                                <div class="card-body">
+                                                    {{ $itinerary->description }} <!-- Mô tả cho từng lịch trình -->
                                                 </div>
                                             </div>
                                         </div>
@@ -207,55 +220,35 @@
                             </div>
                         </div>
 
-                        <script>
-                            function toggleCollapse(id) {
-                                const content = document.getElementById(id);
-                                const isOpen = content.style.maxHeight;
-
-                                if (isOpen) {
-                                    content.style.maxHeight = null;
-                                } else {
-                                    content.style.maxHeight = content.scrollHeight + "px"; // Đặt chiều cao tối đa bằng chiều cao nội dung
-                                }
-                            }
-                        </script>
-
-
                         <!-- Important Information Section -->
-                        <div class="row mt-8">
+                        <div class="row mt-4">
                             <div class="col-lg-12">
-                                <h3 class="text-3xl font-bold mb-6">Important Information</h3>
+                                <h3>Important Information</h3>
 
                                 @if ($importantInfos->isEmpty())
-                                    <p class="text-gray-500">No important information available for this tour.</p>
+                                    <p>No important information available for this tour.</p>
                                 @else
                                     <div class="accordion" id="importantInfoAccordion">
                                         <div class="row">
                                             @foreach ($importantInfos as $index => $info)
-                                                <div class="col-md-6 mb-4"> <!-- Sử dụng col-md-6 để chia thành 2 cột -->
-                                                    <div
-                                                        class="card bg-white  border border-gray-200 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                                                        <div class="card-header bg-gray  text-yellow-200 rounded-t-lg cursor-pointer"
-                                                            id="heading{{ $index }}">
+                                                <div class="col-md-6 mb-3"> <!-- Sử dụng col-md-6 để chia thành 2 cột -->
+                                                    <div class="card">
+                                                        <div class="card-header" id="heading{{ $index }}">
                                                             <h5 class="mb-0">
-                                                                <button
-                                                                    class="flex justify-between w-full text-left p-4 bg-transparent focus:outline-none"
-                                                                    type="button" data-toggle="collapse"
+                                                                <button class="btn btn-link" type="button"
+                                                                    data-toggle="collapse"
                                                                     data-target="#collapse{{ $index }}"
                                                                     aria-expanded="false"
                                                                     aria-controls="collapse{{ $index }}">
-                                                                    <span
-                                                                        class="font-semibold ">{{ $info->title }}</span>
-                                                                    <span class="ml-2 text-yellow-400">&#x25BC;</span>
-                                                                    <!-- Icon mũi tên -->
+                                                                    {{ $info->title }}
                                                                 </button>
                                                             </h5>
                                                         </div>
                                                         <div id="collapse{{ $index }}" class="collapse"
                                                             aria-labelledby="heading{{ $index }}"
                                                             data-parent="#importantInfoAccordion">
-                                                            <div class="card-body p-4 bg-white rounded-b-lg">
-                                                                <p class="text-gray-700">{{ $info->information }}</p>
+                                                            <div class="card-body">
+                                                                {{ $info->information }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -266,8 +259,9 @@
                                 @endif
                             </div>
                         </div>
-                    </div>
 
+                    </div>
+                    
                     <!-- Sidebar Section -->
                     <div class="col-lg-4 fixed-right">
                         @if (is_null($minPriceSchedule) || empty($minPriceSchedule))
@@ -297,38 +291,36 @@
                                 @endauth
                             </div>
                         @else
-                            <div class="card p-4 mb-4 shadow-sm">
-                                <div class="d-flex justify-content-between align-items-center mb-3" id="priceOldSection">
+                            <div class="card p-3">
+                                <div class="price_old" id="priceOldSection"
+                                    style="display: flex; justify-content: space-between; align-items: center;">
                                     @if ($tour->price >= $minPriceSchedule->price)
-                                        <h5 class="font-weight-bold">Price:</h5>
-                                        <span id="originalPrice" class="text-gray font-weight-bold line-through">
-                                            {{ number_format($tour->price) }} VND / Guest
-                                        </span>
+                                        <p style="font-weight: bold; margin: 0;">Price:</p>
+                                        <p id="originalPrice" style="text-decoration: line-through; margin: 0;">
+                                            {{ number_format($tour->price) }} VND / Guest</p>
                                     @endif
                                 </div>
-                                <h4 id="discountPrice" class="text-danger font-weight-bold mb-3">
+                                <h4 id="discountPrice" class="text-danger">
                                     {{ number_format($minPriceSchedule->price) }} VND / Guest
                                 </h4>
-                                <p class="text-muted">Program code: <span
-                                        class="font-weight-bold">{{ $tour->program_code }}</span></p>
-                                <p class="text-muted">Depart: <span class="font-weight-bold"
+                                <p>Program code: <span style="font-weight: bold;">{{ $tour->program_code }}</span></p>
+                                <p>Depart: <span style="font-weight: bold;"
                                         id="departureLocation">{{ $tour->departureLocation->name }}</span></p>
-                                <p class="text-muted">Departure date: <span class="font-weight-bold"
+                                <p>Departure date: <span style="font-weight: bold;"
                                         id="departureDate">{{ date('d-m-Y', strtotime($minPriceSchedule->date)) }}</span>
                                 </p>
-                                <p class="text-muted">Time: <span class="font-weight-bold">{{ $tour->number_days }}
-                                        Days</span></p>
-                                <p class="text-muted">Number of seats left: <span class="font-weight-bold"
+                                <p>Time: <span style="font-weight: bold;">{{ $tour->number_days }} Days</span></p>
+                                <p>Number of seats left: <span style="font-weight: bold;"
                                         id="seatNumber">{{ $minPriceSchedule->seat_number }}</span></p>
                                 @auth
                                     <!-- Nếu người dùng đã đăng nhập, hiện nút Book Now -->
-                                    <button class="btn btn-primary btn-block mt-3" id="bookNowBtn" type="button"
+                                    <button class="btn btn-primary btn-block" id="bookNowBtn" type="button"
                                         onclick="redirectToBookingPage({{ $tour->id }})">
                                         Book Now
                                     </button>
                                 @else
                                     <!-- Nếu người dùng chưa đăng nhập, hiện nút Đăng nhập hoặc thông báo yêu cầu đăng nhập -->
-                                    <a href="{{ route('login') }}" class="btn btn-secondary btn-block mt-3">
+                                    <a href="{{ route('login') }}" class="btn btn-secondary btn-block">
                                         Login to Book
                                     </a>
                                 @endauth
@@ -336,40 +328,39 @@
                         @endif
                     </div>
                 </div>
-                <h2 class="text-center text-2xl font-semibold my-8">Other Tours</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <h2 style="text-align: center">Other tours</h2>
+                <div class="row">
                     @if ($suggestedTours->isEmpty())
-                        <div class="col-span-full text-center">
-                            <h4 class="text-red-600 text-lg">There are no tours</h4>
+                        <div class="col-12 text-center">
+                            <h4 class="text-danger">There are no tours</h4>
                         </div>
                     @else
                         @foreach ($suggestedTours as $suggestedTour)
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
-                                <div class="relative">
-                                    <img class="w-full h-48 object-cover"
-                                        src="{{ asset('img/tours/' . $suggestedTour->image_main) }}"
-                                        alt="{{ $suggestedTour->name }}" loading="lazy">
-                                </div>
-                                <div class="p-6 flex flex-col flex-grow">
-                                    <div class="flex justify-between items-center text-sm text-gray-500 mb-2">
-                                        <span class="flex items-center"><i
-                                                class="fa fa-map-marker-alt text-primary mr-1"></i>{{ $suggestedTour->destination->name ?? 'Unknown Destination' }}</span>
-                                        <span class="flex items-center"><i
-                                                class="fa fa-calendar-alt text-primary mr-1"></i>{{ $suggestedTour->number_days }}
-                                            days</span>
-                                        <span class="flex items-center"><i
-                                                class="fa fa-user text-primary mr-1"></i>{{ $suggestedTour->person }}
-                                            Person</span>
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="package-item bg-white mb-2">
+                                    <div class="image_tour">
+                                        <img class="img-fluid" src="{{ asset('img/tours/' . $suggestedTour->image_main) }}"
+                                            alt="{{ $suggestedTour->name }}" loading="lazy">
                                     </div>
-                                    <a href="{{ route('tours.show', ['slug' => $suggestedTour->slug]) }}"
-                                        class="text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-200 mb-4">
-                                        {{ $suggestedTour->name }}
-                                    </a>
-                                    <div class="border-t mt-auto pt-4">
-                                        <div class="flex justify-between items-center">
-                                            <h5 class="text-lg font-medium text-gray-700">Price:</h5>
-                                            <h5 class="text-lg font-bold text-red-600">
-                                                {{ number_format($suggestedTour->price) }} VND</h5>
+
+                                    <div class="p-4">
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <small class="m-0"><i
+                                                    class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $suggestedTour->destination->name ?? 'Unknown Destination' }}</small>
+                                            <small class="m-0"><i
+                                                    class="fa fa-calendar-alt text-primary mr-2"></i>{{ $suggestedTour->number_days }}
+                                                days</small>
+                                            <small class="m-0"><i
+                                                    class="fa fa-user text-primary mr-2"></i>{{ $suggestedTour->person }}
+                                                Person</small>
+                                        </div>
+                                        <a class="h5 text-decoration-none"
+                                            href="{{ route('tours.show', ['slug' => $suggestedTour->slug]) }}">{{ $suggestedTour->name }}</a>
+                                        <div class="border-top mt-4 pt-4">
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="m-0">Price:</h5>
+                                                <h5 class="m-0">{{ number_format($suggestedTour->price) }} VND</h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -377,7 +368,6 @@
                         @endforeach
                     @endif
                 </div>
-
             </div>
         </div>
         <script>
@@ -385,6 +375,7 @@
 
             @if (isset($minPriceSchedule))
                 const minPriceScheduleId = {{ $minPriceSchedule->id }};
+                
             @else
                 const minPriceScheduleId = null; // Hoặc giá trị mặc định nếu không tìm thấy lịch trình
             @endif
