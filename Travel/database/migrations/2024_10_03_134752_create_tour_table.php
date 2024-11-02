@@ -12,20 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tour', function (Blueprint $table) {
-            $table->id();
-            $table->string('name'); 
-            $table->unsignedBigInteger('id_destination');
-            $table->text('description');
-            $table->decimal('price', 10, 2);
-            $table->integer('number_days')->unsigned()->default(1);
-            $table->decimal('discount_price', 10, 2)->nullable();
-            $table->string('image_main');
-            $table->string('program_code');
-            $table->boolean('is_active')->default(true);
-            $table->unsignedBigInteger('id_departure_location');
-            $table->integer('person')->unsigned()->default(3);
-            $table->timestamps();
-            
+            $table->id(); // Tạo trường id tự động tăng
+            $table->string('name'); // Tên tour
+            $table->string('slug')->unique(); // Thêm cột slug và đặt là duy nhất
+            $table->unsignedBigInteger('id_destination'); // ID địa điểm
+            $table->text('description'); // Mô tả tour
+            $table->decimal('price', 10, 2); // Giá tour
+            $table->decimal('price_single_room', 10, 2); // Giá thue phong don
+            $table->integer('number_days')->unsigned()->default(1); // Thêm số ngày, mặc định là 1
+            $table->string('image_main'); // Ảnh chính
+            $table->string('program_code'); // Mã chương trình
+            $table->boolean('is_active')->default(true); // Trạng thái hoạt động
+            $table->unsignedBigInteger('id_departure_location'); // ID địa điểm khởi hành
+            $table->integer('person')->unsigned()->default(3); // Số người
+            $table->timestamps(); // Các trường created_at và updated_at
+            $table->fullText('name');
         });
         
     }
