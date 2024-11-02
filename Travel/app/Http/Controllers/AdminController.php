@@ -104,27 +104,41 @@ class AdminController extends Controller
         $request->validate($rules);
     }
 
-    // Phương thức saveTourData
-    private function saveTourData(Tour $tour, Request $request) {
-        $tour->name = $request->input('name');
-        $tour->slug = $request->input('slug') ?: \Str::slug($request->input('name'));
-        $tour->id_destination = $request->input('id_destination');
-        $tour->description = $request->input('description');
-        $tour->price = $request->input('price');
-        $tour->price_single_room = $request->input('price_single_room') ?? 0; // Đảm bảo không bị null
-        $tour->number_days = $request->input('number_days');
-        $tour->program_code = $request->input('program_code') ?: ''; // Xử lý trường hợp không có giá trị
-        $tour->is_active = $request->input('is_active');
-        $tour->id_departure_location = $request->input('id_departure_location');
-        $tour->person = $request->input('person');
+   // Phương thức saveTourData
+// Phương thức saveTourData
+private function saveTourData(Tour $tour, Request $request) {
+    $tour->name = $request->input('name');
+    $tour->slug = $request->input('slug') ?: \Str::slug($request->input('name'));
+    $tour->id_destination = $request->input('id_destination');
+    $tour->description = $request->input('description');
+    $tour->price = $request->input('price');
+    $tour->price_single_room = $request->input('price_single_room') ?? 0;
+    $tour->number_days = $request->input('number_days');
+    $tour->program_code = $request->input('program_code') ?: '';
+    $tour->is_active = $request->input('is_active');
+    $tour->id_departure_location = $request->input('id_departure_location');
+    $tour->person = $request->input('person');
 
-        if ($request->hasFile('image_main')) {
-            $file = $request->file('image_main');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('img/tours'), $filename);
-            $tour->image_main = $filename;
+    // Kiểm tra nếu có program_code, trừ giá dựa trên discount_percentage
+    if ($tour->program_code) {
+        // Lấy khuyến mãi dựa trên mã code
+        $promotion = Promotion::where('code', $tour->program_code)->first();
+        if ($promotion) {
+            // Giảm giá theo tỷ lệ phần trăm
+            $discountAmount = $tour->price * ($promotion->discount_percentage / 100);
+            $tour->price = max(0, $tour->price - $discountAmount); // Đảm bảo giá không âm
         }
-
-        $tour->save();
     }
-} 
+
+    // Xử lý upload hình ảnh nếu có
+    if ($request->hasFile('image_main')) {
+        $file = $request->file('image_main');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('img/tours'), $filename);
+        $tour->image_main = $filename;
+    }
+
+    $tour->save();
+}
+
+}

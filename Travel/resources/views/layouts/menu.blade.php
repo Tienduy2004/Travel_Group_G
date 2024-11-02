@@ -95,6 +95,27 @@
             margin-top: -10px;
             margin-left: -10px;
         }
+
+        #logout-form {
+            position: absolute;
+            bottom: 50px;
+            left: 20px;
+        }
+
+        .btn-danger {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #FF0000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 
@@ -111,7 +132,7 @@
         </div>
         <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i>Quản Lý Tour</a>
         <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i>Quản Lý Khuyến Mãi</a>
-     
+
         <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
             @csrf
             <button type="submit" class="btn btn-danger">Đăng Xuất</button>

@@ -34,7 +34,6 @@
                 <th>Số ngày</th>
                 <th>Số người</th>
                 <th>Giá Gốc</th>
-                <th>Giá Giảm</th>
                 <th>Hình ảnh</th>
                 <th>Hành động</th>
             </tr>
@@ -48,7 +47,7 @@
                 <td>{{ $tour->number_days }}</td>
                 <td>{{ $tour->person }}</td>
                 <td>{{ number_format($tour->price, 0, ',', '.') }} VND</td>
-                <td>{{ number_format($tour->discount_price, 0, ',', '.') }} VND</td>
+                
                 <td><img src="{{ asset('img/tours/' . $tour->image_main) }}" alt="Image" width="50" height="50"></td>
                 <td>
                     <a href="{{ route('tours.edit', $tour->id) }}">✏️</a>
