@@ -27,4 +27,8 @@ class Destination extends Model
     {
         return $this->hasMany(Tour::class, 'id_destination');
     }
+    public static function getSuggestions($keyword)
+    {
+        return self::where('name', 'LIKE', '%' . $keyword . '%')->pluck('name')->toArray();
+    }
 }
