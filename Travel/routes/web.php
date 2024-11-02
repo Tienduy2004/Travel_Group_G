@@ -9,6 +9,14 @@ use App\Http\Controllers\Auth\VerifyOTPController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TourController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\AdminAuthController;
+
+
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
 Route::get('/about', [HomeController::class, 'about'])->name("about");
@@ -62,3 +70,45 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     
 });
+Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
+
+
+
+
+
+
+
+// Quản lý tour
+
+    Route::get('/admin', [AdminController::class, 'trangchu'])->name('admin.trangchu');
+    
+    // Route cho quản lý tour
+    Route::get('/admin/tours', [AdminController::class, 'trangchu'])->name('tours.trangchu');
+    Route::get('/admin/tours/create', [AdminController::class, 'create'])->name('tours.create');
+    Route::post('/admin/tours', [AdminController::class, 'store'])->name('tours.store');
+    Route::get('/admin/tours/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
+    Route::put('/admin/tours/{id}', [AdminController::class, 'update'])->name('tours.update');
+    Route::delete('/admin/tours/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
+    Route::get('/admin/tours/search', [AdminController::class, 'search'])->name('tours.search');
+
+    // Route cho khuyến mãi
+    Route::get('/admin/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+    Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
+    Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+    Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+    Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
+    Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+
+
+// Route cho trang đăng nhập admin
+
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+
+// Route cho trang đăng ký admin
+Route::get('/admin/register', [AdminAuthController::class, 'showRegistrationForm'])->name('admin.register');
+Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register.submit');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+
+

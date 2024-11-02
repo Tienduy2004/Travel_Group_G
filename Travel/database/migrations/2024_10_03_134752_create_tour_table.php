@@ -28,6 +28,7 @@ return new class extends Migration
             $table->timestamps(); // Các trường created_at và updated_at
             $table->fullText('name');
         });
+        
     }
 
     /**
