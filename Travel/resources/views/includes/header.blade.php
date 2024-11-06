@@ -64,7 +64,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ auth()->user()->name }}</a>
                             <div class="dropdown-menu border-0 rounded-0 m-0">
-                                <a href="{{ route('profile') }}" class="dropdown-item">Profile</a>
+                                <a href="{{ url('profile?id=' . auth()->user()->id) }}" class="dropdown-item">Profile</a>
                                 <a href="#" class="dropdown-item" 
                                     onclick="event.preventDefault(); 
                                     document.getElementById('logout-form').submit();">

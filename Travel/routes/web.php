@@ -7,6 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\VerifyOTPController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TourController;
 
@@ -60,5 +62,16 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-    
+    Route::post('/profile/{id}/update-cover', [ProfileController::class, 'updateCover'])->name('profile.update.cover');
+    Route::post('/profile/{id}/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.update.avatar');
+    Route::post('/friends/add', [FriendController::class, 'add'])->name('friends.add');
+    Route::post('/friends/cancel', [FriendController::class, 'cancel'])->name('friends.cancel');
+    Route::post('/friends/accept', [FriendController::class, 'accept'])->name('friends.accept');
+    Route::post('/messages', [FriendController::class, 'cancel'])->name('messages.send');
+    //Route::post('/chat/send-message', [ChatController::class, 'sendMessage'])->middleware('auth');
+
+});
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/messages/{receiverId}', [ChatController::class, 'fetchMessages']);
+    Route::post('/chat/send-message', [ChatController::class, 'sendMessage']);
 });

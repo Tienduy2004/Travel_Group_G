@@ -13,7 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OTPMail; // Thêm dòng này
-
+use App\Models\Profile;
 
 class RegisteredUserController extends Controller
 {
@@ -33,17 +33,17 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:20','regex:/^[\p{L}\s]+$/u'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:50', 'unique:'.User::class],
+            'name' => ['required', 'string', 'max:20', 'regex:/^[\p{L}\s]+$/u'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:50', 'unique:' . User::class],
             'password' => [
-            'required',
-            'confirmed',
-            'min:8',
-            'max:15',
-            'regex:/[A-Z]/',      // Ít nhất 1 chữ cái viết hoa
-            'regex:/[a-z]/',      // Ít nhất 1 chữ cái viết thường
-            'regex:/[0-9]/',      // Ít nhất 1 chữ số
-            'regex:/[@$!%*#?&]/', // Ít nhất 1 ký tự đặc biệt
+                'required',
+                'confirmed',
+                'min:8',
+                'max:15',
+                'regex:/[A-Z]/',      // Ít nhất 1 chữ cái viết hoa
+                'regex:/[a-z]/',      // Ít nhất 1 chữ cái viết thường
+                'regex:/[0-9]/',      // Ít nhất 1 chữ số
+                'regex:/[@$!%*#?&]/', // Ít nhất 1 ký tự đặc biệt
             ],
         ]);
 
@@ -52,19 +52,23 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        
+
+
+        // Tạo profile cho người dùng mới
+        Profile::createForUser($user->id);
+
 
         // event(new Registered($user));
         $otp = random_int(100000, 999999);
         session(['otp' => $otp]);
-    
+
         // Send OTP via email
         Mail::to($user->email)->send(new OTPMail($otp));
-    
+
         Auth::login($user);
-    
+
         return redirect()->route('otp.verify');
-        
+
 
         return redirect(route('dashboard', absolute: false));
     }

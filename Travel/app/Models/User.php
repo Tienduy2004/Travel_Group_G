@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
- use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,7 +45,31 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function posts(){
-        return $this->hasMany(Post::class);
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')->with('profile')
+            ->where('status', 'accepted');
+    }
+
+    public function friendships()
+    {
+        return $this->hasMany(Friendship::class)->where(function ($query) {
+            $query->where('user_id', $this->id)
+                ->orWhere('friend_id', $this->id);
+        });
+    }
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 }
