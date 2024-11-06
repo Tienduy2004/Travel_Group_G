@@ -16,6 +16,31 @@ class BookingController extends Controller
 {
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'hoTen_contact' => 'required|string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]*$/u',
+            'dienThoai_contact' => 'required|regex:/^(0)[0-9]{9}$/',
+            'email_contact' => 'required|email|max:255',
+            'diaChi_contact' => 'nullable|string|max:100',
+            'passengerName_Adult.*' => 'required|string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]*$/u',
+            'passengerBirthdate_Adult.*' => 'required|date_format:Y-m-d',
+            'passengerName_Child.*' => 'required|string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]*$/u',
+            'passengerBirthdate_Child.*' => 'required|date_format:Y-m-d',
+            'note' => 'nullable|string|max:200',
+        ], [
+            'hoTen_contact.max' => 'Họ tên không được vượt quá 50 ký tự.',
+            'hoTen_contact.regex' => 'Họ tên không được chứa ký tự đặc biệt.',
+            'dienThoai_contact.regex' => 'Số điện thoại không hợp lệ. Phải bắt đầu bằng 0 và gồm 9 chữ số tiếp theo.',
+            'email_contact.email' => 'Định dạng email không hợp lệ.',
+            'diaChi_contact.max' => 'Địa chỉ không được vượt quá 100 ký tự.',
+            'passengerName_Adult.*.max' => 'Họ tên không được vượt quá 50 ký tự.',
+            'passengerName_Adult.*.regex' => 'Họ tên không được chứa ký tự đặc biệt.',
+            'passengerBirthdate_Adult.*.date_format' => 'Ngày sinh hành khách người lớn sai định dạng.',
+            'passengerName_Child.*.max' => 'Họ tên không được vượt quá 50 ký tự.',
+            'passengerName_Child.*.regex' => 'Họ tên không được chứa ký tự đặc biệt.',
+            'passengerBirthdate_Child.*.date_format' => 'Ngày sinh hành khách trẻ em sai định dạng.',
+            'note.max' => 'Ghi chú không được vượt quá 200 ký tự.'
+        ]);
+        
 
         // Lấy thông tin từ yêu cầu
         $hoTen = $request->input('hoTen_contact');

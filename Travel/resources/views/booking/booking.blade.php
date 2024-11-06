@@ -26,21 +26,33 @@
                                     <label for="hoTen" class="block mb-1">Họ tên *</label>
                                     <input type="text" name="hoTen_contact" id="hoTen"
                                         class="w-full p-2 border rounded" placeholder="Nhập họ tên" required />
+                                    @error('hoTen_contact')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label for="dienThoai" class="block mb-1">Điện thoại *</label>
                                     <input type="tel" name="dienThoai_contact" id="dienThoai"
-                                        class="w-full p-2 border rounded" placeholder="Nhập số điện thoại" required />
+                                        class="w-full p-2 border rounded" placeholder="Nhập số điện thoại" pattern="[0-9]*" inputmode="numeric" required />
+                                    @error('dienThoai_contact')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label for="email" class="block mb-1">Email *</label>
                                     <input type="email" name="email_contact" id="email"
                                         class="w-full p-2 border rounded" placeholder="Nhập email" required />
+                                    @error('email_contact')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label for="diaChi" class="block mb-1">Địa chỉ</label>
                                     <input type="text" name="diaChi_contact" id="diaChi"
                                         class="w-full p-2 border rounded" placeholder="Nhập địa chỉ" required />
+                                    @error('diaChi_contact')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -109,12 +121,27 @@
                                     </div>
                                 </div>
                             </div>
+                            @error('passengerName_Adult.*')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                            @error('passengerBirthdate_Adult.*')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                            @error('passengerName_Child.*')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                            @error('passengerBirthdate_Child.*')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
                             <h2 class="text-xl font-semibold text-blue-600 mb-4">GHI CHÚ</h2>
                             <textarea name="note" class="w-full p-2 border rounded" rows="4"
                                 placeholder="Vui lòng nhập nội dung ghi chú bằng tiếng Anh hoặc tiếng Việt"></textarea>
+                            @error('note')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -137,8 +164,8 @@
                     <div class="w-full md:w-1/3">
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <h2 class="text-xl font-semibold text-blue-600 mb-4">TÓM TẮT CHUYẾN ĐI</h2>
-                            <img src="{{ asset('img/tours/' . $tour->image_main) }}?height=200&width=400" alt="Tour Image"
-                                class="w-full rounded-lg mb-4" />
+                            <img src="{{ asset('img/tours/' . $tour->image_main) }}?height=200&width=400"
+                                alt="Tour Image" class="w-full rounded-lg mb-4" />
                             <h3 class="font-semibold mb-2">{{ $tour->name }}</h3>
                             <p class="text-sm text-gray-600 mb-4">Mã Tour: {{ $tour->program_code }}</p>
                             <div class="bg-gray-100 p-3 rounded-md mb-4">
@@ -368,8 +395,8 @@
             <div class="mb-4">
                 <label class="block mb-1">Người lớn ${i + 1} (Từ 12 tuổi trở lên)</label>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <input type="text" name="passengerName_Adult[]" placeholder="Họ tên" class="p-2 border rounded" required/>
-                    <input type="date" name="passengerBirthdate_Adult[]" placeholder="Ngày sinh" class="p-2 border rounded" max="${minBirthdateAdult}" required/>
+                        <input type="text" name="passengerName_Adult[]" placeholder="Họ tên" class="p-2 border rounded" required/>
+                        <input type="date" name="passengerBirthdate_Adult[]" placeholder="Ngày sinh" class="p-2 border rounded" max="${minBirthdateAdult}" required/>
                     <div class="relative">
                         <select name="passengerGender_Adult[]" class="w-full p-2 border rounded appearance-none" required>
                             <option>Nam</option>
@@ -399,7 +426,9 @@
                 <label class="block mb-1">Trẻ em ${j + 1} (Từ 2 - 11 tuổi)</label>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <input type="text" name="passengerName_Child[]" placeholder="Họ tên" class="p-2 border rounded" required/>
+                   
                     <input type="date" name="passengerBirthdate_Child[]" placeholder="Ngày sinh" class="p-2 border rounded" min="${minBirthdateChild}" max="${maxBirthdateChild}" required/>
+                    
                     <div class="relative">
                         <select name="passengerGender_Child[]" class="w-full p-2 border rounded appearance-none" required>
                             <option>Nam</option>
