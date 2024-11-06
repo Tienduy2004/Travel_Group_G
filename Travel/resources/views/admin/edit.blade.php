@@ -5,69 +5,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/sua.css') }}">
-    <title>Sửa admins</title>
+    <title>Sửa Tour</title>
 </head>
 
 <body>
     <div class="form-container">
+        <h1>Sửa Tour</h1>
 
-        <form action="{{ route('admins.update', $admins->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('tours.update', $tour->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div>
-                <label for="name">Tên admins:</label>
-                <input type="text" name="name" value="{{ $admins->name }}" placeholder="Tên admins" required>
+                <label for="name">Tên tour:</label>
+                <input type="text" name="name" value="{{ $tour->name }}" placeholder="Tên tour" required>
             </div>
 
             <div>
-                <label for="location">Địa điểm:</label>
-                <input type="text" name="location" value="{{ $admins->location }}" placeholder="Địa điểm" required>
-            </div>
-
-            <div>
-                <label for="time">Thời gian:</label>
-                <select name="time" id="time" required>
-                    <option value="1 ngày" {{ $admins->time == '1 ngày' ? 'selected' : '' }}>1 ngày</option>
-                    <option value="2 ngày" {{ $admins->time == '2 ngày' ? 'selected' : '' }}>2 ngày</option>
-                    <option value="3 ngày" {{ $admins->time == '3 ngày' ? 'selected' : '' }}>3 ngày</option>
-                    <option value="4 ngày" {{ $admins->time == '4 ngày' ? 'selected' : '' }}>4 ngày</option>
-                    <option value="5 ngày" {{ $admins->time == '5 ngày' ? 'selected' : '' }}>5 ngày</option>
+                <label for="id_destination">Địa điểm:</label>
+                <select name="id_destination" required>
+                    <option value="">-- Chọn địa điểm --</option>
+                    @foreach($destinations as $destination)
+                        <option value="{{ $destination->id }}" {{ $tour->id_destination == $destination->id ? 'selected' : '' }}>
+                            {{ $destination->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
             <div>
-                <label for="quantity">Số lượng:</label>
-                <input type="number" name="quantity" value="{{ $admins->quantity }}" placeholder="Số lượng" required min="1">
+                <label for="description">Mô tả:</label>
+                <textarea name="description" placeholder="Mô tả" required>{{ $tour->description }}</textarea>
             </div>
 
-            <div>
-                <label for="rating">Đánh giá:</label>
-                <div class="rating" id="rating">
-                    <span class="star {{ $admins->rating >= 1 ? 'selected' : '' }}" data-value="1">★</span>
-                    <span class="star {{ $admins->rating >= 2 ? 'selected' : '' }}" data-value="2">★</span>
-                    <span class="star {{ $admins->rating >= 3 ? 'selected' : '' }}" data-value="3">★</span>
-                    <span class="star {{ $admins->rating >= 4 ? 'selected' : '' }}" data-value="4">★</span>
-                    <span class="star {{ $admins->rating >= 5 ? 'selected' : '' }}" data-value="5">★</span>
-                </div>
-                <input type="hidden" name="rating" id="rating-input" value="{{ $admins->rating }}">
-                @error('rating')
-                <span style="color: red;">{{ $message }}</span>
-                @enderror
-            </div>
             <div>
                 <label for="price">Giá tiền:</label>
-                <input type="number" name="price" value="{{ $admins->price }}" placeholder="Giá tiền" required min="1">
+                <input type="number" name="price" value="{{ $tour->price }}" placeholder="Giá tiền" required min="0" step="0.01">
             </div>
 
+            <div>
+                <label for="number_days">Số ngày:</label>
+                <input type="number" name="number_days" value="{{ $tour->number_days }}" placeholder="Số ngày" required min="1">
+            </div>
+            <div>
+                <label for="program_code">Mã chương trình:</label>
+                <input type="text" name="program_code" value="{{ $tour->program_code }}" placeholder="Mã chương trình">
+            </div>
 
             <div>
-                <label for="image">Hình ảnh:</label>
-                <input type="file" name="image" accept="image/*">
-                @if($admins->image)
+                <label for="is_active">Trạng thái hoạt động:</label>
+                <select name="is_active" required>
+                    <option value="1" {{ $tour->is_active == 1 ? 'selected' : '' }}>Hoạt động</option>
+                    <option value="0" {{ $tour->is_active == 0 ? 'selected' : '' }}>Không hoạt động</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="id_departure_location">Địa điểm khởi hành:</label>
+                <select name="id_departure_location" required>
+                    <option value="">-- Chọn địa điểm khởi hành --</option>
+                    @foreach($departureLocations as $departureLocation)
+                        <option value="{{ $departureLocation->id }}" {{ $tour->id_departure_location == $departureLocation->id ? 'selected' : '' }}>
+                            {{ $departureLocation->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="person">Số người:</label>
+                <input type="number" name="person" value="{{ $tour->person }}" placeholder="Số người" required min="1">
+            </div>
+
+            <div>
+                <label for="image_main">Hình ảnh:</label>
+                <input type="file" name="image_main" accept="image/*">
+                @if($tour->image_main)
                 <div>
                     <p>Hình ảnh hiện tại:</p>
-                    <img src="{{ asset('images/' . $admins->image) }}" alt="Hình ảnh hiện tại" width="150">
+                    <img src="{{ asset('img/tours/' . $tour->image_main) }}" alt="Hình ảnh hiện tại" width="150">
                 </div>
                 @endif
             </div>
@@ -75,28 +91,6 @@
             <button type="submit">Cập nhật</button>
         </form>
     </div>
-
-    <script>
-        // Lắng nghe sự kiện click trên các sao
-        document.querySelectorAll('.star').forEach(star => {
-            star.addEventListener('click', function() {
-                const ratingValue = this.getAttribute('data-value');
-
-                // Cập nhật giá trị của input ẩn
-                document.getElementById('rating-input').value = ratingValue;
-
-                // Xóa lớp 'selected' khỏi tất cả sao
-                document.querySelectorAll('.star').forEach(s => {
-                    s.classList.remove('selected');
-                });
-
-                // Thêm lớp 'selected' cho tất cả các sao từ sao đầu đến sao đã chọn
-                for (let i = 1; i <= ratingValue; i++) {
-                    document.querySelector(`.star[data-value="${i}"]`).classList.add('selected');
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

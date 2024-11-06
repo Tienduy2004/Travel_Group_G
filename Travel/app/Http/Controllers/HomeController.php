@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admin;
+use App\Models\tour;
 
 class HomeController extends Controller
 {
     public function index()
     {
-      // Lấy danh sách các tour từ database
-    $admins = Admin::all(); // Lấy tất cả các bản ghi từ bảng tours
+      // Lấy tất cả các tour hoặc tùy chỉnh số lượng tour muốn hiển thị
+      $tours = Tour::with('destination')->get(); // Lấy các tour kèm địa điểm
+      return view('home.index', compact('tours')); // Truyền biến $tours vào view
 
     // Truyền biến $tours vào view
     return view('home.index', compact('admins')); 

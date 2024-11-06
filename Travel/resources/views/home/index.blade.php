@@ -290,30 +290,26 @@
             <h1>Pefect Tour Packages</h1>
         </div>
         <div class="row">
-            @foreach($admins as $admins)
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-item bg-white mb-2">
-                    <img class="img-fluid" src="{{ asset('images/' . $admins->image) }}" alt="">
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between mb-3">
-                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $admins->location
-                                }}</small>
-                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>{{ $admins->time
-                                }}</small>
-                            <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{ $admins->quantity }}
-                                Người</small>
-                        </div>
-                        <a class="h5 text-decoration-none" href="#">{{ $admins->name }}</a>
-                        <div class="border-top mt-4 pt-4">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>{{ $admins->rating }}</h6>
-                                <h5 class="m-0">{{ $admins->price }}$</h5>
-                            </div>
+        @foreach($tours as $tour)
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="package-item bg-white mb-2">
+                <img class="img-fluid" src="{{ asset('img/tours/' . $tour->image_main) }}" alt="{{ $tour->name }}" style="width: 100%; height: 200px; object-fit: cover;">
+                <div class="p-4">
+                    <div class="d-flex justify-content-between mb-3">
+                        <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{ $tour->destination->name }}</small>
+                        <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>{{ $tour->number_days }} days</small>
+                        <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{ $tour->person }} Person</small>
+                    </div>
+                    <a class="h5 text-decoration-none" href="">{{ $tour->name }}</a>
+                    <div class="border-top mt-4 pt-4">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="m-0">${{ $tour->price }}</h5>
                         </div>
                     </div>
                 </div>
             </div>
-            @endforeach
+        </div>
+    @endforeach
 
             
             

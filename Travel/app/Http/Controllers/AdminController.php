@@ -2,117 +2,143 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use Illuminate\Http\Request;
+use App\Models\Tour;
+use App\Models\Destination;
+use App\Models\DepartureLocation;
+use App\Models\Promotion;
 
 class AdminController extends Controller
 {
     public function index(Request $request) {
+        return $this->trangchu($request); // Gọi phương thức trangchu để hiển thị nội dung
+    }
+    
+    public function trangchu(Request $request) {
         $search = $request->input('search'); // Lấy giá trị tìm kiếm nếu có
-        $admins = Admin::when($search, function ($query) use ($search) {
+        $tours = Tour::with('destination')->when($search, function ($query) use ($search) {
             return $query->where('name', 'LIKE', "%{$search}%");
         })->paginate(5); // Sử dụng paginate để phân trang
     
-        // Đảm bảo bạn đã truyền biến $admins vào view
-        return view('admin.index', compact('admins', 'search'));
+        return view('admin.trangchu', compact('tours', 'search')); // Đảm bảo truyền biến $tours vào view
     }
+
     public function create() {
-        return view('admin.create'); // Sửa đường dẫn tới view
+        $destinations = Destination::all(); // Lấy danh sách địa điểm từ bảng destination
+        $departureLocations = DepartureLocation::all(); // Lấy danh sách địa điểm khởi hành từ bảng departure_location
+        return view('admin.create', compact('destinations', 'departureLocations')); // Truyền cả hai biến vào view
     }
 
     public function store(Request $request) {
         // Validation cho các trường
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'time' => 'required|in:1 ngày,2 ngày,3 ngày,4 ngày,5 ngày,6 ngày',
-            'quantity' => 'required|integer|min:1',
-            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-            'rating' => 'required|integer|min:1|max:5',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $this->validateTour($request);
 
-        // Nếu dữ liệu hợp lệ, lưu vào database
-        $admins = new Admin();
-        $admins->name = $request->input('name');
-        $admins->location = $request->input('location');
-        $admins->time = $request->input('time');
-        $admins->quantity = $request->input('quantity');
-        $admins->rating = $request->input('rating'); // Lưu giá trị rating
-        $admins->price = $request->input('price'); // Lưu giá trị price
+        // Tạo mới tour
+        $tour = new Tour();
+        $this->saveTourData($tour, $request);
 
-        // Xử lý lưu file ảnh
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename);
-            $admins->image = $filename;
-        }
-
-        $admins->save();
-
-        return redirect()->route('admins.index')->with('success', 'Tour đã được thêm thành công.');
+        return redirect()->route('tours.trangchu')->with('success', 'Tour đã được thêm thành công.');
     }
 
     public function edit($id) {
-        $admins = Admin::find($id);
-        return view('admin.edit', compact('admins')); // Sửa đường dẫn tới view
+        $tour = Tour::findOrFail($id); // Tìm tour theo ID hoặc trả về lỗi 404
+        $destinations = Destination::all(); // Lấy danh sách địa điểm từ bảng destination
+        $departureLocations = DepartureLocation::all(); // Lấy danh sách địa điểm khởi hành từ bảng departure_location
+        
+        return view('admin.edit', compact('tour', 'destinations', 'departureLocations'));
     }
 
     public function update(Request $request, $id) {
-        $admins = Admin::find($id);
-    
-        // Validation nếu có thay đổi nào
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'time' => 'required|in:1 ngày,2 ngày,3 ngày,4 ngày,5 ngày,6 ngày',
-            'quantity' => 'required|integer|min:1',
-            'rating' => 'required|integer|min:1|max:5',
-            'price' => 'required|numeric|min:0', // Thêm điều kiện cho price
-            'image' => 'nullable|image|mimes:png,jpg,jpeg|max:2048', // Ảnh có thể không cần thiết phải cập nhật
-        ]);
-      
-        // Cập nhật thông tin tour
-        $admins->name = $request->input('name');
-        $admins->location = $request->input('location');
-        $admins->time = $request->input('time');
-        $admins->quantity = $request->input('quantity');
-        $admins->rating = $request->input('rating');
-        $admins->price = $request->input('price'); // Cập nhật giá
-    
-        // Kiểm tra nếu có file ảnh mới
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $filename);
-            $admins->image = $filename;
-        }
-       
-        $admins->save();
-    
-        return redirect()->route('admins.index')->with('success', 'Tour đã được cập nhật thành công.');
+        $tour = Tour::findOrFail($id); // Tìm tour theo ID hoặc trả về lỗi 404
+
+        // Thực hiện validation cho dữ liệu cập nhật
+        $this->validateTour($request, true);
+
+        // Lưu dữ liệu
+        $this->saveTourData($tour, $request);
+
+        return redirect()->route('tours.trangchu')->with('success', 'Tour đã được cập nhật thành công.');
     }
-    
 
     public function destroy($id) {
-        $admins = Admin::find($id);
-        $admins->delete();
+        $tour = Tour::findOrFail($id); // Sử dụng findOrFail để xử lý lỗi
+        $tour->delete();
 
-        return redirect()->route('admins.index')->with('success', 'Tour đã được xóa thành công.'); // Thêm thông báo xóa thành công
+        return redirect()->route('tours.trangchu')->with('success', 'Tour đã được xóa thành công.');
     }
 
     public function search(Request $request) {
         $search = $request->input('search');
         
-        // Tìm kiếm tour dựa trên tên tour với phân trang
-        $admins = Admin::where('name', 'LIKE', "%{$search}%")->paginate(5);
+        $tours = Tour::where('name', 'LIKE', "%{$search}%")->paginate(5);
 
-        // Kiểm tra xem có tour nào được tìm thấy không
-        if ($admins->isEmpty()) {
-            return redirect()->route('admins.index')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '". ');
+        if ($tours->isEmpty()) {
+            return redirect()->route('tours.trangchu')->with('error', 'Không tìm thấy tour nào với tên "' . $search . '".');
         }
-    
-        return view('admin.index', compact('admins', 'search')); // Sửa đường dẫn tới view
+
+        return view('admin.trangchu', compact('tours', 'search')); // Đường dẫn tới view
     }
+
+    // Phương thức validateTour
+    private function validateTour(Request $request, $update = false) {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
+            'id_destination' => 'required|integer|exists:destination,id',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'price_single_room' => 'nullable|numeric|min:0', // Cho phép trường này có thể là null hoặc số không âm
+            'number_days' => 'required|integer|min:1',
+            'program_code' => 'nullable|string|max:255',
+            'is_active' => 'required|boolean',
+            'id_departure_location' => 'required|integer|exists:departure_location,id',
+            'person' => 'required|integer|min:1',
+        ];
+
+        if (!$update) {
+            $rules['image_main'] = 'required|image|mimes:png,jpg,jpeg,jfif|max:2048';
+        } else {
+            $rules['image_main'] = 'nullable|image|mimes:png,jpg,jpeg,jfif|max:2048';
+        }
+
+        $request->validate($rules);
+    }
+
+   // Phương thức saveTourData
+// Phương thức saveTourData
+private function saveTourData(Tour $tour, Request $request) {
+    $tour->name = $request->input('name');
+    $tour->slug = $request->input('slug') ?: \Str::slug($request->input('name'));
+    $tour->id_destination = $request->input('id_destination');
+    $tour->description = $request->input('description');
+    $tour->price = $request->input('price');
+    $tour->price_single_room = $request->input('price_single_room') ?? 0;
+    $tour->number_days = $request->input('number_days');
+    $tour->program_code = $request->input('program_code') ?: '';
+    $tour->is_active = $request->input('is_active');
+    $tour->id_departure_location = $request->input('id_departure_location');
+    $tour->person = $request->input('person');
+
+    // Kiểm tra nếu có program_code, trừ giá dựa trên discount_percentage
+    if ($tour->program_code) {
+        // Lấy khuyến mãi dựa trên mã code
+        $promotion = Promotion::where('code', $tour->program_code)->first();
+        if ($promotion) {
+            // Giảm giá theo tỷ lệ phần trăm
+            $discountAmount = $tour->price * ($promotion->discount_percentage / 100);
+            $tour->price = max(0, $tour->price - $discountAmount); // Đảm bảo giá không âm
+        }
+    }
+
+    // Xử lý upload hình ảnh nếu có
+    if ($request->hasFile('image_main')) {
+        $file = $request->file('image_main');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('img/tours'), $filename);
+        $tour->image_main = $filename;
+    }
+
+    $tour->save();
+}
+
 }
