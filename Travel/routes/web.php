@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     
 });
-Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
+
 
 
 
