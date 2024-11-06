@@ -11,8 +11,12 @@ use App\Models\Promotion;
 class AdminController extends Controller
 {
     public function index(Request $request) {
+        if (auth()->guard('admin')->user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         return $this->trangchu($request); // Gọi phương thức trangchu để hiển thị nội dung
     }
+    
     
     public function trangchu(Request $request) {
         $search = $request->input('search'); // Lấy giá trị tìm kiếm nếu có
@@ -24,12 +28,18 @@ class AdminController extends Controller
     }
 
     public function create() {
+        if (auth()->guard('admin')->user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $destinations = Destination::all(); // Lấy danh sách địa điểm từ bảng destination
         $departureLocations = DepartureLocation::all(); // Lấy danh sách địa điểm khởi hành từ bảng departure_location
         return view('admin.create', compact('destinations', 'departureLocations')); // Truyền cả hai biến vào view
     }
 
     public function store(Request $request) {
+        if (auth()->guard('admin')->user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         // Validation cho các trường
         $this->validateTour($request);
 
@@ -41,6 +51,9 @@ class AdminController extends Controller
     }
 
     public function edit($id) {
+        if (auth()->guard('admin')->user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $tour = Tour::findOrFail($id); // Tìm tour theo ID hoặc trả về lỗi 404
         $destinations = Destination::all(); // Lấy danh sách địa điểm từ bảng destination
         $departureLocations = DepartureLocation::all(); // Lấy danh sách địa điểm khởi hành từ bảng departure_location
@@ -49,6 +62,9 @@ class AdminController extends Controller
     }
 
     public function update(Request $request, $id) {
+        if (auth()->guard('admin')->user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $tour = Tour::findOrFail($id); // Tìm tour theo ID hoặc trả về lỗi 404
 
         // Thực hiện validation cho dữ liệu cập nhật
@@ -61,6 +77,9 @@ class AdminController extends Controller
     }
 
     public function destroy($id) {
+        if (auth()->guard('admin')->user()->role !== 'admin') {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $tour = Tour::findOrFail($id); // Sử dụng findOrFail để xử lý lỗi
         $tour->delete();
 
@@ -68,6 +87,7 @@ class AdminController extends Controller
     }
 
     public function search(Request $request) {
+        
         $search = $request->input('search');
         
         $tours = Tour::where('name', 'LIKE', "%{$search}%")->paginate(5);

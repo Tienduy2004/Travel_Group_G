@@ -36,15 +36,15 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-        'admin' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+    'admin' => [
         'driver' => 'session',
         'provider' => 'admins',
-        ],
     ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -64,21 +64,15 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-
-        'admins' => [
+    'users' => [
         'driver' => 'eloquent',
-        'model' => App\Models\Admin::class, // Giả sử bạn có model Admin
+        'model' => App\Models\User::class, 
     ],
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class, 
     ],
+],
 
     /*
     |--------------------------------------------------------------------------

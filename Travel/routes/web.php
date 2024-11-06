@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminUserController;
 
 
 
@@ -109,6 +110,13 @@ Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.
 Route::get('/admin/register', [AdminAuthController::class, 'showRegistrationForm'])->name('admin.register');
 Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+//phan quyèn
+Route::prefix('admin')->group(function () {
+    Route::get('users', [AdminUserController::class, 'index'])->name('admin.users.index'); // Danh sách người dùng
+    Route::get('users/{id}/edit', [AdminUserController::class, 'editRole'])->name('admin.users.edit'); // Chỉnh sửa quyền
+    Route::put('users/{id}/update', [AdminUserController::class, 'updateRole'])->name('admin.users.update'); // Cập nhật quyền
+});
 
 
 
