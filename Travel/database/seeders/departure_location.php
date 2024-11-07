@@ -14,22 +14,15 @@ class departure_location extends Seeder
     public function run(): void
     {
         DB::table('departure_location')->insert([
-            ['name' => 'Việt Nam'],
-            ['name' => 'Thái Lan'],
-            ['name' => 'Nhật Bản'],
-            ['name' => 'Hàn Quốc'],
-            ['name' => 'Mỹ'],
-            ['name' => 'Anh'],
-            ['name' => 'Pháp'],
-            ['name' => 'Úc'],
-            ['name' => 'Canada'],
-            ['name' => 'Ấn Độ'],
-            ['name' => 'Malaysia'],
-            ['name' => 'Singapore'],
-            ['name' => 'Indonesia'],
-            ['name' => 'Tây Ban Nha'],
-            ['name' => 'Ý'],
-            ['name' => 'Đức']
+            ['name' => 'Trà vinh'],
+            ['name' => 'Sóc trăng'],
+            ['name' => 'Cần Thơ'],
+            ['name' => 'Long An'],
+            ['name' => 'Hà Giang'],
+            ['name' => 'Vĩnh Long'],
+            ['name' => 'Hà Nội'],
+            ['name' => 'Bạc Liêu'],
+            ['name' => 'Cà Mau']
         ]);
     }
 }

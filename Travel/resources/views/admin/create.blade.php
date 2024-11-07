@@ -19,18 +19,10 @@
     </div>
 
     <div>
-        <label for="slug">Slug:</label>
-        <input type="text" name="slug" id="slug" placeholder="Nhập slug..." value="{{ old('slug') }}">
-        @error('slug')
-        <span style="color: red;">{{ $message }}</span>
-        @enderror
-    </div>
-
-    <div>
         <label for="id_destination">Địa điểm:</label>
         <select name="id_destination" id="id_destination">
             <option value="">-- Chọn địa điểm --</option>
-            @foreach($destinations as $destination)
+            @foreach($destinations as $destination) <!-- Giả sử biến $destinations đã được truyền từ controller -->
                 <option value="{{ $destination->id }}" {{ old('id_destination') == $destination->id ? 'selected' : '' }}>
                     {{ $destination->name }}
                 </option>
@@ -58,20 +50,14 @@
     </div>
 
     <div>
-        <label for="price_single_room">Giá phòng đơn:</label>
-        <input type="number" name="price_single_room" id="price_single_room" placeholder="Nhập giá phòng đơn..." value="{{ old('price_single_room') }}" step="0.01" min="0">
-        @error('price_single_room')
-        <span style="color: red;">{{ $message }}</span>
-        @enderror
-    </div>
-
-    <div>
         <label for="number_days">Số ngày:</label>
         <input type="number" name="number_days" id="number_days" placeholder="Nhập số ngày..." value="{{ old('number_days') }}" min="1">
         @error('number_days')
         <span style="color: red;">{{ $message }}</span>
         @enderror
     </div>
+
+   
 
     <div>
         <label for="program_code">Mã chương trình:</label>
@@ -84,8 +70,9 @@
     <div>
         <label for="is_active">Trạng thái hoạt động:</label>
         <select name="is_active" id="is_active">
-            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>Hoạt động</option>
-            <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+            <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>--Chọn trạng Thái--</option>
+            <option value="1" {{ old('is_active') == '2' ? 'selected' : '' }}>Hoạt động</option>
+            <option value="0" {{ old('is_active') == '3' ? 'selected' : '' }}>Không hoạt động</option>
         </select>
         @error('is_active')
         <span style="color: red;">{{ $message }}</span>
@@ -93,19 +80,19 @@
     </div>
 
     <div>
-        <label for="id_departure_location">Địa điểm khởi hành:</label>
-        <select name="id_departure_location" id="id_departure_location">
-            <option value="">-- Chọn địa điểm khởi hành --</option>
-            @foreach($departureLocations as $departureLocation)
-                <option value="{{ $departureLocation->id }}" {{ old('id_departure_location') == $departureLocation->id ? 'selected' : '' }}>
-                    {{ $departureLocation->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('id_departure_location')
-        <span style="color: red;">{{ $message }}</span>
-        @enderror
-    </div>
+    <label for="id_departure_location">Địa điểm khởi hành:</label>
+    <select name="id_departure_location" id="id_departure_location">
+        <option value="">-- Chọn địa điểm khởi hành --</option>
+        @foreach($departureLocations as $departureLocation)
+            <option value="{{ $departureLocation->id }}" {{ old('id_departure_location') == $departureLocation->id ? 'selected' : '' }}>
+                {{ $departureLocation->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('id_departure_location')
+    <span style="color: red;">{{ $message }}</span>
+    @enderror
+</div>
 
     <div>
         <label for="person">Số người:</label>

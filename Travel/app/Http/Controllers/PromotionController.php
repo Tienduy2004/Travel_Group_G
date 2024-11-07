@@ -9,35 +9,19 @@ class PromotionController extends Controller
 {
     // Phương thức index để hiển thị danh sách khuyến mãi kèm theo phân trang và tìm kiếm
     public function index(Request $request)
-{
-    $search = $request->input('search'); // Lấy giá trị từ form tìm kiếm
-    $startDate = $request->input('start_date'); // Ngày bắt đầu
-    $endDate = $request->input('end_date');     // Ngày kết thúc
+    {
+        // Kiểm tra xem có từ khóa tìm kiếm hay không
+        $search = $request->input('search');
 
-    // Lọc dữ liệu theo từ khóa và ngày tháng nếu có
-    $promotions = Promotion::when($search, function ($query, $search) {
-        return $query->where('code', 'like', "%{$search}%")
-                     ->orWhere('description', 'like', "%{$search}%");
-    })
-    ->when($startDate, function ($query, $startDate) {
-        return $query->whereDate('start_date', '>=', $startDate);
-    })
-    ->when($endDate, function ($query, $endDate) {
-        return $query->whereDate('end_date', '<=', $endDate);
-    })
-    ->paginate(5); // Phân trang
+        // Lấy danh sách khuyến mãi, có thể có tìm kiếm và phân trang
+        $promotions = Promotion::when($search, function($query, $search) {
+            return $query->where('code', 'like', "%{$search}%")
+                         ->orWhere('description', 'like', "%{$search}%");
+        })->paginate(5); // Phân trang với 5 khuyến mãi mỗi trang
 
-    // Tạo thông báo tìm kiếm
-    $message = null;
-    if (($search || $startDate || $endDate) && $promotions->isEmpty()) {
-        $message = 'Không tìm thấy khuyến mãi nào với các tiêu chí tìm kiếm.';
+        // Trả về view hiển thị danh sách khuyến mãi
+        return view('admin.promotions.index', compact('promotions', 'search'));
     }
-
-    // Trả về view với dữ liệu khuyến mãi và thông báo
-    return view('admin.promotions.index', compact('promotions', 'search', 'startDate', 'endDate', 'message'));
-}
-
-
 
     public function create()
     {

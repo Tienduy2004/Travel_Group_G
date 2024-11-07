@@ -32,8 +32,6 @@ class DatabaseSeeder extends Seeder
             ItinerarySeeder::class,
             DepartureLocationSeeder::class,
             DepartureScheduleSeeder::class,
-            FlightSeeder::class,
-            BudgetSeeder::class,
         ]);
     }
 }

@@ -6,6 +6,10 @@
     padding: 20px; /* Thêm padding cho toàn bộ trang */
 }
 
+.tour-page .container {
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa của container */
+    margin: 0 auto; /* Căn giữa container */
+}
 
 .tour-title {
     font-size: 2rem; /* Kích thước chữ */
@@ -52,8 +56,15 @@
 }
 
 /* Card styles */
-
-
+.tour-page .card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s; /* Thêm hiệu ứng cho card */
+    margin-bottom: 20px; /* Khoảng cách giữa các card */
+    padding: 20px; /* Thêm padding cho card */
+    background-color: #ffffff; /* Đặt nền trắng cho card */
+    border-radius: 10px; /* Bo góc cho card */
+}
 
 .tour-page .card:hover {
     transform: translateY(-5px); /* Hiệu ứng nâng lên khi hover */
@@ -107,6 +118,12 @@
 /* Schedule Accordion */
 .tour-page .accordion {
     margin-bottom: 30px; /* Tăng khoảng cách dưới accordion */
+}
+
+.tour-page .accordion .card-header {
+    background-color: #f8f9fa;
+    border: none;
+    text-align: center; /* Căn giữa tiêu đề accordion */
 }
 
 .tour-page .accordion .btn-link {
@@ -191,67 +208,49 @@
     text-transform: uppercase; /* Chữ in hoa */
 }
 
-/* Bảng lịch */
 .tour-page .table {
-    background-color: #ffffff; /* Nền trắng cho bảng */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho bảng */
-    border-radius: 10px; /* Bo góc cho bảng */
-    margin-top: 20px; /* Khoảng cách trên bảng */
-    overflow: hidden; /* Ẩn các phần thừa nếu có */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px; /* Tăng khoảng cách trên bảng */
 }
 
-/* Tiêu đề bảng */
-.tour-page .table-header {
-    background-color: #007bff; /* Màu nền xanh dương cho tiêu đề */
-    color: white; /* Màu chữ trắng */
-}
-
-.tour-page .table th {
-    padding: 15px; /* Padding cho ô tiêu đề */
-    font-size: 1.2rem; /* Kích thước chữ cho tiêu đề */
-}
-
-/* Các ô ngày */
+.tour-page .table th, 
 .tour-page .table td {
-    height: 100px; /* Chiều cao cố định cho các ô */
-    vertical-align: middle; /* Căn giữa nội dung theo chiều dọc */
-    cursor: pointer; /* Con trỏ chuột khi hover */
+    font-size: 1rem;
+    padding: 15px;
     text-align: center; /* Căn giữa nội dung trong bảng */
-    border: 1px solid #dee2e6; /* Đường viền xám nhạt */
-    transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng chuyển tiếp */
-    width: calc(100% / 7); /* Đảm bảo tất cả các ô có chiều rộng bằng nhau */
 }
 
-/* Ô có giá */
-.tour-page .table td.clickable-day {
-    background-color: #d1e7dd; /* Màu nền nhẹ cho ô có giá */
-}
-
-.tour-page .table td.clickable-day:hover {
-    background-color: #c3e6cb; /* Màu nền khi hover cho ô có giá */
-    transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
-}
-
-/* Ô không có giá */
-.tour-page .table td.no-price {
-    background-color: #f8d7da; /* Màu nền cho ô không có giá */
-}
-
-/* Thay đổi màu chữ trong ô có giá */
-.tour-page .table td.clickable-day span {
-    color: #155724; /* Màu chữ xanh cho ô có giá */
-}
-
-/* Thay đổi màu chữ trong ô không có giá */
-.tour-page .table td.no-price span {
-    color: #721c24; /* Màu chữ đỏ cho ô không có giá */
-}
-
-/* Đảm bảo ô tiêu đề có cùng chiều rộng */
 .tour-page .table th {
-    width: calc(100% / 7); /* Mỗi ô tiêu đề chiếm 1/7 chiều rộng bảng */
+    background-color: #28a745; /* Màu xanh lá cho tiêu đề bảng */
+    color: white;
 }
 
+.tour-page .table td {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.tour-page .table td span {
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: block;
+}
+
+.tour-page .table td {
+    height: 100px; /* Thiết lập chiều cao cố định cho các ô */
+    vertical-align: middle; /* Căn giữa nội dung theo chiều dọc */
+}
+
+/* Nếu bạn muốn đảm bảo rằng chiều rộng của các ô cũng bằng nhau, thêm quy tắc này */
+.tour-page .table th, 
+.tour-page .table td {
+    width: 14.2857%; /* Tính toán chiều rộng cho 7 cột (100% / 7) */
+}
+.tour-page .table td .text-danger {
+    color: #e74c3c; /* Màu đỏ cho các thông tin quan trọng */
+}
 
 /* Active and hover styles for the month selector */
 .tour-page .list-group-item.active {

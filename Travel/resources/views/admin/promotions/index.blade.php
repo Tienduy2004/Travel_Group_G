@@ -15,7 +15,7 @@
             background-color: #cdadad;
             font-family: Arial, sans-serif;
             margin: 0;
-
+            
         }
 
         h1 {
@@ -26,47 +26,37 @@
         .toolbar {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            display: flex;
             align-items: center;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-    
+            gap: 10px;
+            flex-grow: 1;
         }
 
-        .toolbar form {
-            display: flex;    
-            gap: 10px;          
-        }
-
-        .toolbar input[type="date"] {
-            padding: 8px;  
-            border: 1px solid #ced4da;          
+        .search-box input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
             border-radius: 4px;
-           
         }
 
-        .toolbar button {
-            padding: 8px 12px;
-            background-color: #007bff;
+        .search-box button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #28a745;
             color: white;
             border: none;
-            border-radius: 4px;    
+            border-radius: 4px;
             cursor: pointer;
-           
         }
 
-        .toolbar a.btn {
-            padding: 8px 12px;
-            background-color: #28a745;
-            color: white; 
-            text-decoration: none;
-            border-radius: 4px;    
-            transition: background-color 0.3s;
-        }
-
-        .toolbar a.btn:hover {
+        .search-box button:hover {
             background-color: #218838;
-          
         }
 
         a.btn-primary {
@@ -209,6 +199,7 @@
         .pagination li:last-child a,
         .pagination li:last-child span {
             padding: 6px 9px;
+            /* Điều chỉnh mũi tên đầu và cuối */
         }
 
         .pagination .disabled a {
@@ -219,20 +210,6 @@
         .pagination-text {
             display: none !important;
         }
-
-      
-        form.create-form button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        form.create-form button:hover {
-            background-color: #218838;
-        }
     </style>
 </head>
 
@@ -242,20 +219,12 @@
 
     <!-- Toolbar gồm thanh tìm kiếm bên trái và nút thêm khuyến mãi bên phải -->
     <div class="toolbar">
-        <form action="{{ route('promotions.index') }}" method="GET">
-            <input type="date" name="start_date" value="{{ request('start_date') }}" placeholder="Ngày bắt đầu">
-            <input type="date" name="end_date" value="{{ request('end_date') }}" placeholder="Ngày kết thúc">
-            <button type="submit">Tìm kiếm</button>
-        </form>
+        <div class="search-box">
+            <input type="text" placeholder="Tìm kiếm khuyến mãi...">
+            <button type="button">Tìm kiếm</button>
+        </div>
         <a href="{{ route('promotions.create') }}" class="btn btn-primary">Thêm Khuyến Mãi</a>
     </div>
-
-    <!-- Hiển thị thông báo nếu có -->
-    @if(isset($message))
-    <div class="alert alert-info">
-        {{ $message }}
-    </div>
-    @endif
 
     <table>
         <thead>
@@ -275,16 +244,15 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $promotion->code }}</td>
                 <td>{{ $promotion->description }}</td>
-                <td>{{ \Carbon\Carbon::parse($promotion->start_date)->format('d/m/Y') }}</td>
-                <td>{{ \Carbon\Carbon::parse($promotion->end_date)->format('d/m/Y') }}</td>
+                <td>{{ $promotion->start_date }}</td>
+                <td>{{ $promotion->end_date }}</td>
                 <td>{{ $promotion->discount_percentage }}%</td>
                 <td class="action-btns">
                     <!-- Nút Sửa -->
                     <a href="{{ route('promotions.edit', $promotion->id) }}" class="btn btn-warning">✏️</a>
 
                     <!-- Nút Xóa -->
-                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST"
-                        style="display:inline;">
+                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger"
@@ -302,7 +270,6 @@
     </div>
 
 </body>
-
 
 </html>
 @endsection
