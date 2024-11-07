@@ -2,12 +2,62 @@
 @section('content')
 <style>
     .post-content img {
-    max-width: 100%; /* Ensure the image doesn't exceed the container width */
-    height: auto;    /* Keeps the aspect ratio intact */
-    max-height: 400px; /* Limits the maximum height */
-    object-fit: contain; /* Scales the image to fit within the height without cropping */
-}
+        max-width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: contain;
+    }
 
+    .like-icon {
+        cursor: pointer;
+        color: gray;
+    }
+
+    .liked {
+        color: blue;
+    }
+
+    #comment-list {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    #comment-list::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #comment-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    #comment-list::-webkit-scrollbar-thumb {
+        background-color: #4a90e2;
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+    }
+
+    #comment-list::-webkit-scrollbar-thumb:hover {
+        background-color: #3c7dc4;
+    }
+
+    .menu-button {
+        cursor: pointer;
+    }
+
+    .menu {
+        z-index: 10;
+    }
+
+    .menu a {
+        display: block;
+        padding: 8px 16px;
+        color: #4A5568;
+        text-decoration: none;
+    }
+
+    .menu a:hover {
+        background-color: #EDF2F7;
+    }
 </style>
 <!-- Header Start -->
 <div class="container-fluid page-header">
@@ -113,77 +163,145 @@
                         <div class="post-content">
                             {!! $blog->content !!}
                         </div>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="mr-3">
+                                <span id="like-button"
+                                    class="like-icon {{ $blog->likes->contains(auth()->user()) ? 'liked' : '' }}"
+                                    data-post-id="{{ $blog->id }}" data-csrf-token="{{ csrf_token() }}">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span id="like-count">{{ $blog->like_count }}</span>
+                                </span>
+                            </div>
+                            <div class="mr-3">
+                                <i class="fas fa-comments"></i> <span>{{ $blog->comment_count }}</span>
+                            </div>
+                            <div>
+                                <i class="fas fa-eye"></i> <span>{{ $blog->view_count }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Blog Detail End -->
 
                 <!-- Comment List Start -->
-                <div class="bg-white" style="padding: 30px; margin-bottom: 30px;">
-                    <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">3 Comments</h4>
-                    <div class="media mb-4">
-                        <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                        <div class="media-body">
-                            <h6><a href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                            <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.
-                                Gubergren clita aliquyam consetetur sadipscing, at tempor amet ipsum diam tempor
-                                consetetur at sit.</p>
-                            <button class="btn btn-sm btn-outline-primary">Reply</button>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                        <div class="media-body">
-                            <h6><a href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                            <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.
-                                Gubergren clita aliquyam consetetur sadipscing, at tempor amet ipsum diam tempor
-                                consetetur at sit.</p>
-                            <button class="btn btn-sm btn-outline-primary">Reply</button>
-                            <div class="media mt-4">
-                                <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                                <div class="media-body">
-                                    <h6><a href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                                    <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor
-                                        labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed
-                                        eirmod ipsum. Gubergren clita aliquyam consetetur sadipscing, at tempor amet
-                                        ipsum diam tempor consetetur at sit.</p>
-                                    <button class="btn btn-sm btn-outline-primary">Reply</button>
-                                </div>
+                <div class="max-w-4xl mx-auto p-6">
+                    <!-- Comment Form Start -->
+                    <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+                        <h4 class="text-2xl font-bold mb-6 tracking-wide">Leave a comment</h4>
+                        <form id="comment-form" class="space-y-4" data-post-id="{{ $blog->id }}">
+                            @csrf
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message
+                                    *</label>
+                                <textarea id="message" name="message" rows="5" placeholder="Your message" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                             </div>
+                            <button type="submit"
+                                class="w-full md:w-auto px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                Leave a comment
+                            </button>
+                        </form>
+                    </div>
+                    <!-- Comment Form End -->
+                    <!-- Comment List Start -->
+                    <div class="bg-white shadow-md rounded-lg p-6">
+                        <h4 class="text-2xl font-bold mb-6 tracking-wide">{{ $comments->count() }} Comments</h4>
+
+                        <div class="space-y-6" id="comment-list">
+                            @foreach ($comments as $comment)
+                                <div class="flex space-x-4" data-comment-id="{{ $comment->id }}">
+                                    <div class="flex-shrink-0">
+                                        <img src="/placeholder.svg?height=48&width=48" alt="User Avatar"
+                                            class="w-12 h-12 rounded-full">
+                                    </div>
+                                    <div class="flex-grow">
+                                        <div class="flex items-center mb-1 justify-between">
+                                            <div>
+                                                <h6 class="font-semibold mr-2">{{ $comment->user->name }}</h6>
+                                                <small
+                                                    class="text-gray-500">{{ $comment->created_at->diffForHumans() }}</small>
+                                            </div>
+                                            <!-- Nút menu 3 chấm -->
+                                            @if (auth()->check() && auth()->id() === $comment->user_id)
+                                                <div class="relative">
+                                                    <button class="menu-button text-gray-500 focus:outline-none"
+                                                        onclick="toggleMenu(this)">
+                                                        &#8226;&#8226;&#8226;
+                                                    </button>
+                                                    <!-- Menu chỉnh sửa và xóa -->
+                                                    <div
+                                                        class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                                                        <a
+                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-comment" onclick="editComment(this, '{{ $comment->id }}')">Sửa</a>
+                                                        <a
+                                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-comment">Xóa</a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <p class="text-gray-700 mb-3">{{ $comment->content }}</p>
+                                        <button
+                                            class="reply-btn px-3 py-1 text-sm border border-indigo-500 text-indigo-500 font-semibold rounded-md hover:bg-indigo-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                            Reply
+                                        </button>
+                                        <div class="reply-form hidden mt-4">
+                                            <textarea
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                                rows="3" placeholder="Write your reply..."></textarea>
+                                            <button
+                                                class="submit-reply mt-2 px-3 py-1 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                Submit Reply
+                                            </button>
+                                        </div>
+
+                                        <!-- Display Replies -->
+                                        <div class="replies mt-4 ml-6 space-y-4">
+                                            @foreach ($comment->replies as $reply)
+                                                <div class="flex space-x-4" data-reply-id="{{ $reply->id }}">
+                                                    <div class="flex-shrink-0">
+                                                        <img src="/placeholder.svg?height=40&width=40" alt="User Avatar"
+                                                            class="w-10 h-10 rounded-full">
+                                                    </div>
+                                                    <div class="flex-grow">
+                                                        <div class="flex items-center mb-1 justify-between">
+                                                            <div>
+                                                                <h6 class="font-semibold mr-2">{{ $reply->user->name }}</h6>
+                                                                <small
+                                                                    class="text-gray-500">{{ $reply->created_at->diffForHumans() }}</small>
+                                                            </div>
+                                                            <!-- Nút menu 3 chấm cho reply -->
+                                                            @if (auth()->check() && auth()->id() === $reply->user_id)
+                                                                <div class="relative">
+                                                                    <button class="menu-button text-gray-500 focus:outline-none"
+                                                                        onclick="toggleMenu(this)">
+                                                                        &#8226;&#8226;&#8226;
+                                                                    </button>
+                                                                    <!-- Menu chỉnh sửa và xóa -->
+                                                                    <div
+                                                                        class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                                                                        <a 
+                                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-reply" onclick="editReply(this, '{{ $reply->id }}')">Sửa</a>
+                                                                        <a 
+                                                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-reply">Xóa</a>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                        <p class="text-gray-700 mb-3">{{ $reply->content }}</p>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
-                <!-- Comment List End -->
+                    <!-- Comment List End -->
 
-                <!-- Comment Form Start -->
-                <div class="bg-white mb-3" style="padding: 30px;">
-                    <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h4>
-                    <form>
-                        <div class="form-group">
-                            <label for="name">Name *</label>
-                            <input type="text" class="form-control" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" class="form-control" id="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="website">Website</label>
-                            <input type="url" class="form-control" id="website">
-                        </div>
 
-                        <div class="form-group">
-                            <label for="message">Message *</label>
-                            <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group mb-0">
-                            <input type="submit" value="Leave a comment"
-                                class="btn btn-primary font-weight-semi-bold py-2 px-3">
-                        </div>
-                    </form>
                 </div>
-                <!-- Comment Form End -->
             </div>
 
             <div class="col-lg-4 mt-5 mt-lg-0">
@@ -259,31 +377,22 @@
                 <!-- Recent Post -->
                 <div class="mb-5">
                     <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h4>
-                    <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                        <img class="img-fluid" src="img/blog-100x100.jpg" alt="">
-                        <div class="pl-3">
-                            <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                            <small>Jan 01, 2050</small>
-                        </div>
-                    </a>
-                    <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                        <img class="img-fluid" src="img/blog-100x100.jpg" alt="">
-                        <div class="pl-3">
-                            <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                            <small>Jan 01, 2050</small>
-                        </div>
-                    </a>
-                    <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                        <img class="img-fluid" src="img/blog-100x100.jpg" alt="">
-                        <div class="pl-3">
-                            <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                            <small>Jan 01, 2050</small>
-                        </div>
-                    </a>
+                    @foreach ($topViewPosts as $post)
+                        <a class="d-flex align-items-center text-decoration-none bg-white mb-3"
+                            href="{{ route('blog.show', Crypt::encrypt($post->id)) }}">
+                            <img class="img-fluid" src="{{ asset('img/' . ($post->image_url ?? 'img/undefined.jpg')) }}"
+                                alt="" ; style="width: 50%">
+                            <div class="pl-3">
+                                <h6 class="m-1">{{ Str::limit($post->title, 60, '...') }}</h6>
+                                <small>{{ $post->created_at->format('M d, Y') }}</small>
+                            </div>
+                        </a>
+                    @endforeach
+
                 </div>
 
                 <!-- Tag Cloud -->
-                <div class="mb-5">
+                <!-- <div class="mb-5">
                     <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h4>
                     <div class="d-flex flex-wrap m-n1">
                         <a href="" class="btn btn-light m-1">Design</a>
@@ -293,10 +402,13 @@
                         <a href="" class="btn btn-light m-1">Writing</a>
                         <a href="" class="btn btn-light m-1">Consulting</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </div>
 <!-- Blog End -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{{ asset('js/post.js') }}"></script>
 @endsection

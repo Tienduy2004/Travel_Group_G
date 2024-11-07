@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,9 @@ class PostController extends Controller
         $categories = Post::getCategorywithPostCount();
         $posts = Post::getPost();
         $totalPost = Post::totalPostCount();
+        $topViewPosts = Post::topViewPosts();
 
-        return view('home.page.blog', data: compact('posts', 'categories', 'totalPost'));
+        return view('home.page.blog', data: compact('posts', 'categories', 'totalPost', 'topViewPosts'));
     }
     //hien thi bai viet chi tiet
     public function showBlog($blogId)
@@ -33,8 +35,11 @@ class PostController extends Controller
 
         $categories = Post::getCategorywithPostCount();
         $totalPost = Post::totalPostCount();
+        $blog->increment('view_count');
+        $topViewPosts = Post::topViewPosts();
+        $comments = $blog->commentsFirst()->get();
 
-        return view('home.page.single', compact('blog', 'categories', 'totalPost'));
+        return view('home.page.single', compact('blog', 'categories', 'totalPost', 'topViewPosts', 'comments'));
     }
     //Lay bai viet theo danh muc
     public function getPostbyCategory($categoryId)
@@ -47,8 +52,9 @@ class PostController extends Controller
 
         $categories = Post::getCategorywithPostCount();
         $totalPost = Post::totalPostCount();
+        $topViewPosts = Post::topViewPosts();
 
-        return view('home.page.blog', compact('posts', 'categories', 'totalPost'));
+        return view('home.page.blog', compact('posts', 'categories', 'totalPost', 'topViewPosts'));
     }
     // Tim kiem
     public function search(Request $request)
@@ -65,8 +71,9 @@ class PostController extends Controller
         $posts = Post::searchPosts($query)->paginate(6);
         $categories = Post::getCategorywithPostCount();
         $totalPost = Post::totalPostCount();
+        $topViewPosts = Post::topViewPosts();
 
-        return view('home.page.blog', compact('posts', 'categories', 'totalPost'))->with('query', $query);
+        return view('home.page.blog', compact('posts', 'categories', 'totalPost', 'topViewPosts'))->with('query', $query);
     }
     //hien thi form tao bai viet
     public function create_post()
@@ -115,5 +122,142 @@ class PostController extends Controller
 
         return redirect()->route('blog')->with('success', 'Your post has been submitted and is pending approval');
     }
+    //like 
+    public function toggleLike($id)
+    {
+        $post = Post::findOrFail($id);
+        $user = Auth::user();
 
+        if (!$user) {
+            return response()->json(['message' => 'You need to login ti like this post.'], 403);
+        }
+
+        if ($post->likes()->where('user_id', $user->id)->exists()) {
+            $post->likes()->detach($user->id);
+            $post->decrement('like_count');
+            $liked = false;
+        } else {
+            $post->likes()->attach($user->id);
+            $post->increment('like_count');
+            $liked = true;
+        }
+
+        return response()->json(['like_count' => $post->like_count, 'liked' => $liked]);
+    }
+    //them binh luan
+    public function storeComment(Request $request, $postId)
+    {
+        $request->validate([
+            'message' => 'required|max:1000',
+        ]);
+
+        $post = Post::findOrFail($postId);
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'You need to login to comment.'], 403);
+        }
+
+        $comment = Comment::create([
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+            'content' => $request->message,
+        ]);
+
+        return response()->json([
+            'id' => $comment->id,
+            'user' => [
+                'name' => $user->name,
+            ],
+            'content' => $comment->content,
+            'created_at' => $comment->created_at->diffForHumans(),
+        ]);
+    }
+
+    public function storeReply(Request $request, $commentId)
+    {
+        $request->validate([
+            'message' => 'required|max:1000',
+        ]);
+
+        $parentComment = Comment::findOrFail($commentId);
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'You need to login to reply.'], 403);
+        }
+
+        $reply = Comment::create([
+            'user_id' => $user->id,
+            'post_id' => $parentComment->post_id,
+            'parent_id' => $parentComment->id,
+            'content' => $request->message,
+        ]);
+
+        return response()->json([
+            'id' => $reply->id,
+            'user' => [
+                'name' => $user->name,
+            ],
+            'content' => $reply->content,
+            'created_at' => $reply->created_at->diffForHumans(),
+        ]);
+    }
+    public function deleteComment($commentId)
+    {
+        $comment = Comment::findOrFail($commentId);
+        $user = Auth::user();
+
+        if ($comment->user_id !== $user->id) {
+            return response()->json(['message' => 'You are not authorized to delete this comment.'], 403);
+        }
+
+        // Xóa bình luận
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted successfully.']);
+    }
+    public function deleteReply($commentId)
+    {
+        $reply = Comment::findOrFail($commentId);
+        $user = Auth::user();
+
+        if ($reply->user_id !== $user->id) {
+            return response()->json(['message' => 'You are not authorized to delete this reply.'], 403);
+        }
+
+        // Xóa bình luận
+        $reply->delete();
+
+        return response()->json(['message' => 'Reply deleted successfully.']);
+    }
+
+    public function updateComment(Request $request, $commentId){
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+        $comment = Comment::findOrFail($commentId);
+        $comment->content = $request->content;
+        $comment->save();
+
+        return response()->json([
+            'message' => 'Comment updated successfully.',
+            'user' => $comment->user,
+            'created_at' => $comment->created_at->diffForHumans(),
+        ]);
+    }
+    public function updateReply(Request $request, $commentId){
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+        $comment = Comment::findOrFail($commentId);
+        $comment->content = $request->content;
+        $comment->save();
+
+        return response()->json([
+            'message' => 'Reply updated successfully.',
+            'user' => $comment->user,
+            'created_at' => $comment->created_at->diffForHumans(),
+        ]);
+    }
 }

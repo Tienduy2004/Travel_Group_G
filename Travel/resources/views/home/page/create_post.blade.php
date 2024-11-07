@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 
 <div class="container mx-auto p-10 mt-10 bg-white rounded-lg shadow-md max-w-6xl">

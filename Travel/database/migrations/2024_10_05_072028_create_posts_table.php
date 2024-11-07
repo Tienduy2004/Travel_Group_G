@@ -19,6 +19,8 @@ return new class extends Migration
             $table->longText('content');
             $table->string('image_url')->nullable(); 
             $table->bigInteger('view_count')->default(0);
+            $table->bigInteger('like_count')->default(0);
+            $table->bigInteger('comment_count')->default(0);
             $table->boolean('is_featured')->default(false);
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();

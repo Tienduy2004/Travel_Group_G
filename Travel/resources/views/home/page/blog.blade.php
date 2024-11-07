@@ -121,7 +121,7 @@
                                         </div>
                                         <a class="h5 m-0 text-decoration-none"
                                             href="{{ route('blog.show', Crypt::encrypt($post->id)) }}">{{ Str::limit($post->title, limit: 60, end: '...') }}</a>
-                                        <p class="mt-2">{{ Str::limit( strip_tags($post->content), 100, '...') }}</p>
+                                        <p class="mt-2">{{ Str::limit(strip_tags($post->content), 100, '...') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -131,54 +131,54 @@
                     @endif
 
                     <!-- Phân trang -->
-                     @if($posts->isNotEmpty())
-                    <div class="col-12">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination pagination-lg justify-content-center bg-white mb-0"
-                                style="padding: 30px;">
-                                <!-- Previous Link -->
-                                @if ($posts->onFirstPage())
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $posts->previousPageUrl() }}" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                @endif
+                    @if($posts->isNotEmpty())
+                        <div class="col-12">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination pagination-lg justify-content-center bg-white mb-0"
+                                    style="padding: 30px;">
+                                    <!-- Previous Link -->
+                                    @if ($posts->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $posts->previousPageUrl() }}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                <!-- Page Number Links -->
-                                @for ($i = 1; $i <= $posts->lastPage(); $i++)
-                                    <li class="page-item {{ $posts->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $posts->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
+                                    <!-- Page Number Links -->
+                                    @for ($i = 1; $i <= $posts->lastPage(); $i++)
+                                        <li class="page-item {{ $posts->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $posts->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
 
-                                <!-- Next Link -->
-                                @if ($posts->hasMorePages())
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ $posts->nextPageUrl() }}" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            </ul>
-                        </nav>
-                    </div>
+                                    <!-- Next Link -->
+                                    @if ($posts->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $posts->nextPageUrl() }}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -257,31 +257,22 @@
                 <!-- Recent Post -->
                 <div class="mb-5">
                     <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h4>
-                    <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                        <img class="img-fluid" src="img/blog-100x100.jpg" alt="">
-                        <div class="pl-3">
-                            <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                            <small>Jan 01, 2050</small>
-                        </div>
-                    </a>
-                    <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                        <img class="img-fluid" src="img/blog-100x100.jpg" alt="">
-                        <div class="pl-3">
-                            <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                            <small>Jan 01, 2050</small>
-                        </div>
-                    </a>
-                    <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                        <img class="img-fluid" src="img/blog-100x100.jpg" alt="">
-                        <div class="pl-3">
-                            <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                            <small>Jan 01, 2050</small>
-                        </div>
-                    </a>
+                    @foreach ($topViewPosts as $post)
+                        <a class="d-flex align-items-center text-decoration-none bg-white mb-3"
+                            href="{{ route('blog.show', Crypt::encrypt($post->id)) }}">
+                            <img class="img-fluid" src="{{ asset('img/' . ($post->image_url ?? 'img/undefined.jpg')) }}"
+                                alt=""; style= "width: 50%">
+                            <div class="pl-3">
+                                <h6 class="m-1">{{ Str::limit($post->title, 60, '...') }}</h6>
+                                <small>{{ $post->created_at->format('M d, Y') }}</small>
+                            </div>
+                        </a>
+                    @endforeach
+                    
                 </div>
 
                 <!-- Tag Cloud -->
-                <div class="mb-5">
+                <!-- <div class="mb-5">
                     <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h4>
                     <div class="d-flex flex-wrap m-n1">
                         <a href="" class="btn btn-light m-1">Design</a>
@@ -291,7 +282,7 @@
                         <a href="" class="btn btn-light m-1">Writing</a>
                         <a href="" class="btn btn-light m-1">Consulting</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -299,4 +290,3 @@
 <!-- Blog End -->
 
 @endsection
-

@@ -33,6 +33,15 @@ class Post extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    //quan he voi bang like
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'post_like');
+    }
+    //quan he voi bang comment
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 
     // lay tat ca bai viet
     public static function getPost()
@@ -91,23 +100,6 @@ class Post extends Model
                 });
             });
     }
-    public static function scoutSearch($query)
-    {
-        return self::search($query)->get();
-    }
-    public function toSearchableArray()
-    {
-        $array = $this->only(['title']); // Chỉ lấy title để tìm kiếm
-
-        // Cấu hình cho Algolia sử dụng fuzzy search
-        return [
-            'title' => $this->title,
-            '_tags' => explode(" ", $this->title), // Gợi ý dùng tags để hỗ trợ từ khóa không chính xác
-        ];
-    }
-
-
-
     //Tao bai viet
     public static function storePost($data)
     {
@@ -120,5 +112,15 @@ class Post extends Model
             'is_featured' => $data['is_featured'] ?? false,
             'status' => $data['status'] ?? 'pending',
         ]);
+    }
+    //hien thi post co view cao nhat
+    public static function topViewPosts()
+    {
+        return self::orderBy('view_count', 'desc')->take(3)->get();
+    }
+    //hien thi binhf luan moi nhat
+    public function commentsFirst()
+    {
+        return $this->comments()->whereNull('parent_id')->orderBy('created_at', 'desc');
     }
 }
