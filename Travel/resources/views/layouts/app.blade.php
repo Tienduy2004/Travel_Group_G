@@ -21,16 +21,21 @@
 
     <!-- Libraries Stylesheet -->
     <link href="{{asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-    <link href="{{asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
+    <link href="{{asset ('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{asset('css/profile.css') }}" rel="stylesheet">
-    <link href="{{asset('css/detail.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-
+    <link href="{{asset ('css/style.css') }}" rel="stylesheet">
+    <link href="{{asset ('css/profile.css') }}" rel="stylesheet">
+    <link href="{{asset ('css/detail.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tailwind/tailwind.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/tours.css') }}" rel="stylesheet"> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+ 
+    
 </head>
 
 <body>
