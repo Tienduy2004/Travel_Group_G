@@ -172,9 +172,9 @@
                                     <span id="like-count">{{ $blog->like_count }}</span>
                                 </span>
                             </div>
-                            <div class="mr-3">
+                            <!-- <div class="mr-3">
                                 <i class="fas fa-comments"></i> <span>{{ $blog->comment_count }}</span>
-                            </div>
+                            </div> -->
                             <div>
                                 <i class="fas fa-eye"></i> <span>{{ $blog->view_count }}</span>
                             </div>
@@ -307,8 +307,8 @@
             <div class="col-lg-4 mt-5 mt-lg-0">
                 <!-- Author Bio -->
                 <div class="d-flex flex-column text-center bg-white mb-5 py-5 px-4">
-                    <img src="img/user.jpg" class="img-fluid mx-auto mb-3" style="width: 100px;">
-                    <h3 class="text-primary mb-3">John Doe</h3>
+                    <img src="{{ asset('img/user.jpg') }}" class="img-fluid mx-auto mb-3" style="width: 100px;">
+                    <h3 class="text-primary mb-3">Nguyễn Anh Tuấn</h3>
                     <p>Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit no ut est ipsum erat kasd
                         amet elitr</p>
                     <div class="d-flex justify-content-center">
