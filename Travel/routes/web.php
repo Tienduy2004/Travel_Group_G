@@ -13,10 +13,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\AdminAuthController;
-
-
-
-
+use App\Http\Controllers\PostController;
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
 Route::get('/about', [HomeController::class, 'about'])->name("about");
@@ -111,4 +108,23 @@ Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 
+
+
+
+
+
+//Post
+Route::get('/blog', [PostController::class, 'index'])->name('blog');
+Route::get('/blog/{id}', [PostController::class, 'showBlog'])->name('blog.show');
+Route::get('/category/{id}', [PostController::class, 'getPostbyCategory'])->name('category.posts');
+Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+Route::get('/create', [PostController::class, 'create_post'])->name('create.post');
+Route::post('/create-post', [PostController::class, 'storePost'])->name('store.post');
+Route::post('/blog/{id}/toggle-like', [PostController::class, 'toggleLike'])->name('blog.toggleLike');
+Route::post('/posts/{postId}/comment', [PostController::class, 'storeComment'])->name('comment.store');
+Route::post('/comments/{commentId}/reply', [PostController::class, 'storeReply'])->name('reply.store');
+Route::delete('/comments/{id}', [PostController::class, 'deleteComment']);
+Route::delete('/comments/reply/{id}', [PostController::class, 'deleteReply']);
+Route::put('/comments/{id}', [PostController::class, 'updateComment']);
+Route::put('/comments/reply/{id}', [PostController::class, 'updateReply']);
 

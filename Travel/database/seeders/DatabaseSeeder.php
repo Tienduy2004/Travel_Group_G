@@ -35,5 +35,10 @@ class DatabaseSeeder extends Seeder
             FlightSeeder::class,
             BudgetSeeder::class,
         ]);
+        
+        $this->call([
+            CategorySeeder::class,
+            PostSeeder::class,
+        ]);
     }
 }

@@ -9797,20 +9797,3 @@ h6,
   padding: 0;
   list-style-type: none;
 }
-
-.post-creator {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-.profile-pic {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-}
-.user-prompt {
-  font-size: 0.9rem;
-  color: #6c757d;
-}
