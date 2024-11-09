@@ -1,0 +1,117 @@
+[33mdbdfa38[m[33m ([m[1;36mHEAD -> [m[1;32mQL_danhmucBlog[m[33m, [m[1;31morigin/QL_danhmucBlog[m[33m)[m HEAD@{0}: checkout: moving from Profile to QL_danhmucBlog
+[33mc676515[m[33m ([m[1;32mProfile[m[33m)[m HEAD@{1}: reset: moving to HEAD
+[33mc676515[m[33m ([m[1;32mProfile[m[33m)[m HEAD@{2}: checkout: moving from Giua_ky to Profile
+[33m804563b[m[33m ([m[1;31morigin/Giua_ky[m[33m, [m[1;32mGiua_ky[m[33m)[m HEAD@{3}: checkout: moving from QL_danhmucBlog to Giua_ky
+[33mdbdfa38[m[33m ([m[1;36mHEAD -> [m[1;32mQL_danhmucBlog[m[33m, [m[1;31morigin/QL_danhmucBlog[m[33m)[m HEAD@{4}: checkout: moving from Giua_ky to QL_danhmucBlog
+[33m804563b[m[33m ([m[1;31morigin/Giua_ky[m[33m, [m[1;32mGiua_ky[m[33m)[m HEAD@{5}: merge origin/Giua_ky: Fast-forward
+[33m1ea1270[m HEAD@{6}: merge origin/Giua_ky: Fast-forward
+[33mf87d33b[m HEAD@{7}: checkout: moving from blog to Giua_ky
+[33ma8ed5dc[m[33m ([m[1;31morigin/blog[m[33m, [m[1;32mblog[m[33m)[m HEAD@{8}: commit: up file
+[33m39b23f7[m HEAD@{9}: checkout: moving from Giua_ky to blog
+[33mf87d33b[m HEAD@{10}: commit: up file thieu
+[33m825b8fe[m HEAD@{11}: commit: xoa file loi
+[33m61f825c[m HEAD@{12}: checkout: moving from blog to Giua_ky
+[33m39b23f7[m HEAD@{13}: commit: update
+[33m8cfa478[m HEAD@{14}: checkout: moving from Giua_ky to blog
+[33m61f825c[m HEAD@{15}: commit: fix
+[33md18c0d4[m HEAD@{16}: commit: blog
+[33m8cfa478[m HEAD@{17}: merge blog: Fast-forward
+[33m153aefe[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{18}: checkout: moving from blog to Giua_ky
+[33m8cfa478[m HEAD@{19}: commit (merge): Merge branch 'master' into blog
+[33mb17b9b2[m HEAD@{20}: checkout: moving from Giua_ky to blog
+[33m153aefe[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{21}: reset: moving to HEAD
+[33m153aefe[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{22}: checkout: moving from blog to Giua_ky
+[33mb17b9b2[m HEAD@{23}: checkout: moving from Giua_ky to blog
+[33m153aefe[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{24}: checkout: moving from master to Giua_ky
+[33m153aefe[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{25}: merge origin/master: Fast-forward
+[33m9eed688[m HEAD@{26}: merge Login: Merge made by the 'ort' strategy.
+[33me794765[m HEAD@{27}: checkout: moving from Login to master
+[33m55c2dba[m[33m ([m[1;31morigin/Login[m[33m, [m[1;32mLogin[m[33m)[m HEAD@{28}: commit: update max 50 ky tu name
+[33m2a2d34b[m HEAD@{29}: checkout: moving from master to Login
+[33me794765[m HEAD@{30}: commit: config web.php
+[33mae2fbeb[m HEAD@{31}: merge Tours: Merge made by the 'ort' strategy.
+[33mb544111[m HEAD@{32}: merge origin/master: Fast-forward
+[33medfd977[m HEAD@{33}: checkout: moving from Tours to master
+[33m8e5132d[m[33m ([m[1;31morigin/Tours[m[33m, [m[1;32mTours[m[33m)[m HEAD@{34}: commit: update thong bao loi
+[33m3e5c07b[m HEAD@{35}: checkout: moving from master to Tours
+[33medfd977[m HEAD@{36}: checkout: moving from Tours to master
+[33m3e5c07b[m HEAD@{37}: checkout: moving from master to Tours
+[33medfd977[m HEAD@{38}: checkout: moving from Profile to master
+[33mc676515[m[33m ([m[1;32mProfile[m[33m)[m HEAD@{39}: commit: add friends
+[33m5cb5674[m[33m ([m[1;31morigin/Profile[m[33m)[m HEAD@{40}: merge origin/Profile: Fast-forward
+[33m350f1b4[m HEAD@{41}: checkout: moving from master to Profile
+[33medfd977[m HEAD@{42}: merge origin/master: Fast-forward
+[33m52c491a[m HEAD@{43}: checkout: moving from QuanLyKhuyenMai to master
+[33m7c12bfb[m[33m ([m[1;32mQuanLyKhuyenMai[m[33m)[m HEAD@{44}: commit (merge): Merge branch 'master' into QuanLyKhuyenMai
+[33m0feb774[m HEAD@{45}: checkout: moving from master to QuanLyKhuyenMai
+[33m52c491a[m HEAD@{46}: merge origin/master: Fast-forward
+[33m350f1b4[m HEAD@{47}: checkout: moving from Tours to master
+[33m3e5c07b[m HEAD@{48}: commit: Them chuc nang tim kiem và fix bug tour.shows
+[33m7872096[m HEAD@{49}: checkout: moving from Profile to Tours
+[33m350f1b4[m HEAD@{50}: checkout: moving from master to Profile
+[33m350f1b4[m HEAD@{51}: merge origin/master: Fast-forward
+[33mf533797[m HEAD@{52}: checkout: moving from Tours to master
+[33m7872096[m HEAD@{53}: commit: loi route
+[33m1153d0a[m HEAD@{54}: commit: update
+[33m8270de5[m HEAD@{55}: commit: xoa file loi
+[33m155bc66[m HEAD@{56}: commit (merge): Merge remote-tracking branch 'origin/Tours' into Tours
+[33m63dc59d[m HEAD@{57}: commit: Cap nhat payment,profile
+[33m08bdcbb[m HEAD@{58}: checkout: moving from master to Tours
+[33mf533797[m HEAD@{59}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{60}: checkout: moving from master to Tours
+[33mf533797[m HEAD@{61}: commit: cap nhat
+[33m25836d6[m HEAD@{62}: merge origin/master: Merge made by the 'ort' strategy.
+[33m8f6b2df[m HEAD@{63}: commit: Cap nhat
+[33m6dcac97[m HEAD@{64}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{65}: checkout: moving from master to Tours
+[33m6dcac97[m HEAD@{66}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{67}: checkout: moving from master to Tours
+[33m6dcac97[m HEAD@{68}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{69}: checkout: moving from master to Tours
+[33m6dcac97[m HEAD@{70}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{71}: reset: moving to HEAD
+[33m08bdcbb[m HEAD@{72}: checkout: moving from master to Tours
+[33m6dcac97[m HEAD@{73}: reset: moving to 6dcac972bc1afd653624ce7da07805c218aabe7a
+[33m6dcac97[m HEAD@{74}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{75}: checkout: moving from master to Tours
+[33m6dcac97[m HEAD@{76}: reset: moving to 6dcac972bc1afd653624ce7da07805c218aabe7a
+[33m6dcac97[m HEAD@{77}: reset: moving to 6dcac972bc1afd653624ce7da07805c218aabe7a
+[33m2e98a79[m HEAD@{78}: checkout: moving from Tours to master
+[33m08bdcbb[m HEAD@{79}: commit: add Booking
+[33m9f6e8f0[m HEAD@{80}: commit: Cap nhat tour detail
+[33mf19c002[m HEAD@{81}: checkout: moving from master to Tours
+[33m2e98a79[m HEAD@{82}: checkout: moving from Tours to master
+[33mf19c002[m HEAD@{83}: checkout: moving from master to Tours
+[33m2e98a79[m HEAD@{84}: checkout: moving from Tours to master
+[33mf19c002[m HEAD@{85}: checkout: moving from master to Tours
+[33m2e98a79[m HEAD@{86}: reset: moving to HEAD
+[33m2e98a79[m HEAD@{87}: merge origin/master: Fast-forward
+[33m2b5ad61[m HEAD@{88}: checkout: moving from Tours to master
+[33mf19c002[m HEAD@{89}: checkout: moving from master to Tours
+[33m2b5ad61[m HEAD@{90}: checkout: moving from Tours to master
+[33mf19c002[m HEAD@{91}: commit: clean danh sach tour
+[33mee20607[m HEAD@{92}: commit: Danh sach tour
+[33m254649f[m HEAD@{93}: checkout: moving from master to Tours
+[33m2b5ad61[m HEAD@{94}: merge origin/master: Fast-forward
+[33maafd836[m HEAD@{95}: checkout: moving from Login to master
+[33m2a2d34b[m HEAD@{96}: commit: update cache
+[33maafd836[m HEAD@{97}: checkout: moving from master to Login
+[33maafd836[m HEAD@{98}: checkout: moving from Tours to master
+[33m254649f[m HEAD@{99}: checkout: moving from master to Tours
+[33maafd836[m HEAD@{100}: checkout: moving from Tours to master
+[33m254649f[m HEAD@{101}: checkout: moving from master to Tours
+[33maafd836[m HEAD@{102}: checkout: moving from Tours to master
+[33m254649f[m HEAD@{103}: checkout: moving from master to Tours
+[33maafd836[m HEAD@{104}: checkout: moving from Tours to master
+[33m254649f[m HEAD@{105}: checkout: moving from master to Tours
+[33maafd836[m HEAD@{106}: checkout: moving from Login to master
+[33maafd836[m HEAD@{107}: checkout: moving from Tours to Login
+[33m254649f[m HEAD@{108}: commit: Cap nhat detail tour
+[33maafd836[m HEAD@{109}: checkout: moving from master to Tours
+[33maafd836[m HEAD@{110}: commit: Update detail tour
+[33mc53dcea[m HEAD@{111}: commit: upload tour
+[33m671cb32[m HEAD@{112}: commit: Upload login/register verify
+[33m7fa3da6[m HEAD@{113}: commit: register
+[33m0f0ca31[m HEAD@{114}: commit (amend): update register test
+[33m14811f5[m HEAD@{115}: commit: update register test
+[33m5bf354c[m HEAD@{116}: checko
