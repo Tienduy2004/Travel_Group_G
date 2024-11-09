@@ -33,5 +33,10 @@ class DatabaseSeeder extends Seeder
             DepartureLocationSeeder::class,
             DepartureScheduleSeeder::class,
         ]);
+        
+        $this->call([
+            CategorySeeder::class,
+            PostSeeder::class,
+        ]);
     }
 }

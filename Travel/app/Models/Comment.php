@@ -16,10 +16,19 @@ class Comment extends Model
         'content'
     ];
 
-    public function replies(){
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+    public function replies()
+    {
         return $this->hasMany(Comment::class, 'parent_id')->with('replies');
     }
-    public function parent(){
+    public function parent()
+    {
         return $this->belongsTo(Comment::class, 'parent_id');
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }
