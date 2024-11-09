@@ -56,9 +56,7 @@
     </div>
 
     <!-- Phân trang -->
-    <div class="pagination-container" style="display: flex; justify-content: center; margin-top: 20px;">
-        {{ $categories->appends(['search' => $search])->links() }}
-    </div>
+    
 
     <style>
         .btn-primary {

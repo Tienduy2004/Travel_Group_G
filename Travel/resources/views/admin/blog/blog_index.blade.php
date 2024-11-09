@@ -55,6 +55,6 @@
 
     <!-- Phân trang -->
     <div class="pagination" style="display: flex; justify-content: center; margin-top: 20px; list-style: none;">
-        {{ $categories->appends(['search' => $search])->links() }}
+        <!-- //phan trang -->
     </div>
 @endsection
