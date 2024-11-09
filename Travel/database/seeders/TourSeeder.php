@@ -26,7 +26,7 @@ class TourSeeder extends Seeder
                 'image_main' => 'vietnam-hanoi.jpg',
                 'program_code' => 'THH01',
                 'id_departure_location' => 1,
-                'person' => 2,
+                'person' => 3,
             ],
             [
                 'name' => 'Tour Thái Lan - Bangkok',
