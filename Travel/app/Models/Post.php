@@ -10,7 +10,6 @@ use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use HasFactory, Searchable;
 
     protected $fillable = [
         'user_id',

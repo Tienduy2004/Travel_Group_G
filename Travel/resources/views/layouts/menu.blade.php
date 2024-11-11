@@ -132,6 +132,8 @@
         </div>
         <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i>Quản Lý Tour</a>
         <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i>Quản Lý Khuyến Mãi</a>
+        <a href="{{ route('admin.blog.index') }}"><i class="fas fa-blog"></i>Quản Lý Blog</a>
+        <a href="{{ route('admin.category.index') }}"><i class="fas fa-list"></i>Quản Lý Danh Mục</a>
 
         <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
             @csrf
