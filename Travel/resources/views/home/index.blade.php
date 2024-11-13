@@ -38,6 +38,14 @@
         </a>
     </div>
 </div>
+<div class="promo-container">
+    <div class="gift-boxes">
+        <div class="gift-box">🎁</div>
+    </div>
+    <div class="promo-text">nhận khuyến mãi</div>
+</div>
+
+
 <!-- Carousel End -->
 
 
