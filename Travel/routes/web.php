@@ -87,6 +87,7 @@ Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('pr
 Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
 Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
 Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+Route::post('/apply-promotion', [PromotionController::class, 'applyPromotion']);
 
 
 // Route cho trang đăng nhập admin
