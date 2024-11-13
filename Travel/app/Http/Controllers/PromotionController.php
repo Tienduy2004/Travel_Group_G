@@ -37,7 +37,29 @@ class PromotionController extends Controller
     return view('admin.promotions.index', compact('promotions', 'search', 'startDate', 'endDate', 'message'));
 }
 
+public function applyPromotion(Request $request)
+{
+    $programCode = $request->input('program_code');
+    $currentTotalAmount = $request->input('original_price'); // Lấy tổng tiền hiện tại từ request
 
+    $promotion = Promotion::where('code', $programCode)
+                          ->whereDate('start_date', '<=', now())
+                          ->whereDate('end_date', '>=', now())
+                          ->first();
+
+    if ($promotion) {
+        // Tính toán giá sau khi áp dụng khuyến mãi dựa trên tổng tiền hiện tại
+        $discountedPrice = $currentTotalAmount * (1 - $promotion->discount_percentage / 100);
+        return response()->json([
+            'discounted_price' => $discountedPrice,
+            'message' => 'Áp dụng thành công mã khuyến mãi.',
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'Mã khuyến mãi không hợp lệ hoặc đã hết hạn.',
+        ], 400);
+    }
+}
 
     public function create()
     {

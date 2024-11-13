@@ -104,6 +104,7 @@ class AdminController extends Controller
         $request->validate($rules);
     }
 
+
    // Phương thức saveTourData
 // Phương thức saveTourData
 private function saveTourData(Tour $tour, Request $request) {
@@ -142,3 +143,4 @@ private function saveTourData(Tour $tour, Request $request) {
 }
 
 }
+
