@@ -39,11 +39,13 @@
     </div>
 </div>
 <div class="promo-container">
+    <img src="{{ asset('img/tours/khuyenmai.jpg') }}" alt="">
     <div class="gift-boxes">
         <div class="gift-box">🎁</div>
     </div>
-    <div class="promo-text">nhận khuyến mãi</div>
+    <a href="{{ route('promotions.index') }}" class="promo-text">Nhận Khuyến Mãi</a>
 </div>
+
 
 
 <!-- Carousel End -->

@@ -1,4 +1,4 @@
-/* Định dạng chung cho hộp khuyến mãi */
+
 .promo-container {
     position: fixed;
     bottom: 20px;
@@ -9,46 +9,62 @@
     gap: 10px;
     z-index: 1000;
 }
+.promo-container img {
+    width: 100px;  
+    height: 120px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+}
 
-/* Tạo hiệu ứng chuyển động cho hộp quà */
 .gift-boxes {
+    position: absolute;
+    top: 10px; 
     display: flex;
     gap: 10px;
     animation: moveTogether 1.5s ease-in-out infinite alternate;
 }
-/* Định dạng kích thước cho emoji hộp quà */
 .gift-box {
-    width: 50px;
-    height: 50px;
-    font-size: 48px; /* Kích thước emoji khớp với khung */
+    width: 5px;
+    height: 5px;
+    padding-top: 40px;
+    font-size: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    animation: shake 0.5s ease-in-out infinite alternate;
+    animation: shake 1s ease-in-out infinite alternate;
 }
 
-/* Hiệu ứng hai hộp quà di chuyển vào nhau */
-@keyframes moveTogether {
-    0% { transform: translateX(-10px); }
-    50% { transform: translateX(0px); }
-    100% { transform: translateX(10px); }
-}
-
-
-/* Định dạng dòng chữ */
 .promo-text {
+    position: absolute; 
+    bottom: 10px; 
+    transform: translateX(-50%); 
     font-size: 10px;
     font-weight: bold;
     color: white;
     background-color: #FF0000;
-    padding: 5px 15px;
     border-radius: 5px;
+    text-decoration: none;
     animation: textBounce 1s ease-in-out infinite alternate;
 }
+@keyframes shake {
+    0% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(10deg); 
+    }
+    100% {
+        transform: rotate(-10deg); 
+    }
+}
+.promo-text:hover {
+    color: yellow;
+    background-color: #FF4500;
+}
 
-/* Hiệu ứng chữ phóng to thu nhỏ */
+
 @keyframes textBounce {
     0% { transform: scale(1); }
-    100% { transform: scale(1.2); }
+    100% { transform: scale(1.1); }
 }
