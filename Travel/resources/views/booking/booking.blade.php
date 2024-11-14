@@ -112,18 +112,6 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <label for="program_code">Mã chương trình:</label>
-                        <input type="text" name="program_code" id="program_code" placeholder="Nhập mã chương trình..."
-                            value="{{ old('program_code') }}">
-                        <button type="button" id="check_promotion_button">Kiểm tra mã</button>
-                        <span id="discounted_price"></span>
-                    </div>
-                    <script>
-                        const originalPrice = {{ $tour-> price }};
-                    </script>
-                    <script src="{{ asset('js/nhankhuyenmai.js') }}"></script>
-
                     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
                         <h2 class="text-xl font-semibold text-blue-600 mb-4">GHI CHÚ</h2>
                         <textarea name="note" class="w-full p-2 border rounded" rows="4"
