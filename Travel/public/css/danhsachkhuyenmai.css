@@ -1,0 +1,73 @@
+h1 {
+    text-align: center;
+    font-size: 42px;
+    color: rgb(65, 10, 246);
+}
+#code{
+    color: rgb(29, 212, 130);
+}
+#thoigian{
+    color: blueviolet;
+}
+
+.promotions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 60px;
+    justify-content: center;
+}
+
+.promotion-card {
+    width: 200px;
+    padding: 20px;
+   background-color: rgb(222, 8, 8);
+    background-size: cover;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    position: relative;
+    overflow: hidden; 
+}
+
+.promotion-card:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 10px;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.promotion-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Lớp phủ màu đen với độ trong suốt */
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.promotion-code {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    z-index: 2; 
+    position: relative;
+}
+
+.promotion-expiry {
+    font-size: 14px;
+    opacity: 0.9;
+    z-index: 2; 
+    position: relative;
+}
+
+

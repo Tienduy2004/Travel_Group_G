@@ -98,6 +98,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
     Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
 	Route::post('/apply-promotion', [PromotionController::class, 'applyPromotion']);
+    Route::get('/promotions/danhsachkhuyenmai', [PromotionController::class, 'danhsachkhuyenmai'])->name('promotions.danhsachkhuyenmai');
+
+
 
 // Route cho trang đăng nhập admin
 

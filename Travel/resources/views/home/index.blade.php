@@ -43,7 +43,7 @@
     <div class="gift-boxes">
         <div class="gift-box">🎁</div>
     </div>
-    <a href="{{ route('promotions.index') }}" class="promo-text">Nhận Khuyến Mãi</a>
+    <a href="{{ route('promotions.danhsachkhuyenmai') }}" class="promo-text">Nhận Khuyến Mãi</a>
 </div>
 
 

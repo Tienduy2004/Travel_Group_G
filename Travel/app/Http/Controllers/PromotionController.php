@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PromotionController extends Controller
 {
-    // Phương thức index để hiển thị danh sách khuyến mãi kèm theo phân trang và tìm kiếm
+   
     public function index(Request $request)
 {
-    $search = $request->input('search'); // Lấy giá trị từ form tìm kiếm
-    $startDate = $request->input('start_date'); // Ngày bắt đầu
-    $endDate = $request->input('end_date');     // Ngày kết thúc
+    $search = $request->input('search'); 
+    $startDate = $request->input('start_date'); 
+    $endDate = $request->input('end_date');    
 
     // Lọc dữ liệu theo từ khóa và ngày tháng nếu có
     $promotions = Promotion::when($search, function ($query, $search) {
@@ -35,6 +36,17 @@ class PromotionController extends Controller
 
     // Trả về view với dữ liệu khuyến mãi và thông báo
     return view('admin.promotions.index', compact('promotions', 'search', 'startDate', 'endDate', 'message'));
+}
+public function danhsachkhuyenmai(Request $request)
+{
+  
+    $promotions = Promotion::all()->map(function ($promotion) {
+        $promotion->start_date = Carbon::parse($promotion->start_date);
+        $promotion->end_date = Carbon::parse($promotion->end_date);
+        return $promotion;
+    });
+
+    return view('admin.promotions.danhsachkhuyenmai', compact('promotions'));
 }
 
 public function applyPromotion(Request $request)
@@ -70,14 +82,14 @@ public function applyPromotion(Request $request)
     {
         $request->validate([
             'code' => 'required|string|max:255|unique:promotions',
-            'description' => 'nullable|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'description' => 'nullable|string', 
+            'start_date' => 'required|date|after_or_equal:today', 
+            'end_date' => 'required|date|after_or_equal:start_date', 
             'discount_percentage' => 'required|integer|min:0|max:100',
         ]);
-
+    
         Promotion::create($request->all());
-
+    
         return redirect()->route('promotions.index')->with('success', 'Khuyến mãi đã được tạo thành công.');
     }
 
@@ -87,19 +99,18 @@ public function applyPromotion(Request $request)
         return view('admin.promotions.edit', compact('promotion'));
     }
 
-    // Phương thức update để cập nhật khuyến mãi
     public function update(Request $request, Promotion $promotion)
     {
         $request->validate([
             'code' => 'required|string|max:255|unique:promotions,code,' . $promotion->id,
-            'description' => 'nullable|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'description' => 'nullable|string', // Không giới hạn độ dài mô tả
+            'start_date' => 'required|date|after_or_equal:today', // Ngày bắt đầu không được trong quá khứ
+            'end_date' => 'required|date|after_or_equal:start_date', // Ngày kết thúc không được nhỏ hơn ngày bắt đầu
             'discount_percentage' => 'required|integer|min:0|max:100',
         ]);
-
+    
         $promotion->update($request->all());
-
+    
         return redirect()->route('promotions.index')->with('success', 'Khuyến mãi đã được cập nhật thành công.');
     }
 

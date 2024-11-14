@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('code'); // Mã khuyến mãi
             $table->text('description')->nullable(); // Mô tả khuyến mãi
-            $table->date('start_date'); // Ngày bắt đầu
-            $table->date('end_date'); // Ngày kết thúc
+            $table->datetime('start_date'); // Ngày bắt đầu (bao gồm cả giờ)
+            $table->datetime('end_date'); // Ngày kết thúc (bao gồm cả giờ)
             $table->integer('discount_percentage'); // Giảm bao nhiêu phần trăm
             $table->timestamps();
         });
+        
         
     }
 
