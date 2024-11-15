@@ -39,14 +39,15 @@ class PromotionController extends Controller
 }
 public function danhsachkhuyenmai(Request $request)
 {
-  
+    $hasPromotions = Promotion::exists(); // Kiểm tra xem bảng promotions có dữ liệu hay không
+
     $promotions = Promotion::all()->map(function ($promotion) {
         $promotion->start_date = Carbon::parse($promotion->start_date);
         $promotion->end_date = Carbon::parse($promotion->end_date);
         return $promotion;
     });
 
-    return view('admin.promotions.danhsachkhuyenmai', compact('promotions'));
+    return view('admin.promotions.danhsachkhuyenmai', compact('promotions', 'hasPromotions'));
 }
 
 public function applyPromotion(Request $request)
