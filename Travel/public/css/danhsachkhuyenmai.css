@@ -28,12 +28,12 @@ h1{
 .promotion-card::before {
     content: "";
     position: absolute;
-    top: -4px; /* Đẩy lên một chút để tránh lộ ở góc */
+    top: -4px;
     left: -4px;
     right: -4px;
     bottom: -4px;
     background: linear-gradient(to right, rgb(4, 241, 40), rgb(155, 5, 215));
-    border-radius: 14px; /* Tăng kích thước border-radius */
+    border-radius: 14px;
     z-index: -1;
     animation: rotateBorder 3s infinite linear;
 }
@@ -50,12 +50,12 @@ h1{
 .promotion-card::after {
     content: "";
     position: absolute;
-    top: 6px; /* Đẩy lên một chút để tránh lộ ở góc */
+    top: 6px;
     left: 6px;
     right: 6px;
     bottom: 6px;
     background-color: #060000;
-    border-radius: 10px; /* Tăng kích thước border-radius */
+    border-radius: 10px;
     z-index: -1;
 }
 
