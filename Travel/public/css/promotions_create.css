@@ -1,25 +1,25 @@
 body {
-    background-color: #f8f9fa; /* Màu nền nhẹ nhàng */
+    background-color: #f8f9fa; 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Chiều cao đầy đủ của viewport */
+    height: 100vh; 
     margin: 0;
 }
 .form-container {
-    background-color: white; /* Nền trắng cho form */
+    background-color: white; 
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
-    width: 400px; /* Chiều rộng của form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 400px; 
 }
 h1 {
-    text-align: center; /* Canh giữa tiêu đề */
-    color: #007bff; /* Màu xanh cho tiêu đề */
-    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    text-align: center; 
+    color: #007bff; 
+    margin-bottom: 20px; 
 }
 label {
-    font-weight: bold; /* In đậm cho label */
+    font-weight: bold; 
     color: #333; /* Màu chữ cho label */
     display: block; /* Đặt label ở dòng mới */
     margin-top: 10px; /* Khoảng cách trên label */
@@ -42,11 +42,11 @@ button {
     color: white; /* Màu chữ trắng */
     border: none; /* Bỏ viền */
     padding: 10px; /* Khoảng cách bên trong nút */
-    border-radius: 5px; /* Bo góc */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
-    cursor: pointer; /* Con trỏ khi hover */
-    margin-top: 20px; /* Khoảng cách trên nút */
+    border-radius: 5px; 
+    transition: background-color 0.3s; 
+    cursor: pointer; 
+    margin-top: 20px; 
 }
 button:hover {
-    background-color: #0056b3; /* Màu nền khi hover */
+    background-color: #0056b3; 
 }

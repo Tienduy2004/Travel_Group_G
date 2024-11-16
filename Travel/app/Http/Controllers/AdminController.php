@@ -10,6 +10,7 @@ use App\Models\Promotion;
 
 class AdminController extends Controller
 {
+ 
     public function index(Request $request) {
         if (auth()->guard('admin')->user()->role !== 'admin') {
             abort(403, 'Bạn không có quyền truy cập trang này.');
