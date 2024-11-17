@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminAuthController extends Controller
 {
-            // Hiển thị danh sách các admin
+    // Hiển thị danh sách các admin
     public function index()
     {
         $admins = Admin::all();
@@ -26,9 +26,17 @@ class AdminAuthController extends Controller
     // Đăng nhập cho admin
     public function login(Request $request)
     {
+        // Validate input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
+        // Kiểm tra thông tin đăng nhập
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            // Lưu thông tin admin vào session
             $admin = Auth::guard('admin')->user();
             $request->session()->put('admin_name', $admin->name);
 
@@ -49,6 +57,7 @@ class AdminAuthController extends Controller
     // Đăng ký admin mới
     public function register(Request $request)
     {
+        // Validate input
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins',
@@ -61,6 +70,7 @@ class AdminAuthController extends Controller
                              ->withInput();
         }
 
+        // Tạo admin mới
         Admin::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -78,6 +88,4 @@ class AdminAuthController extends Controller
 
         return redirect('/admin/login');
     }
-
-   
 }
