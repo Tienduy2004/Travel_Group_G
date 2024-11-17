@@ -10,13 +10,14 @@ class AdminUserController extends Controller
     
     public function index()
     {
-      
-        if (auth()->guard('admin')->user()->role !== 'admin') {
+        if (!auth()->guard('admin')->check()) {        
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }  
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {  
             abort(403, 'Bạn không có quyền truy cập trang này.');
-        }
-
+        }  
         $admins = Admin::paginate(10);
-
         return view('admin.users.index', compact('admins'));
     }
 

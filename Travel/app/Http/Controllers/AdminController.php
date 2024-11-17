@@ -24,6 +24,14 @@ class AdminController extends Controller
     }
 
     public function create() {
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {
+         
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $destinations = Destination::all(); 
         $departureLocations = DepartureLocation::all(); 
         return view('admin.create', compact('destinations', 'departureLocations')); 
@@ -41,6 +49,14 @@ class AdminController extends Controller
     }
 
     public function edit($id) {
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {
+         
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $tour = Tour::findOrFail($id); 
         $destinations = Destination::all(); 
         $departureLocations = DepartureLocation::all(); 
@@ -61,6 +77,14 @@ class AdminController extends Controller
     }
 
     public function destroy($id) {
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {
+         
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $tour = Tour::findOrFail($id); // Sử dụng findOrFail để xử lý lỗi
         $tour->delete();
 

@@ -11,24 +11,38 @@ class PromotionController extends Controller
    
     public function index(Request $request)
 {
-    $search = $request->input('search'); 
-    $startDate = $request->input('start_date'); 
-    $endDate = $request->input('end_date');    
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if (!auth()->guard('admin')->check()) {
+        // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập và thông báo lỗi
+        return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+    }
+
+    // Nếu đã đăng nhập, kiểm tra xem người dùng có phải là admin không
+    $admin = auth()->guard('admin')->user();
+    if ($admin->role !== 'admin') {
+        // Nếu không phải admin, trả về lỗi 403 với thông báo
+        abort(403, 'Bạn không có quyền truy cập trang này.');
+    }
+
+    // Nếu đã đăng nhập và có quyền admin, thực hiện tìm kiếm và phân trang cho khuyến mãi
+    $search = $request->input('search'); // Từ khóa tìm kiếm
+    $startDate = $request->input('start_date'); // Ngày bắt đầu
+    $endDate = $request->input('end_date');     // Ngày kết thúc
 
     // Lọc dữ liệu theo từ khóa và ngày tháng nếu có
     $promotions = Promotion::when($search, function ($query, $search) {
-        return $query->where('code', 'like', "%{$search}%")
-                     ->orWhere('description', 'like', "%{$search}%");
-    })
-    ->when($startDate, function ($query, $startDate) {
-        return $query->whereDate('start_date', '>=', $startDate);
-    })
-    ->when($endDate, function ($query, $endDate) {
-        return $query->whereDate('end_date', '<=', $endDate);
-    })
-    ->paginate(5); // Phân trang
+            return $query->where('code', 'like', "%{$search}%")
+                         ->orWhere('description', 'like', "%{$search}%");
+        })
+        ->when($startDate, function ($query, $startDate) {
+            return $query->whereDate('start_date', '>=', $startDate);
+        })
+        ->when($endDate, function ($query, $endDate) {
+            return $query->whereDate('end_date', '<=', $endDate);
+        })
+        ->paginate(5); // Phân trang
 
-    // Tạo thông báo tìm kiếm
+    // Thông báo nếu không có kết quả tìm kiếm
     $message = null;
     if (($search || $startDate || $endDate) && $promotions->isEmpty()) {
         $message = 'Không tìm thấy khuyến mãi nào với các tiêu chí tìm kiếm.';
