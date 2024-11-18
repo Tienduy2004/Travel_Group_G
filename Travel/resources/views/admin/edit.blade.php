@@ -47,10 +47,6 @@
                 <label for="number_days">Số ngày:</label>
                 <input type="number" name="number_days" value="{{ $tour->number_days }}" placeholder="Số ngày" required min="1">
             </div>
-            <div>
-                <label for="program_code">Mã chương trình:</label>
-                <input type="text" name="program_code" value="{{ $tour->program_code }}" placeholder="Mã chương trình">
-            </div>
 
             <div>
                 <label for="is_active">Trạng thái hoạt động:</label>

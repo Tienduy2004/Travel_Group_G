@@ -11,29 +11,37 @@ use App\Models\Promotion;
 class AdminController extends Controller
 {
     public function index(Request $request) {
-        return $this->trangchu($request); // Gọi phương thức trangchu để hiển thị nội dung
+        return $this->trangchu($request); 
     }
     
     public function trangchu(Request $request) {
-        $search = $request->input('search'); // Lấy giá trị tìm kiếm nếu có
+        $search = $request->input('search'); 
         $tours = Tour::with('destination')->when($search, function ($query) use ($search) {
             return $query->where('name', 'LIKE', "%{$search}%");
-        })->paginate(5); // Sử dụng paginate để phân trang
+        })->paginate(5); 
     
-        return view('admin.trangchu', compact('tours', 'search')); // Đảm bảo truyền biến $tours vào view
+        return view('admin.trangchu', compact('tours', 'search')); 
     }
 
     public function create() {
-        $destinations = Destination::all(); // Lấy danh sách địa điểm từ bảng destination
-        $departureLocations = DepartureLocation::all(); // Lấy danh sách địa điểm khởi hành từ bảng departure_location
-        return view('admin.create', compact('destinations', 'departureLocations')); // Truyền cả hai biến vào view
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {
+         
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
+        $destinations = Destination::all(); 
+        $departureLocations = DepartureLocation::all(); 
+        return view('admin.create', compact('destinations', 'departureLocations')); 
     }
 
     public function store(Request $request) {
-        // Validation cho các trường
+       
         $this->validateTour($request);
 
-        // Tạo mới tour
+       
         $tour = new Tour();
         $this->saveTourData($tour, $request);
 
@@ -41,9 +49,17 @@ class AdminController extends Controller
     }
 
     public function edit($id) {
-        $tour = Tour::findOrFail($id); // Tìm tour theo ID hoặc trả về lỗi 404
-        $destinations = Destination::all(); // Lấy danh sách địa điểm từ bảng destination
-        $departureLocations = DepartureLocation::all(); // Lấy danh sách địa điểm khởi hành từ bảng departure_location
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {
+         
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
+        $tour = Tour::findOrFail($id); 
+        $destinations = Destination::all(); 
+        $departureLocations = DepartureLocation::all(); 
         
         return view('admin.edit', compact('tour', 'destinations', 'departureLocations'));
     }
@@ -61,6 +77,14 @@ class AdminController extends Controller
     }
 
     public function destroy($id) {
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
+        }
+        $admin = auth()->guard('admin')->user();
+        if ($admin->role !== 'admin') {
+         
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
         $tour = Tour::findOrFail($id); // Sử dụng findOrFail để xử lý lỗi
         $tour->delete();
 
@@ -104,8 +128,9 @@ class AdminController extends Controller
         $request->validate($rules);
     }
 
-   // Phương thức saveTourData
-// Phương thức saveTourData
+
+  
+
 private function saveTourData(Tour $tour, Request $request) {
     $tour->name = $request->input('name');
     $tour->slug = $request->input('slug') ?: \Str::slug($request->input('name'));
@@ -126,11 +151,11 @@ private function saveTourData(Tour $tour, Request $request) {
         if ($promotion) {
             // Giảm giá theo tỷ lệ phần trăm
             $discountAmount = $tour->price * ($promotion->discount_percentage / 100);
-            $tour->price = max(0, $tour->price - $discountAmount); // Đảm bảo giá không âm
+            $tour->price = max(0, $tour->price - $discountAmount); 
         }
     }
 
-    // Xử lý upload hình ảnh nếu có
+   
     if ($request->hasFile('image_main')) {
         $file = $request->file('image_main');
         $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -142,3 +167,4 @@ private function saveTourData(Tour $tour, Request $request) {
 }
 
 }
+

@@ -13,7 +13,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\PostController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
 Route::get('/about', [HomeController::class, 'about'])->name("about");
@@ -95,6 +97,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
     Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
     Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+	Route::post('/apply-promotion', [PromotionController::class, 'applyPromotion']);
+    Route::get('/promotions/danhsachkhuyenmai', [PromotionController::class, 'danhsachkhuyenmai'])->name('promotions.danhsachkhuyenmai');
+
 
 
 // Route cho trang đăng nhập admin
@@ -106,6 +111,13 @@ Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.
 Route::get('/admin/register', [AdminAuthController::class, 'showRegistrationForm'])->name('admin.register');
 Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+//phan quyèn
+Route::prefix('admin')->group(function () {
+    Route::get('users', [AdminUserController::class, 'index'])->name('admin.users.index'); // Danh sách người dùng
+    Route::get('users/{id}/edit', [AdminUserController::class, 'editRole'])->name('admin.users.edit'); // Chỉnh sửa quyền
+    Route::put('users/{id}/update', [AdminUserController::class, 'updateRole'])->name('admin.users.update'); // Cập nhật quyền
+});
 
 
 

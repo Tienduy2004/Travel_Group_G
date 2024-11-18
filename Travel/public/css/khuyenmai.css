@@ -1,0 +1,70 @@
+
+.promo-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+}
+.promo-container img {
+    width: 100px;  
+    height: 120px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+}
+
+.gift-boxes {
+    position: absolute;
+    top: 10px; 
+    display: flex;
+    gap: 10px;
+    animation: moveTogether 1.5s ease-in-out infinite alternate;
+}
+.gift-box {
+    width: 5px;
+    height: 5px;
+    padding-top: 40px;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: shake 1s ease-in-out infinite alternate;
+}
+
+.promo-text {
+    position: absolute; 
+    bottom: 10px; 
+    transform: translateX(-50%); 
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    background-color: #FF0000;
+    border-radius: 5px;
+    text-decoration: none;
+    animation: textBounce 1s ease-in-out infinite alternate;
+}
+@keyframes shake {
+    0% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(10deg); 
+    }
+    100% {
+        transform: rotate(-10deg); 
+    }
+}
+.promo-text:hover {
+    color: yellow;
+    background-color: #FF4500;
+}
+
+
+@keyframes textBounce {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
