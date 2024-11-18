@@ -14,9 +14,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
-
-
-
+use App\Http\Controllers\PostController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
@@ -78,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
 // Quản lý tour
 
     Route::get('/admin', [AdminController::class, 'trangchu'])->name('admin.trangchu');
@@ -122,3 +121,45 @@ Route::prefix('admin')->group(function () {
 
 
 
+
+
+
+
+//Post
+Route::get('/blog', [PostController::class, 'index'])->name('blog');
+Route::get('/blog/{id}', [PostController::class, 'showBlog'])->name('blog.show');
+Route::get('/category/{id}', [PostController::class, 'getPostbyCategory'])->name('category.posts');
+Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+Route::get('/create', [PostController::class, 'create_post'])->name('create.post');
+Route::post('/create-post', [PostController::class, 'storePost'])->name('store.post');
+Route::post('/blog/{id}/toggle-like', [PostController::class, 'toggleLike'])->name('blog.toggleLike');
+Route::post('/posts/{postId}/comment', [PostController::class, 'storeComment'])->name('comment.store');
+Route::post('/comments/{commentId}/reply', [PostController::class, 'storeReply'])->name('reply.store');
+Route::delete('/comments/{id}', [PostController::class, 'deleteComment']);
+Route::delete('/comments/reply/{id}', [PostController::class, 'deleteReply']);
+Route::put('/comments/{id}', [PostController::class, 'updateComment']);
+Route::put('/comments/reply/{id}', [PostController::class, 'updateReply']);
+
+
+// Quản lý danh mục blog
+use App\Http\Controllers\CategoryManagementController;
+
+Route::prefix('admin')->group(function () {
+    Route::get('category', [CategoryManagementController::class, 'index'])->name('admin.category.index');
+    Route::get('category/create', [CategoryManagementController::class, 'create'])->name('admin.category.create');
+    Route::post('category', [CategoryManagementController::class, 'store'])->name('admin.category.store');
+    Route::get('category/{id}/edit', [CategoryManagementController::class, 'edit'])->name('admin.category.edit');
+    Route::put('category/{id}', [CategoryManagementController::class, 'update'])->name('admin.category.update');
+    Route::delete('category/{id}', [CategoryManagementController::class, 'destroy'])->name('admin.category.destroy');
+});
+// Route cho quản lý Blog
+use App\Http\Controllers\BlogManagementController;
+
+Route::prefix('managementblog')->group(function () {
+    Route::get('/', [BlogManagementController::class, 'index'])->name('admin.blog.index');  // Danh sách blog
+    Route::get('/create', [BlogManagementController::class, 'create'])->name('admin.blog.create'); // Form tạo bài viết
+    Route::post('/', [BlogManagementController::class, 'store'])->name('admin.blog.store'); // Lưu bài viết mới
+    Route::get('/{id}/edit', [BlogManagementController::class, 'edit'])->name('admin.blog.edit'); // Form chỉnh sửa bài viết
+    Route::put('/{id}', [BlogManagementController::class, 'update'])->name('admin.blog.update'); // Cập nhật bài viết
+    Route::delete('/{id}', [BlogManagementController::class, 'destroy'])->name('admin.blog.destroy'); // Xóa bài viết
+});

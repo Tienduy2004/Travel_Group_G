@@ -36,5 +36,10 @@ class DatabaseSeeder extends Seeder
             BudgetSeeder::class,
             AdminsTableSeeder::class,
         ]);
+        
+        $this->call([
+            CategorySeeder::class,
+            PostSeeder::class,
+        ]);
     }
 }
