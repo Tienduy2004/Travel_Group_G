@@ -34,6 +34,12 @@ class DatabaseSeeder extends Seeder
             DepartureScheduleSeeder::class,
             FlightSeeder::class,
             BudgetSeeder::class,
+            AdminsTableSeeder::class,
+        ]);
+        
+        $this->call([
+            CategorySeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

@@ -14,12 +14,12 @@
                 {{ session('error') }}
             </div>
         @endif
-        @if ($booking->amount_paid == $booking->total_price & $booking->booking_status == 'confirmed')
+        @if (($booking->amount_paid == $booking->total_price) & ($booking->booking_status == 'confirmed'))
             <div class="bg-green-500 text-white font-semibold p-4 rounded-lg mb-4">
                 Bạn đã thanh toán hoàn tất.
             </div>
         @endif
-        @if ($booking->amount_paid == $booking->total_price & $booking->booking_status == 'canceled')
+        @if (($booking->amount_paid == $booking->total_price) & ($booking->booking_status == 'canceled'))
             <div class="bg-red-500 text-white font-semibold p-4 rounded-lg mb-4">
                 Bạn đã hủy chuyến du lịch.
             </div>
@@ -115,8 +115,11 @@
                         <div>
 
                             <p class="font-semibold text-gray-600 mb-2">Tình trạng:</p>
+                            @if($booking->booking_status == 'canceled')
+                            <p class="text-blue-600">Booking của quý khách đã hủy</p>
+                            @else
                             <p class="text-blue-600">Booking của quý khách đã được chúng tôi xác nhận thành công</p>
-
+                            @endif
                         </div>
                         <div>
                             <p class="font-semibold text-gray-600 mb-2">Thời hạn thanh toán:</p>
@@ -185,59 +188,67 @@
                         </div>
                         <div>
                             <p class="font-semibold text-gray-600">MÃ TOUR:</p>
-                            <p class="text-gray-800">NNSGN1303-006-160125VU-V-F</p>
+                            <p class="text-gray-800">{{$booking->tour->program_code}}</p>
                         </div>
                     </div>
                     <h3 class="font-semibold mt-4 mb-2 text-gray-600">THÔNG TIN CHUYẾN BAY</h3>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="border-t pt-2">
-                            <div class="flex justify-between text-gray-800 mb-2">
-                                <p class="font-semibold text-gray-600 ">Ngày đi -
-                                    {{ \Carbon\Carbon::parse($flightAway->departure_date)->format('d/m/Y') }}</p>
-                                <p class="font-bold text-blue-400">{{ $flightAway->flight_code }}</p>
-                            </div>
+                    @if (isset($flightAway) == false || isset($returnFlight) == false)
+                        <div class="col-span-full text-center">
+                            <h4 class="text-red-600">Chưa có chuyến bay</h4>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="border-t pt-2">
+                                <div class="flex justify-between text-gray-800 mb-2">
+                                    <p class="font-semibold text-gray-600 ">Ngày đi -
+                                        {{ \Carbon\Carbon::parse($flightAway->departure_date)->format('d/m/Y') }}</p>
+                                    <p class="font-bold text-blue-400">{{ $flightAway->flight_code }}</p>
+                                </div>
 
-                            <div class="flex justify-between text-gray-800">
-                                <p class="mb-1">{{ \Carbon\Carbon::parse($flightAway->departure_time)->format('H:i') }}
-                                </p>
-                                <p>{{ \Carbon\Carbon::parse($flightAway->arrival_time)->format('H:i') }}</p>
+                                <div class="flex justify-between text-gray-800">
+                                    <p class="mb-1">
+                                        {{ \Carbon\Carbon::parse($flightAway->departure_time)->format('H:i') }}
+                                    </p>
+                                    <p>{{ \Carbon\Carbon::parse($flightAway->arrival_time)->format('H:i') }}</p>
+                                </div>
+                                <div class="flex justify-center">
+                                    <p class="border-b-4 border-gray-300 w-48"> </p>
+                                </div>
+                                <div class="flex justify-between items-center text-gray-800 mb-2">
+                                    <p>{{ $flightAway->departure_location }}</p>
+
+                                    <p>{{ $flightAway->arrival_location }}</p>
+                                </div>
+                                <div class="flex justify-center">
+                                    <p class="text-green-400">{{ $flightAway->airline }}</p>
+                                </div>
                             </div>
-                            <div class="flex justify-center">
-                                <p class="border-b-4 border-gray-300 w-48"> </p>
-                            </div>
-                            <div class="flex justify-between items-center text-gray-800 mb-2">
-                                <p>{{ $flightAway->departure_location }}</p>
-                                
-                                <p>{{ $flightAway->arrival_location }}</p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="text-green-400">{{ $flightAway->airline }}</p>
+                            <div class="border-t pt-2">
+                                <div class="flex justify-between text-gray-800 mb-2">
+                                    <p class="font-semibold text-gray-600">Ngày về -
+                                        {{ \Carbon\Carbon::parse($returnFlight->departure_date)->format('d/m/Y') }}</p>
+                                    <p class="font-bold text-blue-400">{{ $returnFlight->flight_code }}</p>
+                                </div>
+
+                                <div class="flex justify-between text-gray-800">
+                                    <p class="mb-1">
+                                        {{ \Carbon\Carbon::parse($returnFlight->departure_time)->format('H:i') }}
+                                    </p>
+                                    <p>{{ \Carbon\Carbon::parse($returnFlight->arrival_time)->format('H:i') }}</p>
+                                </div>
+                                <div class="flex justify-center">
+                                    <p class="border-b-4 border-gray-300 w-48"> </p>
+                                </div>
+                                <div class="flex justify-between items-center text-gray-800">
+                                    <p>{{ $returnFlight->departure_location }}</p>
+                                    <p>{{ $returnFlight->arrival_location }}</p>
+                                </div>
+                                <div class="flex justify-center">
+                                    <p class="text-green-400">{{ $returnFlight->airline }}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="border-t pt-2">
-                            <div class="flex justify-between text-gray-800 mb-2">
-                                <p class="font-semibold text-gray-600">Ngày về -
-                                    {{ \Carbon\Carbon::parse($returnFlight->departure_date)->format('d/m/Y') }}</p>
-                                <p class="font-bold text-blue-400">{{ $returnFlight->flight_code }}</p>
-                            </div>
-
-                            <div class="flex justify-between text-gray-800">
-                                <p class="mb-1">{{ \Carbon\Carbon::parse($returnFlight->departure_time)->format('H:i') }}
-                                </p>
-                                <p>{{ \Carbon\Carbon::parse($returnFlight->arrival_time)->format('H:i') }}</p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="border-b-4 border-gray-300 w-48"> </p>
-                            </div>
-                            <div class="flex justify-between items-center text-gray-800">
-                                <p>{{ $returnFlight->departure_location }}</p>
-                                <p>{{ $returnFlight->arrival_location }}</p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="text-green-400">{{ $returnFlight->airline }}</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
                 @if ($booking->payment_method == 'transfer' && $remainingAmount != 0)
                     <div class="flex justify-center items-center mt-6">
@@ -252,16 +263,16 @@
                     </div>
                 @endif
                 @if ($booking->booking_status != 'canceled' && $remainingAmount != 0)
-                <div class="flex justify-center items-center mt-6">
-                    <form action="{{ route('bookings.cancel') }}" method="POST" class="w-full max-w-md">
-                        @csrf
-                        <input type="hidden" name="booking_id" value="{{ $booking->id }}">
-                        <button type="submit"
-                            class="w-full bg-red-600 text-white font-semibold py-2 rounded-lg shadow hover:bg-blue-700 transition duration-300">
-                            Hủy chuyến du lịch
-                        </button>
-                    </form>
-                </div>
+                    <div class="flex justify-center items-center mt-6">
+                        <form action="{{ route('bookings.cancel') }}" method="POST" class="w-full max-w-md">
+                            @csrf
+                            <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+                            <button type="submit"
+                                class="w-full bg-red-600 text-white font-semibold py-2 rounded-lg shadow hover:bg-blue-700 transition duration-300">
+                                Hủy chuyến du lịch
+                            </button>
+                        </form>
+                    </div>
                 @endif
             </div>
         </div>

@@ -91,7 +91,7 @@ class PaymentController extends Controller
             // dd($paymentData->data->checkoutUrl);
             return redirect()->away($response->json()['data']['checkoutUrl']);
         } else {
-            dd($response->body()); // Hiển thị phản hồi từ API
+            //dd($response->body()); // Hiển thị phản hồi từ API
             return back()->withErrors(['error' => 'Không thể tạo link thanh toán.']);
         }
     }
