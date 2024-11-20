@@ -11,6 +11,15 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TourController;
+use App\Livewire\Chat\Chat;
+use App\Livewire\Chat\Index;
+use App\Livewire\Friends\AllFriends;
+use App\Livewire\Friends\FriendRequests;
+use App\Livewire\Friends\Index as FriendsIndex;
+use App\Livewire\Home\Index as HomeIndex;
+use App\Livewire\Users;
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name("home");
 Route::get('/about', [HomeController::class, 'about'])->name("about");
@@ -64,14 +73,32 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile/{id}/update-cover', [ProfileController::class, 'updateCover'])->name('profile.update.cover');
     Route::post('/profile/{id}/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.update.avatar');
-    Route::post('/friends/add', [FriendController::class, 'add'])->name('friends.add');
-    Route::post('/friends/cancel', [FriendController::class, 'cancel'])->name('friends.cancel');
-    Route::post('/friends/accept', [FriendController::class, 'accept'])->name('friends.accept');
-    Route::post('/messages', [FriendController::class, 'cancel'])->name('messages.send');
-    //Route::post('/chat/send-message', [ChatController::class, 'sendMessage'])->middleware('auth');
+   
+    // Route::post('/messages', [FriendController::class, 'cancel'])->name('messages.send');
+   
 
 });
-Route::middleware('auth')->group(function () {
-    Route::get('/chat/messages/{receiverId}', [ChatController::class, 'fetchMessages']);
-    Route::post('/chat/send-message', [ChatController::class, 'sendMessage']);
+
+Route::middleware('auth')->group(function (){
+
+    Route::get('/chat',Index::class)->name('chat.index');
+    Route::get('/chat/{query}',Chat::class)->name('chat');
+    Route::post('/message', [ChatController::class, 'sendMessage'])->name('message.send');
+    Route::get('/users',Users::class)->name('users');
+    
+
+});
+
+Route::middleware('auth')->group(function (){
+
+    Route::get('/friends', FriendsIndex::class)->name('friends.index');
+    Route::post('/friends/add', [FriendController::class, 'add'])->name('friends.add');
+    Route::post('/friends/cancel', [FriendController::class, 'cancel'])->name('friends.cancel');
+    Route::post('/friends/cancelInvitation', [FriendController::class, 'cancelInvitation'])->name('friends.cancelInvitation');
+    Route::post('/friends/accept', [FriendController::class, 'accept'])->name('friends.accept');
+});
+
+Route::middleware('auth')->group(function (){
+
+    Route::get('/home', HomeIndex::class)->name('home.index');
 });

@@ -33,6 +33,10 @@
     <link href="{{ asset('css/tailwind/tailwind.min.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('css/tours.css') }}" rel="stylesheet"> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Livewire Styles -->
+    {{-- @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    
     
  
     
@@ -41,8 +45,12 @@
     @include('includes.header')
     @yield('content')
     @include('includes.footer')
+    
+    <!-- Livewire Scripts -->
+    {{-- @livewireScripts --}}
 
 
 </body>
 
 </html>
+

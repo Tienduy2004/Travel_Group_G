@@ -44,22 +44,42 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
-
-    public function sentMessages()
+    public function conversations()
     {
-        return $this->hasMany(Message::class, 'sender_id');
+
+        return $this->hasMany(Conversation::class, 'sender_id')->orWhere('receiver_id', $this->id)->whereNotDeleted();
+    }
+    /**
+     * The channels the user receives notification broadcasts on.
+     */
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'users.' . $this->id;
     }
 
-    public function receivedMessages()
-    {
-        return $this->hasMany(Message::class, 'receiver_id');
-    }
-
+    // public function friends()
+    // {
+    //     return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+    //         ->where(function ($query) {
+    //             // Lọc trạng thái là 'accepted' cho user_id
+    //             $query->where('status', 'accepted')
+    //                 ->where('user_id', $this->id);
+    //         })
+    //         ->orWhere(function ($query) {
+    //             // Lọc trạng thái là 'accepted' cho friend_id
+    //             $query->where('status', 'accepted')
+    //                 ->where('friend_id', $this->id);
+    //         })
+    //         ->withPivot('user_id', 'friend_id', 'status', 'created_at', 'updated_at')  // Lấy thông tin từ bảng pivot
+    //         ->with('profile');  // Eager load thông tin profile của bạn bè
+    // }
     public function friends()
     {
-        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')->with('profile')
-            ->where('status', 'accepted');
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+                    ->withPivot('user_id', 'friend_id', 'status', 'created_at', 'updated_at') // Lấy trường 'status' từ bảng 'friendships'
+                    ->wherePivot('status', 'accepted'); // Chỉ lấy những người bạn có trạng thái 'accepted'
     }
+    
 
     public function friendships()
     {
@@ -68,6 +88,13 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->orWhere('friend_id', $this->id);
         });
     }
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(Friendship::class, 'friend_id')  // Lấy các yêu cầu mà người dùng nhận (friend_id là người nhận)
+            ->where('status', 'pending')  // Trạng thái là "pending"
+            ->with('user.profile');  // Eager load thông tin profile của người gửi lời mời
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);

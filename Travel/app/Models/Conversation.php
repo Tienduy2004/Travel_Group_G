@@ -10,7 +10,7 @@ class Conversation extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'receiver_id',
         'sender_id'
     ];
@@ -27,69 +27,63 @@ class Conversation extends Model
 
         if ($this->sender_id === Auth::id()) {
 
-            return User::firstWhere('id',$this->receiver_id);
-
+            return User::firstWhere('id', $this->receiver_id);
         } else {
 
-            return User::firstWhere('id',$this->sender_id);
+            return User::firstWhere('id', $this->sender_id);
         }
-        
-
     }
 
 
 
-   public function scopeWhereNotDeleted($query) 
-     {
-        $userId=Auth::id();
+    public function scopeWhereNotDeleted($query)
+    {
+        $userId = Auth::id();
 
-        return $query->where(function ($query) use ($userId){
+        return $query->where(function ($query) use ($userId) {
 
             #where message is not deleted
-            $query->whereHas('messages',function($query) use($userId){
+            $query->whereHas('messages', function ($query) use ($userId) {
 
-                $query->where(function ($query) use($userId){
-                    $query->where('sender_id',$userId)
+                $query->where(function ($query) use ($userId) {
+                    $query->where('sender_id', $userId)
                         ->whereNull('sender_deleted_at');
-                })->orWhere(function ($query) use ($userId){
+                })->orWhere(function ($query) use ($userId) {
 
-                    $query->where('receiver_id',$userId)
-                    ->whereNull('receiver_deleted_at');
+                    $query->where('receiver_id', $userId)
+                        ->whereNull('receiver_deleted_at');
                 });
-
-
             })
-             #include conversations without messages
-              ->orWhereDoesntHave('messages');
-
-
+                #include conversations without messages
+                ->orWhereDoesntHave('messages');
         });
-        
     }
 
 
 
-  public  function isLastMessageReadByUser():bool {
+    public  function isLastMessageReadByUser(): bool
+    {
 
 
-        $user=Auth::User();
-        $lastMessage= $this->messages()->latest()->first();
-        
-        if($lastMessage){
-            return  $lastMessage->read_at !==null && $lastMessage->sender_id == $user->id;
+        $user = Auth::User();
+        $lastMessage = $this->messages()->latest()->first();
+
+        if ($lastMessage) {
+            return  $lastMessage->read_at !== null && $lastMessage->sender_id == $user->id;
         }
-        
     }
 
 
 
 
-   public  function unreadMessagesCount() : int {
+    public  function unreadMessagesCount(): int
+    {
 
 
-    return $unreadMessages= Message::where('conversation_id','=',$this->id)
-                                ->where('receiver_id',Auth::user()->id)
-                                ->whereNull('read_at')->count();
-
+        return $unreadMessages = Message::where('conversation_id', '=', $this->id)
+            ->where('receiver_id', Auth::user()->id)
+            ->whereNull('read_at')->count();
     }
+
+    
 }

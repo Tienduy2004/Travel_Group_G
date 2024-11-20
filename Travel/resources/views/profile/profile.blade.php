@@ -141,16 +141,17 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <form action="{{ route('messages.send', $profile->user_id) }}" method="GET"
-                                            class="flex items-center">
+                                        <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                             <button
-                                                class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
+                                                class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
                                                 <i class="fas fa-comment-dots mr-2"></i> <!-- Biểu tượng nhắn tin -->
                                                 Nhắn tin
                                             </button>
                                         </form>
                                     @else
-                                        <form action="{{ route('friends.cancel') }}" method="POST"
+                                        <form action="{{ route('friends.cancelInvitation') }}" method="POST"
                                             class="flex items-center">
                                             @csrf
                                             <input type="hidden" name="friend_id" value="{{ $profile->user_id }}">
@@ -161,10 +162,11 @@
                                             </button>
                                         </form>
 
-                                        <form action="{{ route('messages.send', $profile->user_id) }}" method="GET"
-                                            class="flex items-center">
+                                        <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                             <button
-                                                class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
+                                                class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
                                                 <i class="fas fa-comment-dots mr-2"></i> <!-- Biểu tượng nhắn tin -->
                                                 Nhắn tin
                                             </button>
@@ -197,10 +199,11 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <form action="{{ route('messages.send', $profile->user_id) }}" method="GET"
-                                        class="flex items-center">
+                                    <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                         <button
-                                            class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
+                                            class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
                                             <i class="fas fa-comment-dots mr-2"></i> <!-- Biểu tượng nhắn tin -->
                                             Nhắn tin
                                         </button>
@@ -216,14 +219,19 @@
                                         Thêm bạn bè
                                     </button>
                                 </form>
-                                <form action="{{ route('messages.send', $profile->user_id) }}" method="GET"
-                                    class="flex items-center">
+                                <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                     <button
                                         class="bg-blue-500 text-white rounded-full px-6 py-2 transition duration-200 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 flex items-center">
                                         <i class="fas fa-comment-dots mr-2"></i> <!-- Biểu tượng nhắn tin -->
                                         Nhắn tin
                                     </button>
                                 </form>
+                                
+                                
+                                
+                                
                             @endif
                         </div>
                     </div>

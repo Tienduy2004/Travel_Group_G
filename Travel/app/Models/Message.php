@@ -9,19 +9,31 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable=[
+        'body',
         'sender_id',
         'receiver_id',
-        'message',
+        'conversation_id',
+        'read_at',
+        'receiver_deleted_at',
+        'sender_deleted_at',
     ];
 
-    public function sender()
+
+    protected $dates=['read_at','receiver_deleted_at','sender_deleted_at'];
+
+
+    /* relationship */
+
+    public function conversation()
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return $this->belongsTo(Conversation::class);
     }
 
-    public function receiver()
+
+    public function isRead():bool
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+
+         return $this->read_at != null;
     }
 }

@@ -13,11 +13,23 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('conversation_id')->constrained(); // Tạo quan hệ với bảng conversations
-            $table->foreignId('sender_id')->constrained('users'); // Quan hệ với người gửi
-            $table->foreignId('receiver_id')->constrained('users'); // Quan hệ với người nhận
-            $table->text('content'); // Nội dung tin nhắn
-            $table->timestamp('read_at')->nullable(); // Thời gian tin nhắn được đọc
+            $table->foreignId('conversation_id')->constrained()->cascadeOnDelete();
+
+            $table->unsignedBigInteger('sender_id')->nullable();// or uuid()
+            $table->foreign('sender_id')->references('id')->on('users')->nullOnDelete();
+
+            $table->unsignedBigInteger('receiver_id')->nullable();// or uuid()
+            $table->foreign('receiver_id')->references('id')->on('users')->nullOnDelete();
+
+
+            $table->timestamp('read_at')->nullable();
+
+            //delete actions 
+            $table->timestamp('receiver_deleted_at')->nullable();
+            $table->timestamp('sender_deleted_at')->nullable();
+
+            $table->text('body')->nullable();
+
             $table->timestamps();
         });
     }
