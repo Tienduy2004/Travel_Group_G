@@ -10,8 +10,11 @@
                 <div class="code">Code:
                     <strong>{{ $promotion->code }}</strong>
                 </div>
-                <pre></pre>
-                <strong>{{ $promotion->description }}</strong>
+
+                <div class="mota">Mô tả:
+                    <strong>{{ $promotion->description }}</strong>
+                </div>
+
             </div>
             <div class="promotion-expiry">
                 <span class="countdown" data-expiry="{{ $promotion->end_date->format('Y-m-d H:i:s') }}"></span>

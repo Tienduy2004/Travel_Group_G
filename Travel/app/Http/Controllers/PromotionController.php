@@ -66,19 +66,29 @@ public function danhsachkhuyenmai(Request $request)
 
 public function applyPromotion(Request $request)
 {
-    $programCode = $request->input('program_code');
-    $currentTotalAmount = $request->input('original_price'); // Lấy tổng tiền hiện tại từ request
+    $programCode = $request->input('program_code'); // Mã khuyến mãi
+    $currentTotalAmount = $request->input('original_price'); // Tổng tiền hiện tại từ giao diện
 
+    // Kiểm tra nếu tổng tiền <= 0
+    if ($currentTotalAmount <= 0) {
+        return response()->json([
+            'message' => 'Tổng tiền phải lớn hơn 0 để áp dụng khuyến mãi.',
+        ], 400);
+    }
+
+    // Tìm kiếm mã khuyến mãi trong cơ sở dữ liệu
     $promotion = Promotion::where('code', $programCode)
                           ->whereDate('start_date', '<=', now())
                           ->whereDate('end_date', '>=', now())
                           ->first();
 
+    // Kiểm tra tính hợp lệ của mã khuyến mãi
     if ($promotion) {
-        // Tính toán giá sau khi áp dụng khuyến mãi dựa trên tổng tiền hiện tại
+        // Tính toán tổng tiền mới sau khi áp dụng giảm giá
         $discountedPrice = $currentTotalAmount * (1 - $promotion->discount_percentage / 100);
+
         return response()->json([
-            'discounted_price' => $discountedPrice,
+            'discounted_price' => $discountedPrice, // Tổng tiền mới
             'message' => 'Áp dụng thành công mã khuyến mãi.',
         ]);
     } else {
@@ -87,6 +97,19 @@ public function applyPromotion(Request $request)
         ], 400);
     }
 }
+public function confirmBooking(Request $request)
+{
+    $totalPrice = $request->input('total_price'); // Lấy tổng tiền từ form
+
+    // Kiểm tra nếu tổng tiền không hợp lệ
+    if ($totalPrice <= 0) {
+        return back()->withErrors(['error' => 'Tổng tiền không hợp lệ.']);
+    }
+
+    // Chuyển sang trang thanh toán với tổng tiền đã cập nhật
+    return view('payment', ['remainingAmount' => $totalPrice]);
+}
+
 
     public function create()
     {
