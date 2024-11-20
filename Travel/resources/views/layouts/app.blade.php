@@ -39,6 +39,10 @@
    
 
 
+    <!-- Livewire Styles -->
+    {{-- @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    
     
  
     
@@ -48,6 +52,9 @@
     @include('includes.header')
     @yield('content')
     @include('includes.footer')
+    
+    <!-- Livewire Scripts -->
+    {{-- @livewireScripts --}}
 
     
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -60,3 +67,4 @@
 </body>
 
 </html>
+

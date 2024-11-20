@@ -4,23 +4,108 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Booking;
+use App\Models\Friendship;
+use App\Models\Message;
+use App\Models\Profile;
 use App\Models\Tour;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
 
-    public function profile(){
+    public function profile(Request $request)
+    {
         $user = Auth::user();
-        $bookings = Booking::getBookingsByUserId($user->id); // lấy lịch sử booking
-        $bookingNews = Booking::getBookingNewsByUserId($user->id); // lấy danh sách booking trong 2 ngày qua
+        $profile = Profile::getByUserId($request->input('id'));
+
+        if (!$profile) {
+            abort(404); // Hoặc xử lý theo cách khác
+        }
+        if ($profile->user_id == $user->id) {
+            $bookings = Booking::getBookingsByUserId($user->id); // lấy lịch sử booking
+            $bookingNews = Booking::getBookingNewsByUserId($user->id); // lấy danh sách booking trong 2 ngày qua
+        } else {
+            $bookings = [];
+            $bookingNews = [];
+        }
         $latestTours = Tour::getLatestTours(6); // Gọi hàm để lấy 6 tour mới nhất
-        return view('profile.profile', compact('bookings','latestTours','bookingNews'));
+        // $receiver = User::findOrFail(1);
+        // $messages = Message::where('receiver_id', 1)
+        //     ->orWhere('sender_id', 2)
+        //     ->orderBy('created_at', 'asc')
+        //     ->get();
+        // $receiverId = 3;
+        $friendship = Friendship::getFriendship($user->id, $profile->user_id);
+        // Kiểm tra người gửi và người nhận yêu cầu
+        $isInitiator = false;
+        if ($friendship) {
+            $isInitiator = ($friendship->friend_id == $user->id);
+        }
+
+        return view('profile.profile', compact('bookings', 'latestTours', 'bookingNews', 'profile', 'friendship','isInitiator'));
+    }
+
+    public function updateCover(Request $request, $id)
+    {
+        $request->validate([
+            'cover_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra định dạng ảnh
+        ]);
+
+        $profile = Profile::findOrFail($id);
+
+        // Xóa ảnh cũ nếu có
+        if ($profile->cover_photo) {
+            $oldPath = public_path('img/profile/cover/' . $profile->cover_photo);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+
+        // Tạo tên file mới và lưu ảnh
+        $fileName = time() . '_' . $request->cover_photo->getClientOriginalName();
+        $destinationPath = public_path('img/profile/cover');
+        $request->cover_photo->move($destinationPath, $fileName);
+
+        // Lưu tên file vào cơ sở dữ liệu
+        $profile->cover_photo = $fileName;
+        $profile->save();
+
+        return redirect()->back()->with('success', 'Ảnh bìa đã được cập nhật!');
+    }
+
+    public function updateAvatar(Request $request, $id)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra định dạng ảnh
+        ]);
+
+        $profile = Profile::findOrFail($id);
+
+        // Xóa ảnh cũ nếu có
+        if ($profile->avatar) {
+            $oldPath = public_path('img/profile/avatar/' . $profile->avatar);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+
+        // Tạo tên file mới và lưu ảnh
+        $fileName = time() . '_' . $request->avatar->getClientOriginalName();
+        $destinationPath = public_path('img/profile/avatar');
+        $request->avatar->move($destinationPath, $fileName);
+
+        // Lưu tên file vào cơ sở dữ liệu
+        $profile->avatar = $fileName;
+        $profile->save();
+
+        return redirect()->back()->with('success', 'Ảnh đại diện đã được cập nhật!');
     }
 
     /**

@@ -9,7 +9,9 @@
         "algolia/algoliasearch-client-php": "^4.8",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "payos/payos": "^1.0"
+        "livewire/livewire": "^3.5",
+        "payos/payos": "^1.0",
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
