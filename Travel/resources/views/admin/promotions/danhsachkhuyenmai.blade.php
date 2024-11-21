@@ -1,16 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container promotion-page">
     <h1>Danh sách mã khuyến mãi</h1>
     <div class="promotions-container">
         @foreach ($promotions as $promotion)
         <div class="promotion-card">
             <div class="promotion-code">
-                <div class="code">Code:
-                    <strong>{{ $promotion->code }}</strong>
-                </div>
-                <pre></pre>
+                <div class="code">Code: <strong>{{ $promotion->code }}</strong></div>
                 <strong>{{ $promotion->description }}</strong>
             </div>
             <div class="promotion-expiry">
