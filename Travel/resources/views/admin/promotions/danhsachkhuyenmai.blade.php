@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="khuyenmai">
+
+
 <div class="container">
     <h1>Danh sách mã khuyến mãi</h1>
     <div class="promotions-container">
@@ -22,5 +25,6 @@
         </div>
         @endforeach
     </div>
+</div>
 </div>
 @endsection
