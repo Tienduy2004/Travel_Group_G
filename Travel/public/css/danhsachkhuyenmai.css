@@ -1,17 +1,19 @@
-.promotion-page h1 {
+h1{
     text-align: center;
     font-size: 50px;
     padding-bottom: 30px;
 }
 
-.promotion-page .promotions-container {
+.promotions-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    
 }
 
-.promotion-page .promotion-card {
+
+.promotion-card {
     width: 300px;
     padding: 10px;
     position: relative;
@@ -22,7 +24,8 @@
     z-index: 1;
 }
 
-.promotion-page .promotion-card::before {
+
+.promotion-card::before {
     content: "";
     position: absolute;
     top: -4px;
@@ -39,12 +42,12 @@
     0% {
         transform: rotate(0deg);
     }
+    
     100% {
         transform: rotate(360deg);
     }
 }
-
-.promotion-page .promotion-card::after {
+.promotion-card::after {
     content: "";
     position: absolute;
     top: 6px;
@@ -56,7 +59,8 @@
     z-index: -1;
 }
 
-.promotion-page .promotion-code {
+
+.promotion-code {
     text-align: center;
     margin-bottom: 10px;
     color: red;
@@ -65,11 +69,11 @@
     color: rgb(15, 231, 170);
 }
 
-.promotion-page .promotion-code strong {
+.promotion-code strong {
     font-size: 18px;
 }
 
-.promotion-page .promotion-expiry {
+.promotion-expiry {
     text-align: center;
     font-size: 14px;
     color: #ffcc00;
