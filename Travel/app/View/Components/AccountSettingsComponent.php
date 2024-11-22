@@ -2,22 +2,21 @@
 
 namespace App\View\Components;
 
+use App\Models\Profile;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
-class FriendList extends Component
+class AccountSettingsComponent extends Component
 {
-
-    public $friends;
+    public $profileUser;
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        $user = Auth::user();
-        $this->friends = $user ? $user->getfriends() : [];
+        $this->profileUser = Profile::getByUserId(Auth::id());
     }
 
     /**
@@ -25,6 +24,6 @@ class FriendList extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.friend-list');
+        return view('components.account-settings-component',['profileUser',$this->profileUser]);
     }
 }

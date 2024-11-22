@@ -34,13 +34,25 @@ class ChatBox extends Component
         ];
     }
 
+    private function checkAccess()
+    {
+        $userId = Auth::id();
+
+        if (!($this->selectedConversation->sender_id == $userId || $this->selectedConversation->receiver_id == $userId)) {
+            return true;
+        }
+    }
+
     public function broadcastedNotifications($event)
     {
         //dd($event);
 
         if ($event['type'] == MessageSent::class) {
 
-            if ($event['conversation_id'] == $this->selectedConversation->id) {
+            if (
+                $event['conversation_id'] == $this->selectedConversation->id &&
+                ($this->selectedConversation->sender_id == Auth::id() || $this->selectedConversation->receiver_id == Auth::id())
+            ) {
 
                 $this->dispatch('scroll-bottom');
 
@@ -86,32 +98,34 @@ class ChatBox extends Component
 
     public function loadMessages()
     {
-
         $userId = Auth::id();
+
+
+        $this->loadedMessages = Message::loadMessages($this->selectedConversation->id, $this->paginate_var);
         #get count
-        $count = Message::where('conversation_id', $this->selectedConversation->id)
-            ->where(function ($query) use ($userId) {
-                $query->where(function ($subQuery) use ($userId) {
-                    $subQuery->where('sender_id', $userId)
-                        ->whereNull('sender_deleted_at');
-                })->orWhere(function ($subQuery) use ($userId) {
-                    $subQuery->where('receiver_id', $userId)
-                        ->whereNull('receiver_deleted_at');
-                });
-            })
-            ->count();
-        //dd($this->selectedConversation->id, $count);
-        #skip and query
-        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
-            ->where(function ($query) use ($userId) {
-                $query->where('sender_id', $userId)
-                    ->whereNull('sender_deleted_at')
-                    ->orWhere('receiver_id', $userId)
-                    ->whereNull('receiver_deleted_at');
-            })
-            ->skip($count - $this->paginate_var)
-            ->take($this->paginate_var)
-            ->get();
+        // $count = Message::where('conversation_id', $this->selectedConversation->id)
+        //     ->where(function ($query) use ($userId) {
+        //         $query->where(function ($subQuery) use ($userId) {
+        //             $subQuery->where('sender_id', $userId)
+        //                 ->whereNull('sender_deleted_at');
+        //         })->orWhere(function ($subQuery) use ($userId) {
+        //             $subQuery->where('receiver_id', $userId)
+        //                 ->whereNull('receiver_deleted_at');
+        //         });
+        //     })
+        //     ->count();
+        // //dd($this->selectedConversation->id, $count);
+        // #skip and query
+        // $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
+        //     ->where(function ($query) use ($userId) {
+        //         $query->where('sender_id', $userId)
+        //             ->whereNull('sender_deleted_at')
+        //             ->orWhere('receiver_id', $userId)
+        //             ->whereNull('receiver_deleted_at');
+        //     })
+        //     ->skip($count - $this->paginate_var)
+        //     ->take($this->paginate_var)
+        //     ->get();
 
         //dd($this->selectedConversation->id, $count, $this->loadedMessages);
         return $this->loadedMessages;
@@ -124,13 +138,7 @@ class ChatBox extends Component
         $this->validate(['body' => 'required|string']);
 
 
-        $createdMessage = Message::create([
-            'conversation_id' => $this->selectedConversation->id,
-            'sender_id' => Auth::id(),
-            'receiver_id' => $this->selectedConversation->getReceiver()->id,
-            'body' => $this->body
-
-        ]);
+        $createdMessage = Message::createMessage($this->selectedConversation->id, $this->body);
 
 
         $this->reset('body');
@@ -170,7 +178,16 @@ class ChatBox extends Component
 
     public function mount()
     {
-        $this->loadMessages();
+        $this->checkAccess();
+        if ($this->checkAccess() != true) {
+            $this->loadMessages();
+        } else {
+            $userId = Auth::id();
+            if (!($this->selectedConversation->sender_id == $userId || $this->selectedConversation->receiver_id == $userId)) {
+                $this->dispatch('redirect-to-chat-index');
+                return;
+            }
+        }
     }
 
 

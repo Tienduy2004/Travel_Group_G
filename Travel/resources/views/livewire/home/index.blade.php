@@ -1,4 +1,4 @@
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+{{-- <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="grid min-h-screen w-full lg:grid-cols-[280px_1fr_280px]">
         <!-- Left Sidebar -->
         <aside class="hidden lg:block border-r border-gray-200 dark:border-gray-800 overflow-y-auto">
@@ -134,4 +134,5 @@
         </aside>
     </div>
 </body>
-
+ --}}
+ <div>Home</div>

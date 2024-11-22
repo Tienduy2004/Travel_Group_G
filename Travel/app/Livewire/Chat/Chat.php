@@ -20,10 +20,11 @@ class Chat extends Component
 
 
        #mark message belogning to receiver as read 
-       Message::where('conversation_id',$this->selectedConversation->id)
-                ->where('receiver_id',Auth::id())
-                ->whereNull('read_at')
-                ->update(['read_at'=>now()]);
+       Message::markMessagesAsRead($this->selectedConversation->id,Auth::id());
+    //    Message::where('conversation_id',$this->selectedConversation->id)
+    //             ->where('receiver_id',Auth::id())
+    //             ->whereNull('read_at')
+    //             ->update(['read_at'=>now()]);
 
 
     }

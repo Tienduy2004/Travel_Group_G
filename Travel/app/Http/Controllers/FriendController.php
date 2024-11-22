@@ -27,18 +27,8 @@ class FriendController extends Controller
         }
 
         // Tạo mối quan hệ bạn bè mới cho User 1 -> User 2 với trạng thái 'pending'
-        Friendship::create([
-            'user_id' => $userId,
-            'friend_id' => $friend_id,
-            'status' => 'pending'
-        ]);
+        Friendship::createFriendRequest($userId, $friend_id);
 
-        // Tạo mối quan hệ bạn bè ngược lại cho User 2 -> User 1 với trạng thái 'pending'
-        Friendship::create([
-            'user_id' => $friend_id,
-            'friend_id' => $userId,
-            'status' => 'pending'
-        ]);
 
         return redirect()->back()->with('success', 'Gửi lời mời kết bạn thành công!');
     }
@@ -63,12 +53,6 @@ class FriendController extends Controller
         // Xóa lời mời kết bạn từ User -> Friend
         $existingFriendship->delete();
 
-        // Xóa lời mời kết bạn từ Friend -> User (ngược lại)
-        Friendship::where('user_id', $friend_id)
-            ->where('friend_id', $userId)
-            ->where('status', 'pending')
-            ->delete();
-
         return redirect()->back()->with('success', 'Lời mời kết bạn đã bị hủy!');
     }
 
@@ -92,11 +76,6 @@ class FriendController extends Controller
         // Xóa quan hệ bạn bè giữa User 1 và User 2 (cả 2 bản ghi)
         $existingFriendship->delete();
 
-        // Xóa bản ghi ngược lại (friendship từ User 2 đến User 1)
-        Friendship::where('user_id', $userId)
-            ->where('friend_id', $friend_id)
-            ->delete();
-        //dd($userId);
         return redirect()->back()->with('success', 'Đã hủy lời mời kết bạn hoặc kết bạn.');
     }
 
@@ -110,25 +89,12 @@ class FriendController extends Controller
         $friend_id = $request->input('friend_id');
         $userId = Auth::user()->id; // Lấy ID của người dùng hiện tại
 
-        // Kiểm tra xem quan hệ bạn bè có tồn tại hay không và có trạng thái pending
-        $existingFriendship = Friendship::getFriendship($userId, $friend_id);
+        // Gọi phương thức acceptFriendRequest từ model Friendship
+        $accepted = Friendship::acceptFriendRequest($userId, $friend_id);
 
-        if (!$existingFriendship) {
-            return redirect()->back()->with('error', 'Người này chưa gửi lời mời kết bạn.');
+        if (!$accepted) {
+            return redirect()->back()->with('error', 'Không thể chấp nhận lời mời kết bạn. Vui lòng kiểm tra lại.');
         }
-
-        // Chỉ cập nhật nếu trạng thái là 'pending', tránh cập nhật nếu đã là 'accepted' hoặc 'declined'
-        if ($existingFriendship->status !== 'pending') {
-            return redirect()->back()->with('error', 'Trạng thái kết bạn không hợp lệ.');
-        }
-
-        // Cập nhật trạng thái của mối quan hệ bạn bè từ 'pending' sang 'accepted'
-        $existingFriendship->update(['status' => 'accepted']);
-
-        // Cập nhật mối quan hệ ngược lại (từ friend_id -> user_id) thành 'accepted'
-        Friendship::where('user_id', $userId)
-            ->where('friend_id', $friend_id)
-            ->update(['status' => 'accepted']);
 
         return redirect()->back()->with('success', 'Chấp nhận kết bạn thành công!');
     }

@@ -7,10 +7,10 @@
         @forelse($friends as $friend)
             <li class="flex items-center p-4 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <!-- Hiển thị ảnh đại diện nếu có -->
-                @if ($friend->profile->avatar)
+                @if ($friend['friend']->profile->avatar)
                     {{-- Avatar Container --}}
                     <div class="w-16 h-16 rounded-full border-4 border-white overflow-hidden relative mr-4">
-                        <img src="{{ asset('/img/profile/avatar/' . $friend->profile->avatar) }}" alt="Profile"
+                        <img src="{{ asset('/img/profile/avatar/' . $friend['friend']->profile->avatar) }}" alt="Profile"
                             class="w-full h-full object-cover">
                     </div>
                 @else
@@ -23,15 +23,15 @@
 
                 <!-- Tên bạn bè -->
                 <div class="flex-1">
-                    <p class="text-xl font-medium text-gray-900">{{ $friend->name }}</p>
+                    <p class="text-xl font-medium text-gray-900">{{ $friend['friend']->name }}</p>
                 </div>
 
                 <!-- Các nút hành động -->
                 <div class="relative">
-                    <button class="text-gray-800 px-2 py-2 focus:outline-none" id="dropdownButton-{{ $friend->id }}">
+                    <button class="text-gray-800 px-2 py-2 focus:outline-none" id="dropdownButton-{{ $friend['friend']->id }}">
                         <span class="text-xl">...</span>
                     </button>
-                    <div class="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg hidden" id="dropdownMenu-{{ $friend->id }}">
+                    <div class="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg hidden" id="dropdownMenu-{{ $friend['friend']->id }}">
                         <ul class="py-1">
                             <li><a href="" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Xem hồ sơ</a></li>
                             <li><a href="" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Xóa bạn</a></li>

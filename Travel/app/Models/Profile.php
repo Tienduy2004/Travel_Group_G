@@ -49,4 +49,31 @@ class Profile extends Model
             ->where('user_id', $userId)
             ->first();
     }
+
+    public static function updateUserProfile($request, $userId)
+    {
+        // Validate các trường
+        $request->validate([
+            'address' => 'nullable|string|max:255',
+            'date_of_birth' => 'nullable|date',
+            'phone' => 'nullable|string|max:15',
+            'gender' => 'nullable|in:male,female,other',
+        ]);
+
+        // Tìm người dùng và cập nhật thông tin hồ sơ
+        $user = User::findOrFail($userId);
+
+        // Cập nhật hoặc tạo mới hồ sơ
+        $user->profile()->updateOrCreate([], [
+            'address' => $request->address,
+            'birthdate' => $request->date_of_birth,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+        ]);
+
+        // Lưu thay đổi cho người dùng (nếu cần)
+        $user->save();
+
+        return true;
+    }
 }

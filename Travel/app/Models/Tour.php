@@ -159,4 +159,9 @@ class Tour extends Model
             })
             ->get();
     }
+
+    public static function findBySlugOrFail($slug)
+    {
+        return self::where('slug', $slug)->firstOrFail();
+    }
 }
