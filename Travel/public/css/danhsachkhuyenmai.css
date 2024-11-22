@@ -1,0 +1,82 @@
+
+
+.khuyenmai h1{
+    text-align: center;
+    font-size: 50px;
+    padding-bottom: 30px;
+}
+
+.promotions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    
+}
+
+
+.promotion-card {
+    width: 300px;
+    padding: 10px;
+    position: relative;
+    background-color: #060000;
+    color: #fff;
+    overflow: hidden;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+
+.promotion-card::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(to right, rgb(4, 241, 40), rgb(155, 5, 215));
+    border-radius: 14px;
+    z-index: -1;
+    animation: rotateBorder 3s infinite linear;
+}
+
+@keyframes rotateBorder {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.promotion-card::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    background-color: #060000;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+
+.promotion-code {
+    text-align: center;
+    margin-bottom: 10px;
+    color: red;
+}
+.mota{
+    color: rgb(15, 231, 170);
+}
+
+.promotion-code strong {
+    font-size: 18px;
+}
+
+.promotion-expiry {
+    text-align: center;
+    font-size: 14px;
+    color: #ffcc00;
+}

@@ -69,15 +69,28 @@
             background-color: #FF0000;
         }
 
-        /* Khi menu được mở */
-        .menu.open {
-            left: 0;
+        /* Phong cách phần chào admin */
+        .welcome {
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .welcome i {
+            font-size: 1.3em;
+            color: #FFD700;
         }
 
         .circle-container {
             width: 60px;
             height: 60px;
-            margin: 0 auto;
+            margin: 10px auto;
             overflow: hidden;
             border-radius: 50%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -116,6 +129,7 @@
         .btn-danger:hover {
             background-color: #cc0000;
         }
+      
     </style>
 </head>
 
@@ -125,14 +139,16 @@
     </div>
 
     <div class="menu" id="side-menu">
-        <h3>TRAVELER</h3>
-        <h2>{{ session('admin_name') }}</h2>
+        <h1>TRAVELER</h1>
+        <div class="welcome">
+            <i class="fas fa-user-circle"></i> xin chào, {{ session('admin_name') }}
+        </div>
         <div class="circle-container">
             <img src="{{ asset('img/tours/logo.jpg') }}" alt="Logo">
         </div>
-        <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i>Quản Lý Tour</a>
-        <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i>Quản Lý Khuyến Mãi</a>
-
+        <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i> Quản Lý Tour</a>
+        <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i> Quản Lý Khuyến Mãi</a>
+        <a href="{{ route('admin.users.index') }}"><i class="fas fa-users"></i> Danh Sách</a>
         <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
             @csrf
             <button type="submit" class="btn btn-danger">Đăng Xuất</button>

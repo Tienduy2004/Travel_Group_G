@@ -11,4 +11,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+          'laravel-echo': 'laravel-echo/dist/echo.js', // Alias cho Echo
+          'pusher-js': 'pusher-js/dist/web/pusher.min.js', // Alias cho Pusher
+        },
+      },
 });

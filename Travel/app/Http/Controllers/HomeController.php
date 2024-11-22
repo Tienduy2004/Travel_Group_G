@@ -6,15 +6,18 @@ use App\Models\Budget;
 use App\Models\Destination;
 use App\Models\Tour;
 use Illuminate\Http\Request;
-
+use App\Models\Promotion;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // Lấy tất cả các tour hoặc tùy chỉnh số lượng tour muốn hiển thị
-        $tours = Tour::with('destination')->get(); // Lấy các tour kèm địa điểm
-        return view('home.index', compact('tours')); // Truyền biến $tours vào view
+        $hasPromotions = Promotion::exists();
+    
+        
+        $tours = Tour::with('destination')->get();
+        
+        return view('home.index', compact('tours', 'hasPromotions'));
     }
     public function about()
     {

@@ -84,7 +84,7 @@ class PaymentController extends Controller
             'x-api-key' => env('PAYOS_API_KEY'),
             'x-client-id' => env('PAYOS_CLIENT_ID'),
         ])->post('https://api-merchant.payos.vn/v2/payment-requests', array_merge($data, ['signature' => $signature]));
-        // dd($data, $response->json());
+         //dd($data, $response->json(),env('PAYOS_API_KEY'));
         // Kiểm tra kết quả
         if ($response->successful()) {
             // $paymentData = $response->json();

@@ -32,8 +32,18 @@
     <link href="{{asset ('css/profile.css') }}" rel="stylesheet">
     <link href="{{asset ('css/detail.css') }}" rel="stylesheet">
     <link href="{{ asset('css/tailwind/tailwind.min.css') }}" rel="stylesheet">
+    <link href="{{asset ('css/khuyenmai.css') }}" rel="stylesheet">
+    <link href="{{asset ('css/danhsachkhuyenmai.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('css/tours.css') }}" rel="stylesheet"> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="{{ asset('js/khuyenmai.js') }}"></script> --}}
+   
+
+
+    <!-- Livewire Styles -->
+    {{-- @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    
     
  
     
@@ -43,6 +53,9 @@
     @include('includes.header')
     @yield('content')
     @include('includes.footer')
+    
+    <!-- Livewire Scripts -->
+    {{-- @livewireScripts --}}
 
     
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -55,3 +68,4 @@
 </body>
 
 </html>
+

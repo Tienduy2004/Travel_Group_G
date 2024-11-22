@@ -38,6 +38,20 @@
         </a>
     </div>
 </div>
+@if ($hasPromotions)
+    <div class="promo-container">
+        <img src="{{ asset('img/tours/khuyenmai.jpg') }}" alt="">
+        <div class="gift-boxes">
+            <div class="gift-box">🎁</div>
+        </div>
+        <a href="{{ route('promotions.danhsachkhuyenmai') }}" class="promo-text">Nhận Khuyến Mãi</a>
+    </div>
+@else
+  
+@endif
+
+
+
 <!-- Carousel End -->
 
 

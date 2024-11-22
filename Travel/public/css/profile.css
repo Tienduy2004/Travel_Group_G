@@ -68,6 +68,7 @@
 /* Hover effect cho button */
 .profile-body button:hover {
   background-color: #67a488;
+  position: relative;
 }
 
 /* Đảm bảo trang profile thân thiện với thiết bị di động */

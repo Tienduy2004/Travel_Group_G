@@ -122,9 +122,6 @@
             color: #ffc107;
         }
 
-        .btn-danger {
-            color: red;
-        }
 
         .pagination {
             display: flex;
@@ -155,9 +152,6 @@
             width: 24px;
             height: auto;
         }
-
-
-
         .pagination {
             display: flex;
             justify-content: center;

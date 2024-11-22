@@ -34,4 +34,7 @@ return [
     'file' => 'Trường :attribute phải là một tập tin hợp lệ.',
     'same' => 'Trường :attribute và :other phải giống nhau.',
     'timezone' => 'Trường :attribute phải là một múi giờ hợp lệ.',
+    
+    // Thông báo lỗi cho after_or_equal
+    'after_or_equal' => 'Trường :attribute không hợp lệ',
 ];
