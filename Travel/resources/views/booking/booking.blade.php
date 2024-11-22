@@ -175,7 +175,7 @@
                                 <div class="flex items-center mt-2">
                                     <input type="text" id="program_code" name="program_code"
                                         class="form-input border border-gray-300 rounded px-4 py-2 w-2/3"
-                                        placeholder="Nhập mã khuyến mãi" required>
+                                        placeholder="Nhập mã khuyến mãi" >
                                     <button type="button" id="applyPromotion"
                                         class="ml-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded">
                                         Áp dụng
