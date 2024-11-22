@@ -30,7 +30,7 @@ class TourController extends Controller
     {
 
         // Lấy tour theo slug
-        $tour = Tour::where('slug', $slug)->firstOrFail();
+        $tour = Tour::findBySlugOrFail($slug);
 
         // Lấy hình ảnh của tour
         $images = $tour->images;

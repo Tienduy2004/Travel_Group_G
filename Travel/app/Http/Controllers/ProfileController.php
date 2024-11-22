@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -49,7 +50,7 @@ class ProfileController extends Controller
             $isInitiator = ($friendship->friend_id == $user->id);
         }
 
-        return view('profile.profile', compact('bookings', 'latestTours', 'bookingNews', 'profile', 'friendship','isInitiator'));
+        return view('profile.profile', compact('bookings', 'latestTours', 'bookingNews', 'profile', 'friendship', 'isInitiator'));
     }
 
     public function updateCover(Request $request, $id)
@@ -82,10 +83,16 @@ class ProfileController extends Controller
 
     public function updateAvatar(Request $request, $id)
     {
-        $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra định dạng ảnh
-        ]);
-
+        //dd($request->file('avatar'));
+        // Validate file upload
+        try {
+            $request->validate([
+                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return dd($request->file('avatar'),$e->errors());
+        }
+        
         $profile = Profile::findOrFail($id);
 
         // Xóa ảnh cũ nếu có
@@ -96,16 +103,36 @@ class ProfileController extends Controller
             }
         }
 
-        // Tạo tên file mới và lưu ảnh
-        $fileName = time() . '_' . $request->avatar->getClientOriginalName();
-        $destinationPath = public_path('img/profile/avatar');
-        $request->avatar->move($destinationPath, $fileName);
+        // Chuẩn hóa tên file
+        $originalName = pathinfo($request->avatar->getClientOriginalName(), PATHINFO_FILENAME);
+        $extension = $request->avatar->getClientOriginalExtension();
 
-        // Lưu tên file vào cơ sở dữ liệu
-        $profile->avatar = $fileName;
+        // Tạo tên file an toàn
+        $safeName = time() . '_' . Str::slug($originalName, '_') . '.' . $extension;
+
+        // Tạo thư mục lưu file nếu chưa tồn tại
+        $destinationPath = public_path('img/profile/avatar');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        // Lưu file vào thư mục
+        $request->avatar->move($destinationPath, $safeName);
+
+        // Cập nhật tên file trong cơ sở dữ liệu
+        $profile->avatar = $safeName;
         $profile->save();
 
         return redirect()->back()->with('success', 'Ảnh đại diện đã được cập nhật!');
+    }
+
+    public function updateDetails(Request $request, $id)
+    {
+
+       // Gọi phương thức trong model Profile để cập nhật thông tin
+       Profile::updateUserProfile($request, $id);
+
+        return back()->with('success', 'Cập nhật thông tin thành công!');
     }
 
     /**

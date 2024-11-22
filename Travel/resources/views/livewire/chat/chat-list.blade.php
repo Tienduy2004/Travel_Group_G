@@ -97,14 +97,24 @@
                                                     View Profile
                                                 </button>
                                             </a>
-                                            
-                                            <button
-                                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
-                                            wire:click="deleteByUser('{{encrypt($conversation->id)}}')"
-                                            class="items-center gap-3 flex w-full px-4 py-2 text-left text-sm leading-5 text-gray-500 hover:bg-gray-100 transition-all duration-150 ease-in-out focus:outline-none focus:bg-gray-100">
-                                            <span>
-                                                <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor" class="xfx01vb x1lliihq x1tzjh5l x1k90msu x2h7rmj x1qfuztq" style="--color: var(--primary-icon);"><g fill-rule="evenodd" transform="translate(-446 -398)"><g fill-rule="nonzero"><path d="m106.523 196.712-2.32-2.256a1.62 1.62 0 0 0-1.13-.456h-3.146a1.62 1.62 0 0 0-1.13.456l-2.32 2.256a.75.75 0 0 0 1.046 1.076l2.32-2.256a.12.12 0 0 1 .084-.032h3.146a.12.12 0 0 1 .084.032l2.32 2.256a.75.75 0 1 0 1.046-1.076zm-5.773 5.788v8a.75.75 0 1 0 1.5 0v-8a.75.75 0 1 0-1.5 0zm3.501-.047-.5 8a.75.75 0 1 0 1.498.094l.5-8a.75.75 0 1 0-1.498-.094zm-7 .094.5 8a.75.75 0 1 0 1.498-.094l-.5-8a.75.75 0 1 0-1.498.094z" transform="translate(354.5 204)"></path><path d="M109.327 196.5H93.673a1.17 1.17 0 0 0-1.173 1.167v1.666a1.17 1.17 0 0 0 1.173 1.167h15.654a1.17 1.17 0 0 0 1.173-1.167v-1.666a1.17 1.17 0 0 0-1.173-1.167zM109 199H94v-1h15v1z" transform="translate(354.5 204)"></path><path d="M108.25 199a.75.75 0 0 1 .747.818l-1.092 12.011a2.387 2.387 0 0 1-2.377 2.171h-8.056a2.386 2.386 0 0 1-2.377-2.17l-1.092-12.012a.75.75 0 0 1 .747-.818h13.5zm-12.679 1.5 1.018 11.194a.887.887 0 0 0 .883.806h8.056c.459 0 .842-.35.883-.806l1.018-11.194H95.57z" transform="translate(354.5 204)"></path></g></g></svg>
-                                            </span>Delete chat</button>
+                                            <form action="{{ route('chat.destroy', encrypt($conversation->id)) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this chat?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="items-center gap-3 flex w-full px-4 py-2 text-left text-sm leading-5 text-gray-500 hover:bg-gray-100 transition-all duration-150 ease-in-out focus:outline-none focus:bg-gray-100">
+                                                    <span>
+                                                        <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor" class="xfx01vb x1lliihq x1tzjh5l x1k90msu x2h7rmj x1qfuztq">
+                                                            <g fill-rule="evenodd" transform="translate(-446 -398)">
+                                                                <g fill-rule="nonzero">
+                                                                    <path d="m106.523 196.712-2.32-2.256a1.62 1.62 0 0 0-1.13-.456h-3.146a1.62 1.62 0 0 0-1.13.456l-2.32 2.256a.75.75 0 0 0 1.046 1.076l2.32-2.256a.12.12 0 0 1 .084-.032h3.146a.12.12 0 0 1 .084.032l2.32 2.256a.75.75 0 1 0 1.046-1.076zm-5.773 5.788v8a.75.75 0 1 0 1.5 0v-8a.75.75 0 1 0-1.5 0zm3.501-.047-.5 8a.75.75 0 1 0 1.498.094l.5-8a.75.75 0 1 0-1.498-.094zm-7 .094.5 8a.75.75 0 1 0 1.498-.094l-.5-8a.75.75 0 1 0-1.498.094z" transform="translate(354.5 204)"></path>
+                                                                    <path d="M109.327 196.5H93.673a1.17 1.17 0 0 0-1.173 1.167v1.666a1.17 1.17 0 0 0 1.173 1.167h15.654a1.17 1.17 0 0 0 1.173-1.167v-1.666a1.17 1.17 0 0 0-1.173-1.167zM109 199H94v-1h15v1z" transform="translate(354.5 204)"></path>
+                                                                    <path d="M108.25 199a.75.75 0 0 1 .747.818l-1.092 12.011a2.387 2.387 0 0 1-2.377 2.171h-8.056a2.386 2.386 0 0 1-2.377-2.17l-1.092-12.012a.75.75 0 0 1 .747-.818h13.5zm-12.679 1.5 1.018 11.194a.887.887 0 0 0 .883.806h8.056c.459 0 .842-.35.883-.806l1.018-11.194H95.57z" transform="translate(354.5 204)"></path>
+                                                                </g>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    Delete chat
+                                                </button>
+                                            </form>
                                         </div>
                                     </x-slot>
                                 </x-dropdown>

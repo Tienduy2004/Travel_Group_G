@@ -91,7 +91,7 @@
             @elseif ($selectedTag === 'all-friends')
                 <livewire:friends.all-friends />
             @elseif ($selectedTag === 'friends')
-                <livewire:friends.friends />
+                <livewire:friends.friends :user-id="auth()->id()"/>
             @elseif ($selectedTag === 'birthday-friends')
                 <livewire:friends.birthday-friends />
             @else

@@ -17,7 +17,6 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\PostController;
-
 use App\Livewire\Chat\Chat;
 use App\Livewire\Chat\Index;
 use App\Livewire\Friends\AllFriends;
@@ -87,26 +86,26 @@ Route::middleware(['auth'])->group(function () {
 
 // Quản lý tour
 
-    Route::get('/admin', [AdminController::class, 'trangchu'])->name('admin.trangchu');
-    
-    // Route cho quản lý tour
-    Route::get('/admin/tours', [AdminController::class, 'trangchu'])->name('tours.trangchu');
-    Route::get('/admin/tours/create', [AdminController::class, 'create'])->name('tours.create');
-    Route::post('/admin/tours', [AdminController::class, 'store'])->name('tours.store');
-    Route::get('/admin/tours/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
-    Route::put('/admin/tours/{id}', [AdminController::class, 'update'])->name('tours.update');
-    Route::delete('/admin/tours/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
-    Route::get('/admin/tours/search', [AdminController::class, 'search'])->name('tours.search');
+Route::get('/admin', [AdminController::class, 'trangchu'])->name('admin.trangchu');
 
-    // Route cho khuyến mãi
-    Route::get('/admin/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
-    Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
-    Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('promotions.index');
-    Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
-    Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
-    Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
-	Route::post('/apply-promotion', [PromotionController::class, 'applyPromotion']);
-    Route::get('/promotions/danhsachkhuyenmai', [PromotionController::class, 'danhsachkhuyenmai'])->name('promotions.danhsachkhuyenmai');
+// Route cho quản lý tour
+Route::get('/admin/tours', [AdminController::class, 'trangchu'])->name('tours.trangchu');
+Route::get('/admin/tours/create', [AdminController::class, 'create'])->name('tours.create');
+Route::post('/admin/tours', [AdminController::class, 'store'])->name('tours.store');
+Route::get('/admin/tours/{id}/edit', [AdminController::class, 'edit'])->name('tours.edit');
+Route::put('/admin/tours/{id}', [AdminController::class, 'update'])->name('tours.update');
+Route::delete('/admin/tours/{id}', [AdminController::class, 'destroy'])->name('tours.destroy');
+Route::get('/admin/tours/search', [AdminController::class, 'search'])->name('tours.search');
+
+// Route cho khuyến mãi
+Route::get('/admin/promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+Route::post('/admin/promotions', [PromotionController::class, 'store'])->name('promotions.store');
+Route::get('/admin/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+Route::get('/admin/promotions/{promotion}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+Route::put('/admin/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
+Route::delete('/admin/promotions/{promotion}', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+Route::post('/apply-promotion', [PromotionController::class, 'applyPromotion']);
+Route::get('/promotions/danhsachkhuyenmai', [PromotionController::class, 'danhsachkhuyenmai'])->name('promotions.danhsachkhuyenmai');
 
 
 
@@ -162,6 +161,7 @@ Route::prefix('admin')->group(function () {
 });
 // Route cho quản lý Blog
 use App\Http\Controllers\BlogManagementController;
+use App\Livewire\Chat\ChatList;
 
 Route::prefix('managementblog')->group(function () {
     Route::get('/', [BlogManagementController::class, 'index'])->name('admin.blog.index');  // Danh sách blog
@@ -176,23 +176,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile/{id}/update-cover', [ProfileController::class, 'updateCover'])->name('profile.update.cover');
     Route::post('/profile/{id}/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.update.avatar');
-   
-    // Route::post('/messages', [FriendController::class, 'cancel'])->name('messages.send');
-   
 
+    Route::put('/profile/{id}/update-details', [ProfileController::class, 'updateDetails'])->name('profile.update.details');
 });
 
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
 
-    Route::get('/chat',Index::class)->name('chat.index');
-    Route::get('/chat/{query}',Chat::class)->name('chat');
+    Route::get('/chat', Index::class)->name('chat.index');
+    Route::get('/chat/{query}', Chat::class)->name('chat');
     Route::post('/message', [ChatController::class, 'sendMessage'])->name('message.send');
-    Route::get('/users',Users::class)->name('users');
-    
-
+    Route::get('/users', Users::class)->name('users');
+    // Route xóa chat
+    Route::delete('/chat/{chat}', [ChatController::class, 'deleteByUser'])->name('chat.destroy');
 });
 
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
 
     Route::get('/friends', FriendsIndex::class)->name('friends.index');
     Route::post('/friends/add', [FriendController::class, 'add'])->name('friends.add');
@@ -201,7 +199,7 @@ Route::middleware('auth')->group(function (){
     Route::post('/friends/accept', [FriendController::class, 'accept'])->name('friends.accept');
 });
 
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
 
     Route::get('/home', HomeIndex::class)->name('home.index');
 });

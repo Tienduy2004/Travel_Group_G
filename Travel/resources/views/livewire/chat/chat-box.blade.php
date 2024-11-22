@@ -45,13 +45,14 @@ Echo.private('users.{{ Auth()->User()->id }}')
 
 
                 <div class="shrink-0">
-                    <x-avatar
+                    <a href="{{ url('profile?id=' . $selectedConversation->getReceiver()->id) }}"><x-avatar
                         src="{{ asset('/img/profile/avatar/' . $selectedConversation->getReceiver()->profile->avatar) }}"
-                        class="h-9 w-9 lg:w-11 lg:h-11" />
+                        class="h-9 w-9 lg:w-11 lg:h-11" /></a>
+                    
                 </div>
 
-
-                <h6 class="font-bold truncate"> {{ $selectedConversation->getReceiver()->name }} </h6>
+                <a href="{{ url('profile?id=' . $selectedConversation->getReceiver()->id) }}"><h6 class="font-bold truncate"> {{ $selectedConversation->getReceiver()->name }} </h6></a>
+                
 
 
             </div>
@@ -114,9 +115,9 @@ Echo.private('users.{{ Auth()->User()->id }}')
                             'invisible' => $previousMessage?->sender_id == $message->sender_id,
                             'hidden' => $message->sender_id === auth()->id(),
                         ])>
-
-                            <x-avatar
-                                src="{{ asset('/img/profile/avatar/' . $selectedConversation->getReceiver()->profile->avatar) }}" />
+                            <a href="{{ url('profile?id=' . $selectedConversation->getReceiver()->id) }}"><x-avatar
+                                src="{{ asset('/img/profile/avatar/' . $selectedConversation->getReceiver()->profile->avatar) }}" /></a>
+                            
                         </div>
                         {{-- messsage body --}}
 
@@ -238,3 +239,8 @@ Echo.private('users.{{ Auth()->User()->id }}')
     </div>
 
 </div>
+<script>
+    window.addEventListener('redirect-to-chat-index', event => {
+    window.location.href = '/chat';  // Điều hướng về trang chính của chat
+});
+</script>

@@ -3,6 +3,7 @@
 @section('content')
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <div class="min-h-screen bg-white">
+
         <div class="relative h-96 bg-gray-900 rounded-lg overflow-hidden">
             {{-- Cover Photo Display --}}
             @if ($profile->cover_photo)
@@ -34,14 +35,15 @@
                     </div>
                 </form>
             @endif
-
             {{-- Error Messages --}}
             @error('cover_photo')
                 <div class="absolute bottom-4 left-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg">
                     {{ $message }}
                 </div>
             @enderror
+
         </div>
+
 
 
 
@@ -141,7 +143,8 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                        <form action="{{ route('message.send') }}" method="POST"
+                                            class="flex items-center">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                             <button
@@ -162,7 +165,8 @@
                                             </button>
                                         </form>
 
-                                        <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                        <form action="{{ route('message.send') }}" method="POST"
+                                            class="flex items-center">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                             <button
@@ -199,7 +203,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                    <form action="{{ route('message.send') }}" method="POST" class="flex items-center">
                                         @csrf
                                         <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                         <button
@@ -219,7 +223,7 @@
                                         Thêm bạn bè
                                     </button>
                                 </form>
-                                <form action="{{  route('message.send') }}" method="POST" class="flex items-center">
+                                <form action="{{ route('message.send') }}" method="POST" class="flex items-center">
                                     @csrf
                                     <input type="hidden" name="user_id" value="{{ $profile->user_id }}">
                                     <button
@@ -228,10 +232,10 @@
                                         Nhắn tin
                                     </button>
                                 </form>
-                                
-                                
-                                
-                                
+
+
+
+
                             @endif
                         </div>
                     </div>
@@ -263,22 +267,23 @@
                                 class="tab-button px-3 md:px-4 py-2 text-xs md:text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
                                 Friends
                             </button>
+                            <button onclick="showTab('tab-account-settings')"
+                                class="tab-button px-3 md:px-4 py-2 text-xs md:text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
+                                Account Settings
+                            </button>
                         @endif
                         <button onclick="showTab('tab-favourites')"
                             class="tab-button px-3 md:px-4 py-2 text-xs md:text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
                             My Favourites (7)
                         </button>
-                        <button onclick="showTab('tab-account-settings')"
-                            class="tab-button px-3 md:px-4 py-2 text-xs md:text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
-                            Account Settings
-                        </button>
+
                     </nav>
                 </div>
 
                 <!-- Tab Content -->
                 <div id="tab-timeline" class="tab-content mt-4">
                     <p>Timeline content here...</p>
-                    
+
                 </div>
 
                 <div id="tab-booking-history" class="tab-content mt-4" style="display: none;">
@@ -296,6 +301,7 @@
                 </div>
                 <div id="tab-account-settings" class="tab-content mt-4" style="display: none;">
                     <p>Account settings content here...</p>
+                    <x-account-settings-component />
                 </div>
             </div>
 
