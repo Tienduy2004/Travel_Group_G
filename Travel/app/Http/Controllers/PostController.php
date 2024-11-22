@@ -64,7 +64,7 @@ class PostController extends Controller
         if (empty($query)) {
             return back()->withInput()->with('error', 'Please enter keywords to search!');
         }
-        if (strlen($query) > 100) {
+        if (strlen($query) > 20) {
             return back()->withInput()->with('error', 'Keyword cannot be longer than 100 characters!');
         }
 
@@ -94,7 +94,7 @@ class PostController extends Controller
         $validateData = $request->validate([
             'category_id' => 'required',
             'title' => 'required|max:255',
-            'content' => 'required',
+            'content' => 'required|max:10000',
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ]);
 

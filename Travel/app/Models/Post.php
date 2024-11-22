@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Laravel\Scout\Searchable;
+use App\Models\Category;
 
 class Post extends Model
 {
+    use HasFactory;
 
     protected $fillable = [
         'user_id',

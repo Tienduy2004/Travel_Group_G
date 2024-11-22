@@ -154,8 +154,8 @@ $(document).ready(function () {
                             </button>
                             <!-- Menu chỉnh sửa và xóa -->
                             <div class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sửa</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-comment">Xóa</a>
+                                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-comment" onclick="editComment(this, '{{ $comment->id }}')">Sửa</a>
+                                <a class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-comment">Xóa</a>
                             </div>
                         </div>
                     </div>
@@ -196,9 +196,9 @@ $(document).ready(function () {
                             <!-- Menu chỉnh sửa và xóa -->
                             <div
                                 class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sửa</a>
-                                <a href="#"
+                                <a
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-reply" onclick="editReply(this, '{{ $reply->id }}')">Sửa</a>
+                                <a
                                     class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-reply">Xóa</a>
                             </div>
                         </div>
@@ -365,15 +365,13 @@ $("#comment-list").on("click", ".update-comment", function () {
 
 function updateFormReply(commentId, currentContent) {
     return `
-        <div class="edit-form hidden">
-            <textarea maxlength="1000" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" rows="3">${currentContent}</textarea>
-            <button class="update-reply mt-2 px-3 py-1 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-reply-id="${commentId}">
-                Update
-            </button>
-            <button class="cancel-edit mt-2 px-3 py-1 text-red-600 font-semibold rounded-md hover:bg-red-500 hover:text-white">
-                Cancel
-            </button>
-        </div>
+        <textarea maxlength="1000" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" rows="3">${currentContent}</textarea>
+        <button class="update-reply mt-2 px-3 py-1 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-reply-id="${commentId}">
+            Update
+        </button>
+        <button class="cancel-edit mt-2 px-3 py-1 text-red-600 font-semibold rounded-md hover:bg-red-500 hover:text-white">
+            Cancel
+        </button>
     `;
 }
 function updateFormComment(commentId, currentContent) {
