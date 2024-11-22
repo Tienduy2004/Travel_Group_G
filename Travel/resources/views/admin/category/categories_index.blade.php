@@ -103,6 +103,48 @@
         tr:hover {
             background-color: #f7f4f4;
         }
+        .pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa các nút phân trang */
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination .page-item {
+    margin: 0 5px; /* Tạo khoảng cách đều giữa các nút */
+}
+
+.pagination .page-link {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px; /* Bo góc nút */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination .page-link:hover,
+.pagination .page-item.active .page-link {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Hiệu ứng di chuyển nút lên khi hover */
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+.pagination .page-item .page-link {
+    border: 1px solid #007bff; /* Thêm đường viền cho nút */
+}
+
+.pagination .page-link:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
     </style>
 </head>
 
