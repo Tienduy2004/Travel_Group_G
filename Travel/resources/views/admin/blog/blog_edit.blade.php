@@ -1,80 +1,185 @@
 @extends('layouts.menu')
 
 @section('content')
-    <h1 class="text-center" style="color: #333; margin-top: 20px;">Chỉnh Sửa Bài Viết</h1>
 
-    <!-- Hiển thị lỗi nếu có -->
-    @if ($errors->any())
-        <div class="alert alert-danger" style="padding: 10px; background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; border-radius: 8px; margin-bottom: 20px;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh Sửa Bài Viết</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        form input[type="text"],
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        form input[type="file"] {
+            margin-bottom: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #bd2130;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Chỉnh Sửa Bài Viết</h1>
+        
+        @if(session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
         </div>
-    @endif
+        @endif
 
-    <form action="{{ route('admin.blog.update', $post->id) }}" method="POST" style="max-width: 600px; margin: 0 auto;">
-        @csrf
-        @method('PUT')
+        <form action="{{ route('admin.blog.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-        <!-- Tiêu đề bài viết -->
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label for="title" style="font-weight: bold; color: #333;">Tiêu Đề</label>
-            <input type="text" id="title" name="title" class="form-control" value="{{ old('title', $post->title) }}" placeholder="Nhập tiêu đề bài viết..." required>
-        </div>
+            <!-- Tiêu đề bài viết -->
+            <label for="title">Tiêu Đề</label>
+            <input type="text" id="title" name="title" value="{{ old('title', $post->title) }}" required>
+            @error('title')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
 
-        <!-- Nội dung bài viết -->
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label for="content" style="font-weight: bold; color: #333;">Nội Dung</label>
-            <textarea id="content" name="content" class="form-control" rows="5" placeholder="Nhập nội dung bài viết..." required>{{ old('content', $post->content) }}</textarea>
-        </div>
+            <!-- Nội dung bài viết -->
+            <label for="content">Nội Dung</label>
+            <textarea id="content" name="content" required>{{ old('content', $post->content) }}</textarea>
+            @error('content')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
 
-        <!-- Danh mục bài viết -->
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label for="category_id" style="font-weight: bold; color: #333;">Danh Mục</label>
-            <select name="category_id" id="category_id" class="form-control" required>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ $post->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+            <!-- Danh mục -->
+            <label for="category_id">Danh Mục</label>
+            <select id="category_id" name="category_id" required>
+                <option value="">Chọn danh mục</option>
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}" {{ $category->id == old('category_id', $post->category_id) ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
                 @endforeach
             </select>
-        </div>
+            @error('category_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
 
-        <!-- Nút cập nhật và quay lại -->
-        <button type="submit" class="btn btn-warning" style="font-size: 16px; padding: 10px 20px; border-radius: 8px; width: 100%;">Cập Nhật Bài Viết</button>
-        <a href="{{ route('admin.blog.index') }}" class="btn btn-secondary" style="font-size: 16px; padding: 10px 20px; border-radius: 8px; display: block; margin-top: 10px; text-align: center;">Quay lại</a>
-    </form>
+            <!-- Hình ảnh -->
+            <label for="image">Hình Ảnh</label>
+            @if($post->image)
+            <div>
+                <p>Hình ảnh hiện tại:</p>
+                <img src="{{ asset('storage/' . $post->image) }}" alt="Ảnh bài viết" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+            </div>
+            @endif
+            <input type="file" id="image" name="image" accept="image/*">
+            @error('image')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
 
-    <style>
-        .form-control {
-            font-size: 16px;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            width: 100%;
-        }
+            <!-- Giữ lại hình ảnh hiện tại -->
+            <label>
+                <input type="checkbox" name="keep_image" value="1"> Giữ lại hình ảnh hiện tại
+            </label>
 
-        .btn-warning {
-            background-color: #ffc107;
-            color: white;
-        }
+            <!-- Tác giả -->
+            <label for="user_id">Tác Giả</label>
+            <input type="text" id="user_id" name="user_id" value="{{ old('user_id', $post->user_id) }}" readonly>
+            @error('user_id')
+            <p class="error-message">{{ $message }}</p>
+            @enderror
 
-        .btn-warning:hover {
-            background-color: #e0a800;
-        }
+            <!-- Hành động -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Cập Nhật</button>
+                <a href="{{ route('admin.blog.index') }}" class="btn btn-danger">Hủy</a>
+            </div>
+        </form>
+    </div>
 
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
+</body>
 
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
+</html>
 
-        .alert {
-            font-size: 16px;
-            border-radius: 8px;
-        }
-    </style>
 @endsection
