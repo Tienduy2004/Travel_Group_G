@@ -15,11 +15,13 @@ class BlogManagementController extends Controller
         $search = $request->input('search');
         $query = Post::with('category');
 
+        // Áp dụng tìm kiếm nếu có
         if ($search) {
             $query->where('title', 'like', "%{$search}%");
         }
 
-        $posts = $query->paginate(10); // Phân trang 10 bài viết
+        // Phân trang 5 bài viết mỗi trang
+        $posts = $query->paginate(5); // Sửa phân trang từ 10 thành 5
 
         return view('admin.blog.blog_index', compact('posts', 'search'));
     }

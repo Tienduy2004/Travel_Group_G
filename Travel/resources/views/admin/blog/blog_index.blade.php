@@ -1,7 +1,6 @@
 @extends('layouts.menu')
 
 @section('content')
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,7 +85,8 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border: 1px solid #ddd;
@@ -140,7 +140,8 @@
             text-align: center;
         }
 
-        .pagination a {
+        .pagination a,
+        .pagination span {
             padding: 8px 16px;
             margin: 0 5px;
             background-color: #007bff;
@@ -150,8 +151,60 @@
             transition: background-color 0.3s;
         }
 
-        .pagination a:hover {
+        .pagination a:hover,
+        .pagination span.active {
             background-color: #0056b3;
+        }
+
+        .pagination span {
+            cursor: default;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            /* Căn giữa các nút phân trang */
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination .page-item {
+            margin: 0 5px;
+            /* Tạo khoảng cách đều giữa các nút */
+        }
+
+        .pagination .page-link {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            /* Bo góc nút */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .pagination .page-link:hover,
+        .pagination .page-item.active .page-link {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            /* Hiệu ứng di chuyển nút lên khi hover */
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background-color: #e0e0e0;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-item .page-link {
+            border: 1px solid #007bff;
+            /* Thêm đường viền cho nút */
+        }
+
+        .pagination .page-link:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
         }
     </style>
 </head>
@@ -191,35 +244,35 @@
         </thead>
         <tbody>
             @forelse($posts as $post)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $post->title }}</td>
-                <td>{{ $post->category->name ?? 'Không có danh mục' }}</td>
-                <td>{{ $post->user_id }}</td>
-                <td>
-                    @if($post->image)
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="Ảnh bài viết" style="width: 80px; height: auto;">
-                    @else
-                    Không có
-                    @endif
-                </td>
-                <td>{{ Str::limit($post->content, 50, '...') }}</td>
-                <td>{{ $post->created_at->format('d/m/Y') }}</td>
-                <td>{{ $post->updated_at->format('d/m/Y') }}</td>
-                <td class="action-btns">
-                    <!-- Edit and Delete Buttons -->
-                    <a href="{{ route('admin.blog.edit', $post->id) }}" class="btn btn-warning">✏️</a>
-                    <form action="{{ route('admin.blog.destroy', $post->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?')">🗑️</button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $post->title }}</td>
+                    <td>{{ $post->category->name ?? 'Không có danh mục' }}</td>
+                    <td>{{ $post->user_id }}</td>
+                    <td>
+                        @if($post->image)
+                            <img src="{{ Storage::url($post->image) }}" alt="Post Image" width="50" height="50">
+                        @else
+                            <span>Không có ảnh</span>
+                        @endif
+                    </td>
+                    <td>{{ Str::limit($post->content, 100) }}</td>
+                    <td>{{ $post->created_at->format('d/m/Y H:i') }}</td>
+                    <td>{{ $post->updated_at->format('d/m/Y H:i') }}</td>
+                    <td class="action-btns">
+                        <a href="{{ route('admin.blog.edit', $post->id) }}" class="btn btn-warning">Sửa</a>
+                        <form action="{{ route('admin.blog.destroy', $post->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?')">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
             @empty
-            <tr>
-                <td colspan="9" style="text-align: center;">Không có bài viết nào.</td>
-            </tr>
+                <tr>
+                    <td colspan="9" style="text-align: center;">Không có bài viết nào.</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
