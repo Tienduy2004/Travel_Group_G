@@ -149,6 +149,8 @@
         <a href="{{ route('admin.trangchu') }}"><i class="fas fa-home"></i> Quản Lý Tour</a>
         <a href="{{ route('promotions.index') }}"><i class="fas fa-tags"></i> Quản Lý Khuyến Mãi</a>
         <a href="{{ route('admin.users.index') }}"><i class="fas fa-users"></i> Danh Sách</a>
+        <a href="{{ route('admin.category.index') }}"><i class="fas fa-users"></i> Quản lý danh mục</a>
+        <a href="{{ route('admin.blog.index') }}"><i class="fas fa-users"></i> Quản lý blog</a>
         <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
             @csrf
             <button type="submit" class="btn btn-danger">Đăng Xuất</button>
