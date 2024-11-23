@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
         $this->call([
             DestinationSeeder::class,
             TourSeeder::class,
@@ -35,6 +35,9 @@ class DatabaseSeeder extends Seeder
             FlightSeeder::class,
             BudgetSeeder::class,
             AdminsTableSeeder::class,
+            UsersTableSeeder::class,
+            ProfilesTableSeeder::class,
+            FriendshipSeeder::class,
         ]);
         
         $this->call([

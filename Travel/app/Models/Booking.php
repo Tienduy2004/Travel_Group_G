@@ -72,4 +72,60 @@ class Booking extends Model
             ->where('booking_code', $bookingCode)
             ->firstOrFail(); // Sử dụng firstOrFail() để lấy booking hoặc throw lỗi 404 nếu không tìm thấy
     }
+
+    // Phương thức tạo booking
+    public static function storeBooking($tourId, $departureScheduleId, $userId, $hoTen, $email, $dienThoai, 
+        $diaChi, $adultCount, $childCount, $singleRooms, $total_price, $note, $paymentMethod, $bookingCode)
+    {
+        // Tạo booking mới
+        return self::create([
+            'tour_id' => $tourId,
+            'departure_schedule_id' => $departureScheduleId,
+            'user_id' => $userId,
+            'contact_name' => $hoTen,
+            'contact_email' => $email,
+            'contact_phone' => $dienThoai,
+            'contact_address' => $diaChi,
+            'adult_count' => $adultCount,
+            'child_count' => $childCount,
+            'single_rooms' => count($singleRooms),
+            'total_price' => $total_price,
+            'note' => $note,
+            'payment_method' => $paymentMethod,
+            'amount_paid' => 0,
+            'booking_code' => $bookingCode,
+        ]);
+    }
+
+    // Phương thức lưu thông tin hành khách lớn
+    public function storeAdultPassengers($bookingId, $passengerNames_Adult, $passengerBirthdates_Adult, $passengerGenders_Adult, $singleRooms)
+    {
+        foreach ($passengerNames_Adult as $index => $name) {
+            Passenger::create([
+                'booking_id' => $bookingId,
+                'name' => $name,
+                'birthdate' => isset($passengerBirthdates_Adult[$index]) ? $passengerBirthdates_Adult[$index] : null,
+                'gender' => isset($passengerGenders_Adult[$index]) ? $passengerGenders_Adult[$index] : null,
+                'single_room' => isset($singleRooms[$index]) ? (bool)$singleRooms[$index] : false,
+                'passenger_type' => 'adult',
+            ]);
+        }
+    }
+
+    // Phương thức lưu thông tin hành khách trẻ em
+    public function storeChildPassengers($bookingId, $passengerNames_Child, $passengerBirthdates_Child, $passengerGenders_Child)
+    {
+        if (!empty($passengerNames_Child)) {
+            foreach ($passengerNames_Child as $index => $name) {
+                Passenger::create([
+                    'booking_id' => $bookingId,
+                    'name' => $name,
+                    'birthdate' => isset($passengerBirthdates_Child[$index]) ? $passengerBirthdates_Child[$index] : null,
+                    'gender' => isset($passengerGenders_Child[$index]) ? $passengerGenders_Child[$index] : null,
+                    'single_room' => false,
+                    'passenger_type' => 'child',
+                ]);
+            }
+        }
+    }
 }

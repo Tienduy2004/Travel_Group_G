@@ -54,7 +54,7 @@ class Profile extends Model
     {
         // Validate các trường
         $request->validate([
-            'address' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:50',
             'date_of_birth' => 'nullable|date',
             'phone' => 'nullable|string|max:15',
             'gender' => 'nullable|in:male,female,other',

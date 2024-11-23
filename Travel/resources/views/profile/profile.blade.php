@@ -36,11 +36,11 @@
                 </form>
             @endif
             {{-- Error Messages --}}
-            @error('cover_photo')
+            {{-- @error('cover_photo')
                 <div class="absolute bottom-4 left-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg">
                     {{ $message }}
                 </div>
-            @enderror
+            @enderror --}}
 
         </div>
 
@@ -52,16 +52,16 @@
             <div class="relative -mt-12 mb-8 flex items-end gap-4">
                 <div class="relative flex">
                     <div>
-                        @if ($profile->avatar)
+                        @if ($profile->avatar && file_exists(public_path('img/profile/avatar/' . $profile->avatar)))
                             {{-- Avatar Container --}}
                             <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden relative">
-                                <img src="{{ asset('/img/profile/avatar/' . $profile->avatar) }}?height=96&width=96"
+                                <img src="{{ asset('img/profile/avatar/' . $profile->avatar) }}?height=96&width=96"
                                     alt="Profile" class="w-full h-full object-cover">
                             </div>
                         @else
                             {{-- Avatar Container --}}
                             <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden relative">
-                                <img src="{{ asset('/img/profile/avater.png') }}?height=96&width=96" alt="Profile"
+                                <img src="{{ asset('img/profile/avatar.png') }}?height=96&width=96" alt="Profile"
                                     class="w-full h-full object-cover">
                             </div>
                         @endif
@@ -83,6 +83,16 @@
                                     onchange="this.form.submit()">
                             </label>
                         </form>
+                    @endif
+                    @if ($errors->any())
+                        <div id="error-alert"
+                            class="alert alert-danger bg-red-500 text-white p-4 rounded-md shadow-md fixed top-0 left-1/2 transform -translate-x-1/2 z-50">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
                 </div>
 
@@ -406,5 +416,18 @@
                 menu.classList.add('hidden');
             }
         });
+    </script>
+    <script>
+        // Kiểm tra nếu thông báo lỗi tồn tại
+        window.onload = function() {
+            let errorAlert = document.getElementById('error-alert');
+
+            if (errorAlert) {
+                // Đặt thời gian ẩn thông báo sau 2 giây (2000 ms)
+                setTimeout(function() {
+                    errorAlert.style.display = 'none';
+                }, 2000); // 2 giây
+            }
+        }
     </script>
 @endsection

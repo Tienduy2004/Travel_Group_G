@@ -85,14 +85,12 @@ class ProfileController extends Controller
     {
         //dd($request->file('avatar'));
         // Validate file upload
-        try {
-            $request->validate([
-                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return dd($request->file('avatar'),$e->errors());
-        }
-        
+
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+
         $profile = Profile::findOrFail($id);
 
         // Xóa ảnh cũ nếu có
@@ -129,8 +127,8 @@ class ProfileController extends Controller
     public function updateDetails(Request $request, $id)
     {
 
-       // Gọi phương thức trong model Profile để cập nhật thông tin
-       Profile::updateUserProfile($request, $id);
+        // Gọi phương thức trong model Profile để cập nhật thông tin
+        Profile::updateUserProfile($request, $id);
 
         return back()->with('success', 'Cập nhật thông tin thành công!');
     }

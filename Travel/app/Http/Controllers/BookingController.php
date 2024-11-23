@@ -40,7 +40,7 @@ class BookingController extends Controller
             'passengerBirthdate_Child.*.date_format' => 'Ngày sinh hành khách trẻ em sai định dạng.',
             'note.max' => 'Ghi chú không được vượt quá 200 ký tự.'
         ]);
-        
+
 
         // Lấy thông tin từ yêu cầu
         $hoTen = $request->input('hoTen_contact');
@@ -92,49 +92,39 @@ class BookingController extends Controller
 
         // Tạo một booking mới
 
-        $booking = Booking::create([
-            'tour_id' => $tourId,
-            'departure_schedule_id' => $departureScheduleId,
-            'user_id' => $userId,
-            'contact_name' => $hoTen,
-            'contact_email' => $email,
-            'contact_phone' => $dienThoai,
-            'contact_address' => $diaChi,
-            'adult_count' => $adultCount,
-            'child_count' => $childCount,
-            'single_rooms' => count($singleRooms),
-            'total_price' => $total_price,
-            'note' => $note,
-            'payment_method' => $paymentMethod,
-            'amount_paid' => 0,
-            'booking_code' => $bookingCode,
-        ]);
+        $booking = Booking::storeBooking(
+            $tourId,
+            $departureScheduleId,
+            $userId,
+            $hoTen,
+            $email,
+            $dienThoai,
+            $diaChi,
+            $adultCount,
+            $childCount,
+            $singleRooms,
+            $total_price,
+            $note,
+            $paymentMethod,
+            $bookingCode
+        );
 
         // Lưu thông tin hành khách lớn
-        foreach ($passengerNames_Adult as $index => $name) {
-            Passenger::create([
-                'booking_id' => $booking->id,
-                'name' => $name,
-                'birthdate' => isset($passengerBirthdates_Adult[$index]) ? $passengerBirthdates_Adult[$index] : null,
-                'gender' => isset($passengerGenders_Adult[$index]) ? $passengerGenders_Adult[$index] : null,
-                'single_room' => isset($singleRooms[$index]) ? (bool)$singleRooms[$index] : false,
-                'passenger_type' => 'adult',
-            ]);
-        }
+        $booking->storeAdultPassengers(
+            $booking->id,
+            $request->input('passengerName_Adult'),
+            $request->input('passengerBirthdate_Adult'),
+            $request->input('passengerGender_Adult'),
+            $singleRooms
+        );
 
         // Lưu thông tin hành khách trẻ em
-        if (!empty($passengerNames_Child)) {
-            foreach ($passengerNames_Child as $index => $name) {
-                Passenger::create([
-                    'booking_id' => $booking->id,
-                    'name' => $name,
-                    'birthdate' => isset($passengerBirthdates_Child[$index]) ? $passengerBirthdates_Child[$index] : null,
-                    'gender' => isset($passengerGenders_Child[$index]) ? $passengerGenders_Child[$index] : null,
-                    'single_room' => false,
-                    'passenger_type' => 'child',
-                ]);
-            }
-        }
+        $booking->storeChildPassengers(
+            $booking->id,
+            $request->input('passengerName_Child'),
+            $request->input('passengerBirthdate_Child'),
+            $request->input('passengerGender_Child')
+        );
 
         // Giảm số lượng ghế trong lịch khởi hành
         $departureSchedule = DepartureSchedule::findOrFail($departureScheduleId);
@@ -174,7 +164,7 @@ class BookingController extends Controller
             'note' => 'Khách hàng đã hủy chuyến đi vào ngày: ' . now()->format('d/m/Y H:i:s'), // Định dạng thời gian
             'total_price' => 0,
         ]);
-        
+
         // Giảm số lượng ghế trong lịch khởi hành
         $departureSchedule = DepartureSchedule::findOrFail($booking->departure_schedule_id);
         $totalPassengers = $booking->adult_count + $booking->child_count; // Tổng số hành khách
