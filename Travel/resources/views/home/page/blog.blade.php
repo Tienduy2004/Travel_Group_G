@@ -184,30 +184,50 @@
             </div>
 
             <div class="col-lg-4 mt-5 mt-lg-0">
-                <!-- Author Bio -->
-                <div class="d-flex flex-column text-center bg-white mb-5 py-5 px-4">
-                    <img src="img/user.jpg" class="img-fluid mx-auto mb-3" style="width: 100px;">
-                    <h3 class="text-primary mb-3">John Doe</h3>
-                    <p>Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit no ut est ipsum erat kasd
-                        amet elitr</p>
-                    <div class="d-flex justify-content-center">
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+                <!-- Notification -->
+                <div class="w-[380px] bg-zinc-900 rounded-lg shadow-md">
+                    <!-- Header -->
+                    <div class="p-4 flex items-center justify-between border-b border-zinc-800">
+                        <h2 class="text-xl font-semibold">Thông báo</h2>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex space-x-2 p-4 bg-transparent">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Tất cả</button>
+                        <button class="bg-zinc-800 px-4 py-2 rounded-lg hover:bg-zinc-700">Chưa đọc</button>
+                    </div>
+
+                    <!-- Notification Items -->
+                    <div class="space-y-4 p-2">
+                        <div class="flex items-start gap-2 p-2 hover:bg-zinc-800 rounded-lg">
+                            <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white">
+                                UL</div>
+                            <div class="flex-1">
+                                <p class="text-sm">
+                                    <span class="font-semibold">Uyên Lê, Ái Trân</span> và 7 người khác đã bày tỏ cảm
+                                    xúc về tin của bạn.
+                                </p>
+                                <p class="text-xs text-zinc-400 mt-1">3 giờ</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-2 p-2 hover:bg-zinc-800 rounded-lg">
+                            <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white">
+                                THL</div>
+                            <div class="flex-1">
+                                <p class="text-sm">
+                                    <span class="font-semibold">Trần Hà Linh</span> đã nêu bật một bình luận để bạn xem
+                                    thử.
+                                </p>
+                                <p class="text-xs text-zinc-400 mt-1">9 giờ</p>
+                            </div>
+                        </div>
+
+                        <button class="w-full py-3 text-sm text-zinc-400 hover:bg-zinc-800">Xem thông báo trước
+                            đó</button>
                     </div>
                 </div>
+
 
                 <!-- Search Form -->
                 <div class="mb-5">
@@ -261,14 +281,14 @@
                         <a class="d-flex align-items-center text-decoration-none bg-white mb-3"
                             href="{{ route('blog.show', Crypt::encrypt($post->id)) }}">
                             <img class="img-fluid" src="{{ asset('img/' . ($post->image_url ?? 'img/undefined.jpg')) }}"
-                                alt=""; style= "width: 50%">
+                                alt="" ; style="width: 50%">
                             <div class="pl-3">
                                 <h6 class="m-1">{{ Str::limit($post->title, 60, '...') }}</h6>
                                 <small>{{ $post->created_at->format('M d, Y') }}</small>
                             </div>
                         </a>
                     @endforeach
-                    
+
                 </div>
 
                 <!-- Tag Cloud -->

@@ -146,6 +146,7 @@ Route::delete('/comments/{id}', [PostController::class, 'deleteComment']);
 Route::delete('/comments/reply/{id}', [PostController::class, 'deleteReply']);
 Route::put('/comments/{id}', [PostController::class, 'updateComment']);
 Route::put('/comments/reply/{id}', [PostController::class, 'updateReply']);
+Route::get('/notifications', [PostController::class, 'getNotifications']);
 
 
 // Quản lý danh mục blog

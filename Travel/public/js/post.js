@@ -139,7 +139,7 @@ $(document).ready(function () {
         return `
             <div class="flex space-x-4" data-comment-id="${data.id}">
                 <div class="flex-shrink-0">
-                    <img src="/placeholder.svg?height=48&width=48" alt="User" class="w-12 h-12 rounded-full">
+                    <img src="${data.avatar}" alt="User Avatar" class="w-12 h-12 rounded-full">
                 </div>
                 <div class="flex-grow">
                     <div class="flex items-center mb-1 justify-between">
@@ -180,7 +180,7 @@ $(document).ready(function () {
         return `
             <div class="flex space-x-4" data-reply-id="${data.id}">
                 <div class="flex-shrink-0">
-                    <img src="/placeholder.svg?height=40&width=40" alt="User" class="w-10 h-10 rounded-full">
+                    <img src="${data.avatar}" alt="User Avatar" class="w-12 h-12 rounded-full">
                 </div>
                 <div class="flex-grow">
                     <div class="flex items-center mb-1 justify-between">
