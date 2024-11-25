@@ -232,7 +232,8 @@ class PostController extends Controller
         return response()->json(['message' => 'Reply deleted successfully.']);
     }
 
-    public function updateComment(Request $request, $commentId){
+    public function updateComment(Request $request, $commentId)
+    {
         $request->validate([
             'content' => 'required|string|max:1000',
         ]);
@@ -246,7 +247,8 @@ class PostController extends Controller
             'created_at' => $comment->created_at->diffForHumans(),
         ]);
     }
-    public function updateReply(Request $request, $commentId){
+    public function updateReply(Request $request, $commentId)
+    {
         $request->validate([
             'content' => 'required|string|max:1000',
         ]);
@@ -259,5 +261,84 @@ class PostController extends Controller
             'user' => $comment->user,
             'created_at' => $comment->created_at->diffForHumans(),
         ]);
+    }
+    public function destroyBlog($id)
+{
+    try {
+        $post = Post::findOrFail($id);
+
+        // Xóa ảnh nếu có
+        if ($post->image_url && file_exists(public_path('img/' . $post->image_url))) {
+            unlink(public_path('img/' . $post->image_url));
+        }
+
+        $post->delete();
+
+        return redirect()->route('blog')->with('success', 'Xóa bài viết thành công.');
+    } catch (\Exception $e) {
+        Log::error('Error deleting blog post: ' . $e->getMessage());
+        return redirect()->route('blog')->with('error', 'Không thể xóa bài viết.');
+    }
+}
+
+    public function editBlog($id)
+    {
+        try {
+            $postId = Crypt::decrypt($id);
+            $post = Post::findOrFail($postId);
+            $categories = Category::all(); // Lấy danh mục cho form chỉnh sửa
+            $user = Auth::user();
+
+            return view('home.page.edit_post', compact('post', 'categories', 'user'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Không thể truy cập bài viết.');
+        }
+    }
+    public function updateBlog(Request $request, $id)
+    {
+        try {
+            $postId = Crypt::decrypt($id);
+            $post = Post::findOrFail($postId);
+
+            // Validate dữ liệu
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'category_id' => 'required|exists:categories,id',
+                'content' => 'required',
+                'image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+
+            // Cập nhật các trường thông tin cơ bản
+            $post->title = $validated['title'];
+            $post->category_id = $validated['category_id'];
+            $post->content = $validated['content'];
+
+            // Xử lý ảnh nếu có
+            if ($request->hasFile('image_url')) {
+                $file = $request->file('image_url');
+
+                // Tạo tên file duy nhất
+                $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                // Lưu file vào thư mục `public/img/blog`
+                $file->move(public_path('img/blog'), $imageName);
+
+                // Xóa ảnh cũ nếu có
+                if ($post->image_url && file_exists(public_path('img/' . $post->image_url))) {
+                    unlink(public_path('img/' . $post->image_url));
+                }
+
+                // Cập nhật đường dẫn ảnh mới
+                $post->image_url = 'blog/' . $imageName;
+            }
+
+            // Lưu bài viết
+            $post->save();
+
+            return redirect()->route('blog.show', Crypt::encrypt($post->id))->with('success', 'Cập nhật bài viết thành công.');
+        } catch (\Exception $e) {
+            Log::error('Error updating blog post: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Không thể cập nhật bài viết.');
+        }
     }
 }
