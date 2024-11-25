@@ -159,7 +159,36 @@
                             <a class="text-primary text-uppercase text-decoration-none"
                                 href="">{{ $blog->category->name }}</a>
                         </div>
-                        <h2 class="mb-3">{{ $blog->title }}</h2>
+                        <h2 class="mb-3 d-flex justify-content-between align-items-center">
+                            {{ $blog->title }}
+                            @if (auth()->check() && auth()->id() === $blog->user_id)
+                                <div class="relative">
+                                    <button class="menu-button text-gray-500 focus:outline-none" onclick="toggleMenu(this)">
+                                        &#8226;&#8226;&#8226;
+                                    </button>
+                                    <!-- Menu chỉnh sửa và xóa -->
+                                    <div
+                                        class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <a href="{{ route('blog.editBlog', Crypt::encrypt($blog->id)) }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            Sửa
+                                        </a>
+                                        <form id="delete-post-{{ $blog->id }}"
+                                            action="{{ route('blog.destroyBlog', $blog->id) }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+
+                                        <button type="button" onclick="confirmDelete('{{ $blog->id }}')"
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                            Xóa
+                                        </button>
+
+                                    </div>
+                                </div>
+                            @endif
+                        </h2>
                         <div class="post-content">
                             {!! $blog->content !!}
                         </div>
@@ -231,8 +260,8 @@
                                                     <!-- Menu chỉnh sửa và xóa -->
                                                     <div
                                                         class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                                                        <a
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-comment" onclick="editComment(this, '{{ $comment->id }}')">Sửa</a>
+                                                        <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-comment"
+                                                            onclick="editComment(this, '{{ $comment->id }}')">Sửa</a>
                                                         <a
                                                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-comment">Xóa</a>
                                                     </div>
@@ -280,9 +309,9 @@
                                                                     <!-- Menu chỉnh sửa và xóa -->
                                                                     <div
                                                                         class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                        <a 
-                                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-reply" onclick="editReply(this, '{{ $reply->id }}')">Sửa</a>
-                                                                        <a 
+                                                                        <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-reply"
+                                                                            onclick="editReply(this, '{{ $reply->id }}')">Sửa</a>
+                                                                        <a
                                                                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-reply">Xóa</a>
                                                                     </div>
                                                                 </div>

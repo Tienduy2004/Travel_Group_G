@@ -474,3 +474,21 @@ $("textarea").on("input", function () {
         $(this).val($(this).val().substring(0, maxChars));
     }
 });
+
+function confirmDelete(postId) {
+    Swal.fire({
+        title: 'Are you sure you want to delete?',
+        text: "You will not be able to restore this post!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete now!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Gửi form xóa bài viết
+            document.getElementById('delete-post-' + postId).submit();
+        }
+    });
+}
