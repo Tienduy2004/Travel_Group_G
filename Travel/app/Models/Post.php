@@ -155,4 +155,8 @@ class Post extends Model
     {
         return $this->ratings()->where('user_id', Auth::id())->first();
     }
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class, 'post_id');
+    }
 }

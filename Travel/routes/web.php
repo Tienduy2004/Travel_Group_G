@@ -151,7 +151,9 @@ Route::delete('/blog/{id}', [PostController::class, 'destroyBlog'])->name('blog.
 Route::get('/blog/{id}/edit', [PostController::class, 'editBlog'])->name('blog.editBlog');
 Route::put('/blog/update/{id}', [PostController::class, 'updateBlog'])->name('blog.updateBlog');
 Route::post('/blog/{post}/rating', [PostController::class, 'rate'])->name('post.rating');
-
+Route::post('/blog/{postId}/bookmark', [PostController::class, 'storeBookmark'])->name('blog.bookmark');
+Route::get('/bookmarks', [PostController::class, 'getBookmark'])->name('bookmarks');
+Route::delete('/bookmarks/{blog}', [PostController::class, 'removeBookmark'])->name('bookmarks.remove');
 
 // Quản lý danh mục blog
 use App\Http\Controllers\CategoryManagementController;
