@@ -63,6 +63,23 @@
     .menu a:hover {
         background-color: #EDF2F7;
     }
+
+    .star {
+        font-size: 30px;
+        color: #ccc;
+        /* Màu mặc định của sao */
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .star:hover,
+    .star.selected {
+        color: #ffcc00;
+    }
+
+    .rated {
+        color: #ffcc00;
+    }
 </style>
 <!-- Header Start -->
 <div class="container-fluid page-header">
@@ -213,6 +230,24 @@
                                 <i class="fas fa-eye"></i> <span>{{ $blog->view_count }}</span>
                             </div>
                         </div>
+                    </div>
+                    <div class="rating">
+                        <form id="rating-form">
+                            @csrf
+                            <label for="rating">Rate</label>
+                            <span class="star {{ $userRating && $userRating->rating >= 1 ? 'rated' : '' }}"
+                                data-value="1" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 2 ? 'rated' : '' }}"
+                                data-value="2" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 3 ? 'rated' : '' }}"
+                                data-value="3" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 4 ? 'rated' : '' }}"
+                                data-value="4" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 5 ? 'rated' : '' }}"
+                                data-value="5" data-post-id="{{ $blog->id }}">&#9733;</span>
+                        </form>
+                        <p>Average Rating <span
+                                id="average-rating">{{ number_format($blog->averageRating(), 1) }}</span></p>
                     </div>
                 </div>
                 <!-- Blog Detail End -->
@@ -391,7 +426,7 @@
                                         </p>
                                         <p class="text-xs text-zinc-400 mt-1">{{ $notification->created_at->diffForHumans() }}
                                         </p>
-                                        <a href="{{ route('posts.show', $notification->data['post_id']) }}"
+                                        <a href="{{ route('blog.show', $notification->data['post_id']) }}"
                                             class="text-blue-500 hover:underline">Xem bài viết</a>
                                     </div>
                                 </div>

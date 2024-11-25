@@ -150,6 +150,7 @@ Route::get('/notifications', [PostController::class, 'getNotifications']);
 Route::delete('/blog/{id}', [PostController::class, 'destroyBlog'])->name('blog.destroyBlog');
 Route::get('/blog/{id}/edit', [PostController::class, 'editBlog'])->name('blog.editBlog');
 Route::put('/blog/update/{id}', [PostController::class, 'updateBlog'])->name('blog.updateBlog');
+Route::post('/blog/{post}/rating', [PostController::class, 'rate'])->name('post.rating');
 
 
 // Quản lý danh mục blog

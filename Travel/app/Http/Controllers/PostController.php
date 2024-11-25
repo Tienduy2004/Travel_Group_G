@@ -54,6 +54,7 @@ class PostController extends Controller
         $totalPost = Post::totalPostCount();
         $blog->increment('view_count');
         $topViewPosts = Post::topViewPosts();
+        $userRating = $blog->userRating();
         $comments = $blog->commentsFirst()->get();
         // Kiểm tra xem người dùng đã đăng nhập chưa
         $user = auth()->user();
@@ -71,7 +72,7 @@ class PostController extends Controller
             }
         }
 
-        return view('home.page.single', compact('blog', 'categories', 'totalPost', 'topViewPosts', 'comments', 'notifications'));
+        return view('home.page.single', compact('blog', 'categories', 'totalPost', 'topViewPosts', 'comments', 'notifications', 'userRating'));
     }
     //Lay bai viet theo danh muc
     public function getPostbyCategory($categoryId)
@@ -202,9 +203,9 @@ class PostController extends Controller
         if ($post->user_id !== $user->id) {
             $post->user->notify(new PostNotification($post, $user, 'comment', $request->message));
         }
-        $avatar = $user->profile && $user->profile->avatar 
-              ? asset('img/profile/avatar/' . $user->profile->avatar) 
-              : asset('img/profile/avatar.png');
+        $avatar = $user->profile && $user->profile->avatar
+            ? asset('img/profile/avatar/' . $user->profile->avatar)
+            : asset('img/profile/avatar.png');
 
         return response()->json([
             'id' => $comment->id,
@@ -236,9 +237,9 @@ class PostController extends Controller
             'parent_id' => $parentComment->id,
             'content' => $request->message,
         ]);
-        $avatar = $user->profile && $user->profile->avatar 
-              ? asset('img/profile/avatar/' . $user->profile->avatar) 
-              : asset('img/profile/avatar.png');
+        $avatar = $user->profile && $user->profile->avatar
+            ? asset('img/profile/avatar/' . $user->profile->avatar)
+            : asset('img/profile/avatar.png');
 
         if ($parentComment->user_id !== $user->id) {
             $parentComment->user->notify(new PostNotification($parentComment->post, $user, 'reply', $request->message));
@@ -314,23 +315,23 @@ class PostController extends Controller
         ]);
     }
     public function destroyBlog($id)
-{
-    try {
-        $post = Post::findOrFail($id);
+    {
+        try {
+            $post = Post::findOrFail($id);
 
-        // Xóa ảnh nếu có
-        if ($post->image_url && file_exists(public_path('img/' . $post->image_url))) {
-            unlink(public_path('img/' . $post->image_url));
+            // Xóa ảnh nếu có
+            if ($post->image_url && file_exists(public_path('img/' . $post->image_url))) {
+                unlink(public_path('img/' . $post->image_url));
+            }
+
+            $post->delete();
+
+            return redirect()->route('blog')->with('success', 'Xóa bài viết thành công.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting blog post: ' . $e->getMessage());
+            return redirect()->route('blog')->with('error', 'Không thể xóa bài viết.');
         }
-
-        $post->delete();
-
-        return redirect()->route('blog')->with('success', 'Xóa bài viết thành công.');
-    } catch (\Exception $e) {
-        Log::error('Error deleting blog post: ' . $e->getMessage());
-        return redirect()->route('blog')->with('error', 'Không thể xóa bài viết.');
     }
-}
 
     public function editBlog($id)
     {
@@ -392,4 +393,24 @@ class PostController extends Controller
             return redirect()->back()->with('error', 'Không thể cập nhật bài viết.');
         }
     }
+    public function rate(Request $request, $postId)
+    {
+        $request->validate([
+            'rating' => 'required|integer|between:1,5',
+        ]);
+
+        // Giải mã nếu bạn dùng Crypt (nếu cần)
+        // $postId = Crypt::decrypt($postId); // Nếu cần thiết
+
+        $post = Post::findOrFail($postId);
+
+        // Gọi phương thức rate từ Model để xử lý logic rating
+        $post->rate($request->rating);
+
+        // Trả về điểm trung bình mới của bài viết
+        return response()->json([
+            'averageRating' => number_format($post->averageRating(), 1)
+        ]);
+    }
+
 }
