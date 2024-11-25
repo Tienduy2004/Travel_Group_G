@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Notifications\PostNotification;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,23 @@ class PostController extends Controller
         $totalPost = Post::totalPostCount();
         $topViewPosts = Post::topViewPosts();
 
-        return view('home.page.blog', data: compact('posts', 'categories', 'totalPost', 'topViewPosts'));
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        $user = auth()->user();
+        if ($user) {
+            // Lấy thông báo của người dùng nếu người dùng đã đăng nhập
+            $notifications = $user->notifications()->latest()->get();
+        } else {
+            // Nếu không có người dùng, trả về thông báo lỗi hoặc một mảng thông báo rỗng
+            $notifications = [];
+        }
+
+        foreach ($notifications as $notification) {
+            if (is_string($notification->data)) {
+                $notification->data = json_decode($notification->data, true);
+            }
+        }
+
+        return view('home.page.blog', data: compact('posts', 'categories', 'totalPost', 'topViewPosts', 'notifications'));
     }
     //hien thi bai viet chi tiet
     public function showBlog($blogId)
@@ -38,8 +55,23 @@ class PostController extends Controller
         $blog->increment('view_count');
         $topViewPosts = Post::topViewPosts();
         $comments = $blog->commentsFirst()->get();
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        $user = auth()->user();
+        if ($user) {
+            // Lấy thông báo của người dùng nếu người dùng đã đăng nhập
+            $notifications = $user->notifications()->latest()->get();
+        } else {
+            // Nếu không có người dùng, trả về thông báo lỗi hoặc một mảng thông báo rỗng
+            $notifications = [];
+        }
 
-        return view('home.page.single', compact('blog', 'categories', 'totalPost', 'topViewPosts', 'comments'));
+        foreach ($notifications as $notification) {
+            if (is_string($notification->data)) {
+                $notification->data = json_decode($notification->data, true);
+            }
+        }
+
+        return view('home.page.single', compact('blog', 'categories', 'totalPost', 'topViewPosts', 'comments', 'notifications'));
     }
     //Lay bai viet theo danh muc
     public function getPostbyCategory($categoryId)
@@ -140,6 +172,10 @@ class PostController extends Controller
             $post->likes()->attach($user->id);
             $post->increment('like_count');
             $liked = true;
+
+            if ($post->user_id !== $user->id) {
+                $post->user->notify(new PostNotification($post, Auth::user(), 'like'));
+            }
         }
 
         return response()->json(['like_count' => $post->like_count, 'liked' => $liked]);
@@ -163,6 +199,12 @@ class PostController extends Controller
             'post_id' => $post->id,
             'content' => $request->message,
         ]);
+        if ($post->user_id !== $user->id) {
+            $post->user->notify(new PostNotification($post, $user, 'comment', $request->message));
+        }
+        $avatar = $user->profile && $user->profile->avatar 
+              ? asset('img/profile/avatar/' . $user->profile->avatar) 
+              : asset('img/profile/avatar.png');
 
         return response()->json([
             'id' => $comment->id,
@@ -171,6 +213,7 @@ class PostController extends Controller
             ],
             'content' => $comment->content,
             'created_at' => $comment->created_at->diffForHumans(),
+            'avatar' => $avatar,
         ]);
     }
 
@@ -193,6 +236,13 @@ class PostController extends Controller
             'parent_id' => $parentComment->id,
             'content' => $request->message,
         ]);
+        $avatar = $user->profile && $user->profile->avatar 
+              ? asset('img/profile/avatar/' . $user->profile->avatar) 
+              : asset('img/profile/avatar.png');
+
+        if ($parentComment->user_id !== $user->id) {
+            $parentComment->user->notify(new PostNotification($parentComment->post, $user, 'reply', $request->message));
+        }
 
         return response()->json([
             'id' => $reply->id,
@@ -201,6 +251,7 @@ class PostController extends Controller
             ],
             'content' => $reply->content,
             'created_at' => $reply->created_at->diffForHumans(),
+            'avatar' => $avatar,
         ]);
     }
     public function deleteComment($commentId)
