@@ -23,7 +23,23 @@ class PostController extends Controller
         $totalPost = Post::totalPostCount();
         $topViewPosts = Post::topViewPosts();
 
-        return view('home.page.blog', data: compact('posts', 'categories', 'totalPost', 'topViewPosts'));
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        $user = auth()->user();
+        if ($user) {
+            // Lấy thông báo của người dùng nếu người dùng đã đăng nhập
+            $notifications = $user->notifications()->latest()->get();
+        } else {
+            // Nếu không có người dùng, trả về thông báo lỗi hoặc một mảng thông báo rỗng
+            $notifications = [];
+        }
+
+        foreach ($notifications as $notification) {
+            if (is_string($notification->data)) {
+                $notification->data = json_decode($notification->data, true);
+            }
+        }
+
+        return view('home.page.blog', data: compact('posts', 'categories', 'totalPost', 'topViewPosts', 'notifications'));
     }
     //hien thi bai viet chi tiet
     public function showBlog($blogId)

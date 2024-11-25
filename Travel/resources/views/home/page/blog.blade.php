@@ -188,43 +188,48 @@
                 <div class="w-[380px] bg-zinc-900 rounded-lg shadow-md">
                     <!-- Header -->
                     <div class="p-4 flex items-center justify-between border-b border-zinc-800">
-                        <h2 class="text-xl font-semibold">Thông báo</h2>
+                        <h2 class="text-xl font-semibold">Notifications</h2>
                     </div>
 
                     <!-- Tabs -->
-                    <div class="flex space-x-2 p-4 bg-transparent">
+                    <!-- <div class="flex space-x-2 p-4 bg-transparent">
                         <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Tất cả</button>
                         <button class="bg-zinc-800 px-4 py-2 rounded-lg hover:bg-zinc-700">Chưa đọc</button>
-                    </div>
+                    </div> -->
 
                     <!-- Notification Items -->
-                    <div class="space-y-4 p-2">
-                        <div class="flex items-start gap-2 p-2 hover:bg-zinc-800 rounded-lg">
-                            <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white">
-                                UL</div>
-                            <div class="flex-1">
-                                <p class="text-sm">
-                                    <span class="font-semibold">Uyên Lê, Ái Trân</span> và 7 người khác đã bày tỏ cảm
-                                    xúc về tin của bạn.
-                                </p>
-                                <p class="text-xs text-zinc-400 mt-1">3 giờ</p>
+                    <div id="notification-list" class="space-y-4 p-2 notification-items scroll">
+                        @if ($notifications->isEmpty()) <!-- Kiểm tra nếu không có thông báo -->
+                            <div class="text-center text-gray-500">
+                                There are currently no notifications.
                             </div>
-                        </div>
-
-                        <div class="flex items-start gap-2 p-2 hover:bg-zinc-800 rounded-lg">
-                            <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white">
-                                THL</div>
-                            <div class="flex-1">
-                                <p class="text-sm">
-                                    <span class="font-semibold">Trần Hà Linh</span> đã nêu bật một bình luận để bạn xem
-                                    thử.
-                                </p>
-                                <p class="text-xs text-zinc-400 mt-1">9 giờ</p>
-                            </div>
-                        </div>
-
-                        <button class="w-full py-3 text-sm text-zinc-400 hover:bg-zinc-800">Xem thông báo trước
-                            đó</button>
+                        @else
+                            @foreach ($notifications as $notification)
+                                <div class="flex items-start gap-2 p-2 hover:bg-zinc-800 rounded-lg">
+                                    <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white">
+                                        @if (isset($notification->data['avatar']) && $notification->data['avatar'] && file_exists(public_path('img/profile/avatar/' . $notification->data['avatar'])))
+                                            <img src="{{ asset('img/profile/avatar/' . $notification->data['avatar']) }}"
+                                                alt="Avatar" class="h-12 w-12 rounded-full">
+                                        @else
+                                            <img src="{{ asset('img/profile/avatar.png') }}" alt="User Avatar"
+                                                class="h-12 w-12 rounded-full">
+                                        @endif
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm">
+                                            <span class="font-semibold">{{ $notification->data['user_name'] }}</span>
+                                            {{ $notification->data['message'] }}
+                                        </p>
+                                        <p class="text-xs text-zinc-400 mt-1">{{ $notification->created_at->diffForHumans() }}
+                                        </p>
+                                        <a href="{{ route('posts.show', $notification->data['post_id']) }}"
+                                            class="text-blue-500 hover:underline">Xem bài viết</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        <!--     <button class="w-full py-3 text-sm text-zinc-400 hover:bg-zinc-800">Xem thông báo trước
+                            đó</button> -->
                     </div>
                 </div>
 
