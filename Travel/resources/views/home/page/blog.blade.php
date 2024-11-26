@@ -222,7 +222,7 @@
                                         </p>
                                         <p class="text-xs text-zinc-400 mt-1">{{ $notification->created_at->diffForHumans() }}
                                         </p>
-                                        <a href="{{ route('blog.show', $notification->data['post_id']) }}"
+                                        <a href="{{ route('blog.show', Crypt::encrypt($notification->data['post_id'])) }}"
                                             class="text-blue-500 hover:underline">Xem bài viết</a>
                                     </div>
                                 </div>
