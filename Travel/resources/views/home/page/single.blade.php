@@ -80,6 +80,14 @@
     .rated {
         color: #ffcc00;
     }
+
+    .bookmark-icon {
+        color: gray;
+    }
+
+    .bookmark-icon.bookmarked {
+        color: gold;
+    }
 </style>
 <!-- Header Start -->
 <div class="container-fluid page-header">
@@ -229,6 +237,15 @@
                             <div>
                                 <i class="fas fa-eye"></i> <span>{{ $blog->view_count }}</span>
                             </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-4">
+                        <div class="mr-3 d-flex">
+                            <button id="bookmark-button"
+                                class="bookmark-icon {{ $blog->bookmarks->contains('user_id', auth()->id()) ? 'bookmarked' : '' }}"
+                                data-post-id="{{ $blog->id }}" data-csrf-token="{{ csrf_token() }}">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="rating">

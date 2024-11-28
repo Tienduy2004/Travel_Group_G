@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Notifications\PostNotification;
@@ -26,10 +27,8 @@ class PostController extends Controller
         // Kiểm tra xem người dùng đã đăng nhập chưa
         $user = auth()->user();
         if ($user) {
-            // Lấy thông báo của người dùng nếu người dùng đã đăng nhập
             $notifications = $user->notifications()->latest()->get();
         } else {
-            // Nếu không có người dùng, trả về thông báo lỗi hoặc một mảng thông báo rỗng
             $notifications = [];
         }
 
@@ -412,5 +411,28 @@ class PostController extends Controller
             'averageRating' => number_format($post->averageRating(), 1)
         ]);
     }
+    public function storeBookmark($postId)
+    {
+        // Gọi phương thức toggleBookmark từ model Bookmark
+        $response = Bookmark::toggleBookmark($postId);
 
+        return response()->json($response);
+    }
+    public function getBookmark()
+    {
+        $user = Auth::user();
+        $bookmarks = Bookmark::getBookmarked($user->id);
+
+        return view('home.page.bookmark', compact('bookmarks'));
+    }
+    public function removeBookmark($blogId)
+    {
+        $isRemoved = Bookmark::removeBookmark($blogId);
+
+        if ($isRemoved) {
+            return back()->with('success', 'Đã bỏ lưu bài viết.');
+        }
+
+        return back()->with('success', 'Đã bỏ lưu bài viết.');
+    }
 }

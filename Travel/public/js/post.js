@@ -103,6 +103,34 @@ $(document).ready(function () {
             });
         });
     });
+    $(document).ready(function () {
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    
+        // Xử lý sự kiện khi người dùng click vào nút bookmark
+        $("#bookmark-button").on("click", function () {
+            var postId = $(this).data("post-id");
+    
+            $.ajax({
+                url: "/blog/" + postId + "/bookmark", // Đường dẫn đến route lưu bookmark
+                method: "POST",
+                data: {
+                    _token: csrfToken,
+                },
+                success: function (response) {
+                    // Thay đổi icon khi lưu hoặc bỏ lưu
+                    if (response.status === 'added') {
+                        $("#bookmark-button").addClass('bookmarked');
+                    } else {
+                        $("#bookmark-button").removeClass('bookmarked');
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        });
+    });
+    
 
     // Comment handling
     $("#comment-form").on("submit", function (e) {
