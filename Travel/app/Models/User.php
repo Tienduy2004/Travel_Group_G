@@ -214,4 +214,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 return ($month >= $currentMonth) ? $month - $currentMonth : $month - $currentMonth + 12;
             });
     }
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
 }

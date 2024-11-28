@@ -38,6 +38,71 @@ $(document).ready(function () {
             },
         });
     });
+    $(document).ready(function () {
+        var csrfToken = $('meta[name="csrf-token"]').attr("content");
+
+        // Giữ màu vàng cho sao đã chọn khi tải lại trang
+        $(".star.rated").css("color", "#ffcc00");
+
+        // Hover Effect khi di chuột lên sao
+        $(".star").on("mouseenter", function () {
+            var rating = $(this).data("value");
+            $(".star").each(function () {
+                if ($(this).data("value") <= rating) {
+                    $(this).css("color", "#ffcc00");
+                } else {
+                    $(this).css("color", "#ccc");
+                }
+            });
+        });
+
+        // Khi người dùng click vào sao để chọn rating
+        $(".star").on("click", function () {
+            var rating = $(this).data("value");
+            var postId = $(this).data("post-id");
+
+            $.ajax({
+                url: "/blog/" + postId + "/rating",
+                method: "POST",
+                data: {
+                    _token: csrfToken,
+                    rating: rating,
+                },
+                success: function (response) {
+                    // Cập nhật lại điểm trung bình
+                    $("#average-rating").text(response.averageRating);
+
+                    // Xóa class "rated" khỏi tất cả sao
+                    $(".star").removeClass("rated");
+
+                    // Đánh dấu sao đã chọn và giữ màu vàng
+                    $(".star").each(function () {
+                        if ($(this).data("value") <= rating) {
+                            $(this).addClass("rated");
+                        }
+                    });
+
+                    // Giữ màu vàng cho sao đã chọn
+                    $(".star.rated").css("color", "#ffcc00");
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                },
+            });
+        });
+
+        // Khi người dùng rời chuột khỏi sao
+        $(".star").on("mouseleave", function () {
+            // Giữ màu vàng cho sao đã chọn, những sao chưa chọn sẽ có màu xám
+            $(".star").each(function () {
+                if ($(this).hasClass("rated")) {
+                    $(this).css("color", "#ffcc00");
+                } else {
+                    $(this).css("color", "#ccc");
+                }
+            });
+        });
+    });
 
     // Comment handling
     $("#comment-form").on("submit", function (e) {
@@ -139,7 +204,7 @@ $(document).ready(function () {
         return `
             <div class="flex space-x-4" data-comment-id="${data.id}">
                 <div class="flex-shrink-0">
-                    <img src="/placeholder.svg?height=48&width=48" alt="User" class="w-12 h-12 rounded-full">
+                    <img src="${data.avatar}" alt="User Avatar" class="w-12 h-12 rounded-full">
                 </div>
                 <div class="flex-grow">
                     <div class="flex items-center mb-1 justify-between">
@@ -180,7 +245,7 @@ $(document).ready(function () {
         return `
             <div class="flex space-x-4" data-reply-id="${data.id}">
                 <div class="flex-shrink-0">
-                    <img src="/placeholder.svg?height=40&width=40" alt="User" class="w-10 h-10 rounded-full">
+                    <img src="${data.avatar}" alt="User Avatar" class="w-12 h-12 rounded-full">
                 </div>
                 <div class="flex-grow">
                     <div class="flex items-center mb-1 justify-between">
@@ -362,7 +427,6 @@ $("#comment-list").on("click", ".update-comment", function () {
     });
 });
 
-
 function updateFormReply(commentId, currentContent) {
     return `
         <textarea maxlength="1000" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" rows="3">${currentContent}</textarea>
@@ -474,3 +538,21 @@ $("textarea").on("input", function () {
         $(this).val($(this).val().substring(0, maxChars));
     }
 });
+
+function confirmDelete(postId) {
+    Swal.fire({
+        title: "Are you sure you want to delete?",
+        text: "You will not be able to restore this post!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete now!",
+        cancelButtonText: "Cancel",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Gửi form xóa bài viết
+            document.getElementById("delete-post-" + postId).submit();
+        }
+    });
+}

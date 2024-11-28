@@ -39,7 +39,8 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'post_like');
     }
     //quan he voi bang comment
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 
@@ -122,5 +123,36 @@ class Post extends Model
     public function commentsFirst()
     {
         return $this->comments()->whereNull('parent_id')->orderBy('created_at', 'desc');
+    }
+    public function ratings()
+    {
+        return $this->hasMany(RatingPost::class);
+    }
+
+    public function averageRating()
+    {
+        return $this->ratings()->avg('rating');
+    }
+    public function rate($rating)
+    {
+        $existingRating = $this->ratings()->where('user_id', Auth::id())->first();
+
+        if ($existingRating) {
+            // Nếu đã đánh giá rồi, cập nhật rating
+            $existingRating->update([
+                'rating' => $rating,
+            ]);
+        } else {
+            // Nếu chưa đánh giá, tạo mới
+            RatingPost::create([
+                'user_id' => Auth::id(),
+                'post_id' => $this->id,
+                'rating' => $rating,
+            ]);
+        }
+    }
+    public function userRating()
+    {
+        return $this->ratings()->where('user_id', Auth::id())->first();
     }
 }

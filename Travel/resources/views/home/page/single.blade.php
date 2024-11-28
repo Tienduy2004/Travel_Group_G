@@ -22,22 +22,27 @@
         overflow-y: auto;
     }
 
-    #comment-list::-webkit-scrollbar {
+    .scroll::-webkit-scrollbar {
         width: 8px;
     }
 
-    #comment-list::-webkit-scrollbar-track {
+    .scroll::-webkit-scrollbar-track {
         background: #f1f1f1;
     }
 
-    #comment-list::-webkit-scrollbar-thumb {
+    .scroll::-webkit-scrollbar-thumb {
         background-color: #4a90e2;
         border-radius: 10px;
         border: 2px solid #f1f1f1;
     }
 
-    #comment-list::-webkit-scrollbar-thumb:hover {
+    .scroll::-webkit-scrollbar-thumb:hover {
         background-color: #3c7dc4;
+    }
+
+    .notification-items {
+        max-height: 350px;
+        overflow-y: auto;
     }
 
     .menu-button {
@@ -57,6 +62,23 @@
 
     .menu a:hover {
         background-color: #EDF2F7;
+    }
+
+    .star {
+        font-size: 30px;
+        color: #ccc;
+        /* Màu mặc định của sao */
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .star:hover,
+    .star.selected {
+        color: #ffcc00;
+    }
+
+    .rated {
+        color: #ffcc00;
     }
 </style>
 <!-- Header Start -->
@@ -159,7 +181,36 @@
                             <a class="text-primary text-uppercase text-decoration-none"
                                 href="">{{ $blog->category->name }}</a>
                         </div>
-                        <h2 class="mb-3">{{ $blog->title }}</h2>
+                        <h2 class="mb-3 d-flex justify-content-between align-items-center">
+                            {{ $blog->title }}
+                            @if (auth()->check() && auth()->id() === $blog->user_id)
+                                <div class="relative">
+                                    <button class="menu-button text-gray-500 focus:outline-none" onclick="toggleMenu(this)">
+                                        &#8226;&#8226;&#8226;
+                                    </button>
+                                    <!-- Menu chỉnh sửa và xóa -->
+                                    <div
+                                        class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <a href="{{ route('blog.editBlog', Crypt::encrypt($blog->id)) }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            Sửa
+                                        </a>
+                                        <form id="delete-post-{{ $blog->id }}"
+                                            action="{{ route('blog.destroyBlog', $blog->id) }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+
+                                        <button type="button" onclick="confirmDelete('{{ $blog->id }}')"
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                            Xóa
+                                        </button>
+
+                                    </div>
+                                </div>
+                            @endif
+                        </h2>
                         <div class="post-content">
                             {!! $blog->content !!}
                         </div>
@@ -179,6 +230,24 @@
                                 <i class="fas fa-eye"></i> <span>{{ $blog->view_count }}</span>
                             </div>
                         </div>
+                    </div>
+                    <div class="rating">
+                        <form id="rating-form">
+                            @csrf
+                            <label for="rating">Rate</label>
+                            <span class="star {{ $userRating && $userRating->rating >= 1 ? 'rated' : '' }}"
+                                data-value="1" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 2 ? 'rated' : '' }}"
+                                data-value="2" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 3 ? 'rated' : '' }}"
+                                data-value="3" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 4 ? 'rated' : '' }}"
+                                data-value="4" data-post-id="{{ $blog->id }}">&#9733;</span>
+                            <span class="star {{ $userRating && $userRating->rating >= 5 ? 'rated' : '' }}"
+                                data-value="5" data-post-id="{{ $blog->id }}">&#9733;</span>
+                        </form>
+                        <p>Average Rating <span
+                                id="average-rating">{{ number_format($blog->averageRating(), 1) }}</span></p>
                     </div>
                 </div>
                 <!-- Blog Detail End -->
@@ -207,12 +276,19 @@
                     <div class="bg-white shadow-md rounded-lg p-6">
                         <h4 class="text-2xl font-bold mb-6 tracking-wide">{{ $comments->count() }} Comments</h4>
 
-                        <div class="space-y-6" id="comment-list">
+                        <div class="space-y-6 scroll" id="comment-list">
                             @foreach ($comments as $comment)
                                 <div class="flex space-x-4" data-comment-id="{{ $comment->id }}">
                                     <div class="flex-shrink-0">
-                                        <img src="/placeholder.svg?height=48&width=48" alt="User Avatar"
-                                            class="w-12 h-12 rounded-full">
+                                        @if (isset($comment->user->profile->avatar) && file_exists(public_path('img/profile/avatar/' . $comment->user->profile->avatar)))
+                                            {{-- Avatar Container --}}
+                                            <img src="{{ asset('img/profile/avatar/' . $comment->user->profile->avatar) }}"
+                                                alt="User Avatar" class="w-12 h-12 rounded-full">
+                                        @else
+                                            {{-- Default Avatar --}}
+                                            <img src="{{ asset('img/profile/avatar.png') }}" alt="User Avatar"
+                                                class="w-12 h-12 rounded-full">
+                                        @endif
                                     </div>
                                     <div class="flex-grow">
                                         <div class="flex items-center mb-1 justify-between">
@@ -231,8 +307,8 @@
                                                     <!-- Menu chỉnh sửa và xóa -->
                                                     <div
                                                         class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                                                        <a
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-comment" onclick="editComment(this, '{{ $comment->id }}')">Sửa</a>
+                                                        <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-comment"
+                                                            onclick="editComment(this, '{{ $comment->id }}')">Sửa</a>
                                                         <a
                                                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-comment">Xóa</a>
                                                     </div>
@@ -260,8 +336,15 @@
                                             @foreach ($comment->replies as $reply)
                                                 <div class="flex space-x-4" data-reply-id="{{ $reply->id }}">
                                                     <div class="flex-shrink-0">
-                                                        <img src="/placeholder.svg?height=40&width=40" alt="User Avatar"
-                                                            class="w-10 h-10 rounded-full">
+                                                        @if (isset($comment->user->profile->avatar) && file_exists(public_path('img/profile/avatar/' . $comment->user->profile->avatar)))
+                                                            {{-- Avatar Container --}}
+                                                            <img src="{{ asset('img/profile/avatar/' . $comment->user->profile->avatar) }}"
+                                                                alt="User Avatar" class="w-12 h-12 rounded-full">
+                                                        @else
+                                                            {{-- Default Avatar --}}
+                                                            <img src="{{ asset('img/profile/avatar.png') }}" alt="User Avatar"
+                                                                class="w-12 h-12 rounded-full">
+                                                        @endif
                                                     </div>
                                                     <div class="flex-grow">
                                                         <div class="flex items-center mb-1 justify-between">
@@ -280,9 +363,9 @@
                                                                     <!-- Menu chỉnh sửa và xóa -->
                                                                     <div
                                                                         class="menu hidden absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                        <a 
-                                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-reply" onclick="editReply(this, '{{ $reply->id }}')">Sửa</a>
-                                                                        <a 
+                                                                        <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 update-reply"
+                                                                            onclick="editReply(this, '{{ $reply->id }}')">Sửa</a>
+                                                                        <a
                                                                             class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 delete-reply">Xóa</a>
                                                                     </div>
                                                                 </div>
@@ -305,28 +388,52 @@
             </div>
 
             <div class="col-lg-4 mt-5 mt-lg-0">
-                <!-- Author Bio -->
-                <div class="d-flex flex-column text-center bg-white mb-5 py-5 px-4">
-                    <img src="{{ asset('img/user.jpg') }}" class="img-fluid mx-auto mb-3" style="width: 100px;">
-                    <h3 class="text-primary mb-3">Nguyễn Anh Tuấn</h3>
-                    <p>Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit no ut est ipsum erat kasd
-                        amet elitr</p>
-                    <div class="d-flex justify-content-center">
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a class="text-primary px-2" href="">
-                            <i class="fab fa-youtube"></i>
-                        </a>
+                <!-- Notification -->
+                <div class="w-[380px] bg-zinc-900 rounded-lg shadow-md">
+                    <!-- Header -->
+                    <div class="p-4 flex items-center justify-between border-b border-zinc-800">
+                        <h2 class="text-xl font-semibold">Notifications</h2>
+                    </div>
+
+                    <!-- Tabs -->
+                    <!-- <div class="flex space-x-2 p-4 bg-transparent">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Tất cả</button>
+                        <button class="bg-zinc-800 px-4 py-2 rounded-lg hover:bg-zinc-700">Chưa đọc</button>
+                    </div> -->
+
+                    <!-- Notification Items -->
+                    <div id="notification-list" class="space-y-4 p-2 notification-items scroll">
+                        @if ($notifications->isEmpty()) <!-- Kiểm tra nếu không có thông báo -->
+                            <div class="text-center text-gray-500">
+                                There are currently no notifications.
+                            </div>
+                        @else
+                            @foreach ($notifications as $notification)
+                                <div class="flex items-start gap-2 p-2 hover:bg-zinc-800 rounded-lg">
+                                    <div class="h-12 w-12 rounded-full bg-gray-400 flex items-center justify-center text-white">
+                                        @if (isset($notification->data['avatar']) && $notification->data['avatar'] && file_exists(public_path('img/profile/avatar/' . $notification->data['avatar'])))
+                                            <img src="{{ asset('img/profile/avatar/' . $notification->data['avatar']) }}"
+                                                alt="Avatar" class="h-12 w-12 rounded-full">
+                                        @else
+                                            <img src="{{ asset('img/profile/avatar.png') }}" alt="User Avatar"
+                                                class="h-12 w-12 rounded-full">
+                                        @endif
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm">
+                                            <span class="font-semibold">{{ $notification->data['user_name'] }}</span>
+                                            {{ $notification->data['message'] }}
+                                        </p>
+                                        <p class="text-xs text-zinc-400 mt-1">{{ $notification->created_at->diffForHumans() }}
+                                        </p>
+                                        <a href="{{ route('blog.show', $notification->data['post_id']) }}"
+                                            class="text-blue-500 hover:underline">Xem bài viết</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        <!--     <button class="w-full py-3 text-sm text-zinc-400 hover:bg-zinc-800">Xem thông báo trước
+                            đó</button> -->
                     </div>
                 </div>
 
@@ -410,5 +517,6 @@
 <!-- Blog End -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 <script src="{{ asset('js/post.js') }}"></script>
 @endsection
